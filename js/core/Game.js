@@ -123,7 +123,9 @@ export class Game {
   /** Geopend als web-app vanaf het beginscherm (dan is hij al schermvullend). */
   get isStandalone() {
     const mm = q => typeof matchMedia === 'function' && matchMedia(q).matches;
-    return mm('(display-mode: fullscreen)') || mm('(display-mode: standalone)') || navigator.standalone === true;
+    // let op: "display-mode: fullscreen" is óók waar als wíj volledig scherm aanzetten
+    // (knop/F). Dat telt niet als web-app, anders verdwijnt de knop om te verkleinen.
+    return (mm('(display-mode: fullscreen)') && !this.isFullscreen) || mm('(display-mode: standalone)') || navigator.standalone === true;
   }
   /** Moet vanuit een klik of toets komen (eis van de browser). In een iframe
    *  zonder allow="fullscreen" kan het niet: dan verschijnt er een korte melding.
