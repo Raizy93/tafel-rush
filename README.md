@@ -66,7 +66,7 @@ De game schaalt zichzelf (letterbox) naar elk formaat. Leerlingen klikken één 
 | `U` | – | UITRUSTING openen (wapens, power-ups) |
 | `B` | – | PETBOEK openen (pets + kisten) |
 | `W` | – | andere wereld kiezen (Greenwood / Frostpeak / Stormrijk) |
-| `F` | – | volledig scherm aan/uit (ook de knop rechtsboven) |
+| `F` | – | volledig scherm aan/uit (ook de knop rechtsboven). In Chrome/Edge/Chromebook blijft Esc in volledig scherm gewoon pauze (Keyboard Lock); Esc **ingedrukt houden** = volledig scherm uit. Andere browsers sluiten volledig scherm met Esc, de run pauzeert dan mee. |
 | `H` | – | UITLEG openen (ook via "? UITLEG" op het startscherm en het ?-knopje in petboek, tafelkaart en uitrusting) |
 | `K` | – | TAFELKAART openen |
 | `Esc` / `P` | pauze (nogmaals `Esc` = stoppen) | – |

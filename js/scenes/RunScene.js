@@ -504,7 +504,7 @@ export class RunScene {
       ctx.fillStyle = '#fff8ec'; ctx.fillRect(r.x + 5, r.y + 4, 2, 7); ctx.fillRect(r.x + 10, r.y + 4, 2, 7);
     }
     if (this.state === 'tutorial') this.drawTutorial(ctx, ui);
-    if (this.state === 'paused') this.drawPause(ctx, ui, 'PAUZE', g.input.usingTouch ? ['TIK = VERDER SPELEN', ''] : ['ENTER = VERDER SPELEN', 'ESC = STOPPEN'], g.input.usingTouch);
+    if (this.state === 'paused') this.drawPause(ctx, ui, 'PAUZE', g.input.usingTouch ? ['TIK = VERDER SPELEN', ''] : ['ENTER = VERDER SPELEN', 'ESC = STOPPEN', ...(g.escLocked ? ['ESC INGEDRUKT = KLEIN SCHERM'] : [])], g.input.usingTouch);
     if (this.state === 'focuslost') this.drawPause(ctx, ui, 'PAUZE', ui.touch ? ['TIK OM VERDER', 'TE SPELEN'] : ['KLIK OF DRUK OP EEN TOETS', 'OM VERDER TE SPELEN']);
 
     // latentie-meting: Enter → nieuwe som in beeld
