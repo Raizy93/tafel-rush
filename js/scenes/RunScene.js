@@ -505,7 +505,7 @@ export class RunScene {
     }
     if (this.state === 'tutorial') this.drawTutorial(ctx, ui);
     if (this.state === 'paused') this.drawPause(ctx, ui, 'PAUZE', g.input.usingTouch ? ['TIK = VERDER SPELEN', ''] : ['ENTER = VERDER SPELEN', 'ESC = STOPPEN'], g.input.usingTouch);
-    if (this.state === 'focuslost') this.drawPause(ctx, ui, 'PAUZE', ['KLIK OF DRUK OP EEN TOETS', 'OM VERDER TE SPELEN']);
+    if (this.state === 'focuslost') this.drawPause(ctx, ui, 'PAUZE', ui.touch ? ['TIK OM VERDER', 'TE SPELEN'] : ['KLIK OF DRUK OP EEN TOETS', 'OM VERDER TE SPELEN']);
 
     // latentie-meting: Enter → nieuwe som in beeld
     if (this.enterAt) {
@@ -541,11 +541,11 @@ export class RunScene {
     const w = 300, h = 124, x = (CONFIG.width - w) / 2, y = 64;
     ui.panel(ctx, x, y, w, h, 'panel');
     ui.text(ctx, 'ZO WERKT HET', CONFIG.width / 2, y + 10, { font: 'big', align: 'center', color: COLORS.gold });
-    const lines = ['TYP HET ANTWOORD EN DRUK OP ENTER.', 'HOE SNELLER EN BETER JE REKENT,', 'HOE SNELLER JE RENT!', '', "BOUW COMBO'S OP VOOR SPECIALE BOOSTS."];
+    const lines = [ui.hint('TYP HET ANTWOORD EN DRUK OP ENTER.', 'TIK HET ANTWOORD EN DRUK OP OK.'), 'HOE SNELLER EN BETER JE REKENT,', 'HOE SNELLER JE RENT!', '', "BOUW COMBO'S OP VOOR SPECIALE BOOSTS."];
     lines.forEach((l, i) => ui.text(ctx, l, CONFIG.width / 2, y + 36 + i * 11, { align: 'center', color: i === 4 ? COLORS.cyan : '#fff8ec' }));
     const blink = Math.floor(this.game.time * 2) % 2 === 0;
-    ui.icon(ctx, 'enter', CONFIG.width / 2 - 64, y + h - 20);
-    ui.text(ctx, 'ENTER = START!', CONFIG.width / 2 + 6, y + h - 18, { align: 'center', color: blink ? '#7dff8a' : '#d0ffd8' });
+    if (!ui.touch) ui.icon(ctx, 'enter', CONFIG.width / 2 - 64, y + h - 20);
+    ui.text(ctx, ui.hint('ENTER = START!', 'TIK = START!'), CONFIG.width / 2 + 6, y + h - 18, { align: 'center', color: blink ? '#7dff8a' : '#d0ffd8' });
   }
 
   drawPause(ctx, ui, title, lines, stopButton = false) {

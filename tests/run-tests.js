@@ -724,15 +724,16 @@ const MAPLV = await import('../js/training/MasteryMap.js');
 const allTexts = () => {
   const out = [];
   for (const c of HELP_CHAPTERS) {
-    out.push(c.title);
-    for (const b of c.blocks) {
+    out.push(c.title); if (c.touchTitle) out.push(c.touchTitle);
+    for (const b of [...c.blocks, ...(c.touchBlocks || [])]) {
       if (b.p) out.push(b.p);
+      if (b.touch) out.push(b.touch);
       if (b.big) out.push(b.big);
       if (b.keys) for (const [k, t] of b.keys) out.push(k, t);
       if (b.row) for (const it of b.row) { if (it.label) out.push(it.label); if (it.text) out.push(it.text); }
     }
   }
-  for (const t of Object.values(TIPS)) out.push(t.text);
+  for (const t of Object.values(TIPS)) { out.push(t.text); if (t.touch) out.push(t.touch); }
   return out;
 };
 test('uitleg: 7 hoofdstukken over alles (spelen, modi, kaart, uitrusting, pets, werelden, toetsen)', () => {

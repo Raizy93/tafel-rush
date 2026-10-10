@@ -209,7 +209,7 @@ export class TitleScene {
     this.helpRect = { x: 6, y: 6, w: 76, h: 17 };
     const hp0 = this.hoverPoint, hh = hp0 && hp0.x >= 6 && hp0.y >= 6 && hp0.x < 82 && hp0.y < 23;
     ui.panel(ctx, 6, 6, 76, 17, hh ? 'btn_hover' : 'btn');
-    ui.text(ctx, '? UITLEG (H)', 44, 11, { align: 'center', color: '#ffc93c', outline: null, shadow: false });
+    ui.text(ctx, ui.key('? UITLEG', 'H'), 44, 11, { align: 'center', color: '#ffc93c', outline: null, shadow: false });
 
     // paneel
     const p = this.panelRect;
@@ -238,7 +238,7 @@ export class TitleScene {
     }
     for (const b of this.tableButtons) b.draw(ctx, ui, this.hover === b);
     this.startButton.draw(ctx, ui, this.hover === this.startButton);
-    ui.icon(ctx, 'enter', this.startButton.x + this.startButton.w + 6, this.startButton.y + 8);
+    if (!ui.touch) ui.icon(ctx, 'enter', this.startButton.x + this.startButton.w + 6, this.startButton.y + 8);
 
     // statistieken
     const P = g.profile, st = P.stats, rec = P.records;
@@ -262,7 +262,7 @@ export class TitleScene {
     this.bookRect = { x: cx + 4, y: sy + 19, w: 132, h: 15 };
     const hp = this.hoverPoint;
     const over = r => hp && hp.x >= r.x && hp.y >= r.y && hp.x < r.x + r.w && hp.y < r.y + r.h;
-    for (const [r, icon, label] of [[this.mapRect, 'star', 'TAFELKAART (K)'], [this.bookRect, 'book', 'PETBOEK (B)']]) {
+    for (const [r, icon, label] of [[this.mapRect, 'star', ui.key('TAFELKAART', 'K')], [this.bookRect, 'book', ui.key('PETBOEK', 'B')]]) {
       ui.panel(ctx, r.x, r.y, r.w, r.h, over(r) ? 'btn_hover' : 'btn');
       ui.icon(ctx, icon, r.x + 4, r.y + 1);
       ui.text(ctx, label, r.x + r.w / 2 + 6, r.y + 4, { align: 'center', outline: null, shadow: false });
@@ -278,7 +278,7 @@ export class TitleScene {
     }
 
     // hint + geluid
-    ui.text(ctx, '← → MODUS  1-9 0 TAFEL  ↑↓ HELD  W WERELD  U UITRUSTING  K KAART  B PETS', W / 2, 260, { align: 'center', color: '#e8e4ff' });
+    ui.text(ctx, ui.hint('← → MODUS  1-9 0 TAFEL  ↑↓ HELD  W WERELD  U UITRUSTING  K KAART  B PETS', 'TIK OP EEN MODUS, EEN TAFEL EN JE HELD. DAARNA OP START RUN!'), W / 2, 260, { align: 'center', color: '#e8e4ff' });
     const a = g.audio;
     ui.icon(ctx, a.sfxOn ? 'sound' : 'mute', W - 52, 6, a.sfxOn ? 1 : 0.6);
     ui.icon(ctx, 'music', W - 36, 6, a.musicOn ? 1 : 0.35);

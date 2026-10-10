@@ -119,6 +119,6 @@ export class CharacterSelector {
     const hov = hoverPoint && hoverPoint.x >= this.shopRect.x && hoverPoint.y >= this.shopRect.y && hoverPoint.x < this.shopRect.x + this.shopRect.w && hoverPoint.y < this.shopRect.y + this.shopRect.h;
     ui.panel(ctx, this.shopRect.x, this.shopRect.y, this.shopRect.w, this.shopRect.h, hov ? 'btn_hover' : 'btn');
     ui.icon(ctx, 'sword', this.shopRect.x + 4, this.shopRect.y + 1);
-    ui.text(ctx, 'UITRUSTING (U)', this.shopRect.x + this.shopRect.w / 2 + 6, this.shopRect.y + 4, { align: 'center', outline: null, shadow: false });
+    ui.text(ctx, ui.key('UITRUSTING', 'U'), this.shopRect.x + this.shopRect.w / 2 + 6, this.shopRect.y + 4, { align: 'center', outline: null, shadow: false });
   }
 }

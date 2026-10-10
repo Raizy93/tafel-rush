@@ -82,7 +82,7 @@ export class UitlegScene {
       const r = this.rows[i], on = i === this.sel;
       ui.panel(ctx, r.x, r.y, r.w, r.h, on ? 'btn_on' : this.hover === i ? 'btn_hover' : 'btn');
       ui.icon(ctx, c.icon, r.x + 4, r.y + 4);
-      const label = c.short || c.title;
+      const label = (ui.touch && c.touchTitle) || c.short || c.title;
       ui.text(ctx, label, r.x + 20, r.y + 7, { color: on ? '#3a1d10' : '#fff8ec', outline: on ? null : '#1a1324', shadow: false });
     });
 
@@ -90,11 +90,11 @@ export class UitlegScene {
     const ch = HELP_CHAPTERS[this.sel];
     ui.panel(ctx, RX, RY, RW, RH, 'panel');
     ui.icon(ctx, ch.icon, RX + 10, RY + 9);
-    ui.text(ctx, ch.title + (ch.key ? '  (' + ch.key + ')' : ''), RX + 28, RY + 8, { font: 'big', color: ['#fff1a0', '#ffc93c'] });
+    ui.text(ctx, ((ui.touch && ch.touchTitle) || ch.title) + (ch.key && !ui.touch ? '  (' + ch.key + ')' : ''), RX + 28, RY + 8, { font: 'big', color: ['#fff1a0', '#ffc93c'] });
     let y = RY + 30;
-    for (const b of ch.blocks) y = this.drawBlock(ctx, ui, b, RX + 12, y, RW - 24) + 5;
+    for (const b of (ui.touch && ch.touchBlocks) || ch.blocks) y = this.drawBlock(ctx, ui, ui.touch && b.touch ? { p: b.touch } : b, RX + 12, y, RW - 24) + 5;
 
-    ui.text(ctx, '↑ ↓ = HOOFDSTUK   ESC = TERUG', W / 2, 258, { align: 'center', color: '#e8e4ff' });
+    ui.text(ctx, ui.hint('↑ ↓ = HOOFDSTUK   ESC = TERUG', 'TIK LINKS OP EEN HOOFDSTUK'), W / 2, 258, { align: 'center', color: '#e8e4ff' });
   }
 
   /** Tekent één blok en geeft de y onder het blok terug. */

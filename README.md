@@ -181,6 +181,7 @@ Eén game voor alles: **op pc/laptop verandert er niets**, op een telefoon of ta
 
 - **Herkenning**: alleen een vinger als aanwijzer (`pointer: coarse` en geen muis/touchpad) = touchapparaat. Laptops met touchscreen houden de toetsenbordversie (de cijferbalk verschijnt daar pas na een aanraking, zoals altijd). Zie `Input.isTouchDevice()`.
 - **Touch-stand**: grote cijferbalk onderin over de hele breedte (1-0, wissen, OK; beide duimen kunnen erbij en het spel blijft zichtbaar), een pauzeknop rechtsboven en in het pauzescherm een knop STOPPEN.
+- **Geen toetsen in beeld op touch**: overal waar op pc een toets staat ("(B)", "ENTER = …", "← →" …) toont de touch-stand een tik-tekst of niets. Helpers: `ui.touch`, `ui.hint(toetsTekst, tikTekst)`, `ui.key(label, toets)`; uitleg en tips hebben een `touch`-variant (hoofdstuk TOETSEN heet op touch BEDIENING).
 - **Altijd dwars** (keuze gebruiker): rechtop verschijnt "DRAAI JE TELEFOON" (`#rotate` in `index.html`, alleen via CSS op touchapparaten) en een lopende run pauzeert vanzelf.
 - **Op het beginscherm zetten** (iPhone: Safari → Deel-knop → "Zet op beginscherm"; Android: menu → "Toevoegen aan startscherm"): de game opent dan schermvullend als app, met eigen icoon. In die stand is de knop "volledig scherm" weg (niet nodig).
 - **Offline**: `sw.js` (service worker, "eerst netwerk, anders cache"): na één keer online spelen werkt alles offline; updates komen vanzelf door als je online bent. Werkt alleen via https (GitHub Pages) of localhost.

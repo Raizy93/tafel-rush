@@ -376,7 +376,9 @@ export class PetboekScene {
 
     // onderregel
     if (this.toast) ui.text(ctx, this.toast.text, W / 2, 258, { align: 'center', color: this.toast.color, alpha: Math.min(1, this.toast.t / 0.4) });
-    else ui.text(ctx, this.tabId === 'book' ? 'PIJLTJES = KIES   W = VOLGENDE PAGINA   ENTER = GEBRUIK / LOK   TAB   ESC' : this.tabId === 'chests' ? '← → KIES KIST   ENTER = OPENEN   SPATIE = HOUTEN KIST KOPEN   TAB   ESC' : '← → KIES KIST   ENTER = OPENEN   TAB = PETBOEK   ESC = TERUG', W / 2, 258, { align: 'center', color: '#e8e4ff' });
+    else ui.text(ctx, ui.touch
+      ? (this.tabId === 'book' ? 'TIK OP EEN PET. BLADER MET DE PAGINA\'S BOVENIN' : 'TIK OP OPENEN OF KOPEN BIJ EEN KIST')
+      : this.tabId === 'book' ? 'PIJLTJES = KIES   W = VOLGENDE PAGINA   ENTER = GEBRUIK / LOK   TAB   ESC' : this.tabId === 'chests' ? '← → KIES KIST   ENTER = OPENEN   SPATIE = HOUTEN KIST KOPEN   TAB   ESC' : '← → KIES KIST   ENTER = OPENEN   TAB = PETBOEK   ESC = TERUG', W / 2, 258, { align: 'center', color: '#e8e4ff' });
     g.particles.draw(ctx, 0, true);
     if (this.opening) this.drawOpening(ctx, ui);
     ctx.restore();
@@ -459,7 +461,7 @@ export class PetboekScene {
       kind = using ? 'btn_go' : 'btn'; label = using ? 'MET JOU MEE' : 'GEBRUIK';
     } else {
       const price = Chests.lurePrice(id), can = Chests.treats(p) >= price && Chests.canLure(p, id);
-      if (this.confirm && this.confirm.id === id) { kind = 'btn_on'; label = Math.floor(this.time * 4) % 2 ? 'ZEKER? ENTER' : 'ZEKER?'; color = '#3a1d10'; }
+      if (this.confirm && this.confirm.id === id) { kind = 'btn_on'; label = Math.floor(this.time * 4) % 2 ? ui.hint('ZEKER? ENTER', 'TIK NOG EENS') : 'ZEKER?'; color = '#3a1d10'; }
       else { kind = can ? 'btn' : 'btn_off'; label = 'LOK ' + fmtInt(price); icon = TREATS.icon; color = can ? '#ff9ad0' : '#a08090'; }
     }
     ui.panel(ctx, a.x, a.y, a.w, a.h, kind);
@@ -467,7 +469,7 @@ export class PetboekScene {
     const tx = a.x + (a.w - tw - iw) / 2;
     if (icon) ui.icon(ctx, icon, tx, a.y + 3);
     ui.text(ctx, label, tx + iw, a.y + 6, { color, outline: kind === 'btn_on' ? null : '#1a1324', shadow: false });
-    let sub = owned ? (cur && cur.id === id ? 'ENTER = ZONDER PET' : 'ALLEEN VOOR DE LOL') : 'OF VIND HEM IN EEN KIST';
+    let sub = owned ? (cur && cur.id === id ? ui.hint('ENTER = ZONDER PET', 'TIK = ZONDER PET') : 'ALLEEN VOOR DE LOL') : 'OF VIND HEM IN EEN KIST';
     if (!owned && def.world) sub = !Worlds.isUnlocked(p, def.world) ? 'SPEEL EERST ' + WORLDS[def.world].name + ' VRIJ' : !Chests.canLure(p, id) ? 'LOKKEN NA ' + BOSSES[WORLDS[def.world].boss].name : 'OF VIND HEM IN DE ' + CHESTS[WORLD_CHESTS[def.world]].name;
     ui.text(ctx, sub, DX + DW / 2, a.y + a.h + 5, { align: 'center', color: COLORS.dim, outline: null, shadow: false });
   }
@@ -520,7 +522,7 @@ export class PetboekScene {
       if (col.openRect) this.button(ctx, ui, col.openRect, ready ? 'OPENEN' : 'NOG GEEN', ready ? 'btn_go' : 'btn_off', ready ? '#fff8ec' : '#8a84a0');
       if (col.buyRect) {
         const can = p.coins >= c.price;
-        if (confirming) this.button(ctx, ui, col.buyRect, Math.floor(this.time * 4) % 2 ? 'ZEKER?' : 'ENTER!', 'btn_on', '#3a1d10');
+        if (confirming) this.button(ctx, ui, col.buyRect, Math.floor(this.time * 4) % 2 ? 'ZEKER?' : ui.hint('ENTER!', 'TIK!'), 'btn_on', '#3a1d10');
         else this.button(ctx, ui, col.buyRect, fmtInt(c.price), can ? 'btn' : 'btn_off', can ? COLORS.goldFlat : '#c08080', 'coin');
       }
     }
@@ -601,7 +603,7 @@ export class PetboekScene {
       // de kist (3×)
       drawFrame(ctx, o.ani.sheet, o.ani.name, o.ani.frame, cx, floor + 30, { scale: 3 });
       ui.text(ctx, CHESTS[o.kind].name, cx, 200, { align: 'center', color: CHESTS[o.kind].color });
-      ui.text(ctx, 'ENTER = SNEL OPENEN', cx, 258, { align: 'center', color: COLORS.dim, outline: null, shadow: false });
+      ui.text(ctx, ui.hint('ENTER = SNEL OPENEN', 'TIK = SNEL OPENEN'), cx, 258, { align: 'center', color: COLORS.dim, outline: null, shadow: false });
       return;
     }
     // onthulling: pet groot in beeld
@@ -626,11 +628,11 @@ export class PetboekScene {
     if (o.t < 0.5) return;
     if (o.res.isNew) {
       this.useRect = { x: cx - 122, y: 222, w: 118, h: 22 };
-      this.button(ctx, ui, this.useRect, 'GEBRUIK (ENTER)', 'btn_go', '#fff8ec');
-      this.button(ctx, ui, { x: cx + 4, y: 222, w: 118, h: 22 }, 'VERDER (ESC)', 'btn', '#fff8ec');
+      this.button(ctx, ui, this.useRect, ui.hint('GEBRUIK (ENTER)', 'GEBRUIK'), 'btn_go', '#fff8ec');
+      this.button(ctx, ui, { x: cx + 4, y: 222, w: 118, h: 22 }, ui.hint('VERDER (ESC)', 'VERDER'), 'btn', '#fff8ec');
     } else {
       this.useRect = null;
-      this.button(ctx, ui, { x: cx - 60, y: 222, w: 120, h: 22 }, 'VERDER (ENTER)', 'btn_go', '#fff8ec');
+      this.button(ctx, ui, { x: cx - 60, y: 222, w: 120, h: 22 }, ui.hint('VERDER (ENTER)', 'VERDER'), 'btn_go', '#fff8ec');
     }
   }
 }

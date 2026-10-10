@@ -163,7 +163,7 @@ export class ResultsScene {
     this.drawLoot(ctx, ui);
     for (const b of this.buttons) b.draw(ctx, ui, this.hover === b);
     if (this.unlockPopup && this.unlockPopup.t >= 0) { this.drawUnlock(ctx, ui); return; }
-    if (this.lockT <= 0) {
+    if (this.lockT <= 0 && !ui.touch) {
       ui.icon(ctx, 'enter', this.again.x - 15, this.again.y + 6);
       ui.text(ctx, 'ESC', this.menu.x + this.menu.w + 4, this.menu.y + 8, { color: COLORS.dim });
     }
@@ -187,8 +187,8 @@ export class ResultsScene {
     ctx.restore();
     ctx.fillStyle = '#ffc93c'; ctx.fillRect(vx - 1, vy - 1, vw + 2, 1); ctx.fillRect(vx - 1, vy + vh, vw + 2, 1); ctx.fillRect(vx - 1, vy, 1, vh); ctx.fillRect(vx + vw, vy, 1, vh);
     ui.text(ctx, w.name, W / 2, py + 132, { font: 'big', align: 'center', color: ['#ffffff', '#b4e4ff', '#4fb0ff'] });
-    ui.text(ctx, w.desc + '   KIES HEM OP HET STARTSCHERM (W)', W / 2, py + 151, { align: 'center', color: '#c8f0ff', outline: null, shadow: false });
-    if (u.t > 0.8) ui.text(ctx, 'ENTER = VERDER', W / 2, py + ph + 6, { align: 'center', color: '#e8e4ff' });
+    ui.text(ctx, w.desc + '   ' + ui.key('KIES HEM OP HET STARTSCHERM', 'W'), W / 2, py + 151, { align: 'center', color: '#c8f0ff', outline: null, shadow: false });
+    if (u.t > 0.8) ui.text(ctx, ui.hint('ENTER = VERDER', 'TIK = VERDER'), W / 2, py + ph + 6, { align: 'center', color: '#e8e4ff' });
   }
 
   /** Verdiende kisten (of hoe ver je bent tot de volgende). */
@@ -204,7 +204,7 @@ export class ResultsScene {
     const per = {};
     for (const c of loot.chests) per[c.kind] = (per[c.kind] || 0) + c.n;
     const parts = ALL_CHEST_ORDER.filter(k => per[k]).map(k => ({ k, text: `+${per[k]} ${CHESTS[k].name}` }));
-    const head = 'VERDIEND:', tail = '  B = OPENEN';
+    const head = 'VERDIEND:', tail = '  ' + ui.hint('B = OPENEN', 'TIK = OPENEN');
     let w = ui.font.measure(head) + ui.font.measure(tail) + 4;
     for (const p of parts) w += 16 + ui.font.measure(p.text) + 8;
     let x = Math.round(W / 2 - w / 2);

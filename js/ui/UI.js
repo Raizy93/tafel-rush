@@ -30,6 +30,13 @@ export class UI {
   panel(ctx, x, y, w, h, kind = 'panel') { drawPanel(ctx, this.spr(kind), x, y, w, h, this.slice); }
   icon(ctx, name, x, y, alpha) { drawSprite(ctx, this.spr(name), x, y, alpha != null ? { alpha } : undefined); }
   text(ctx, str, x, y, opts) { return this.font.draw(ctx, str, x, y, opts); }
+  /** Speelt iemand met aanraken (telefoon/tablet)? Dan geen toetsen noemen. */
+  get touch() { return this.game.input.usingTouch; }
+  /** Tekst met toetsen (pc/laptop) of de tik-versie (touch). */
+  hint(keys, tap) { return this.touch ? tap : keys; }
+  /** Knoplabel met sneltoets, bijv. "PETBOEK (B)"; op touch zonder "(B)". */
+  key(label, k) { return this.touch ? label : label + ' (' + k + ')'; }
+
   /** Klein ?-knopje (opent de uitleg). Retourneert de klik-rechthoek. */
   helpButton(ctx, x, y, hover = false) {
     const r = { x, y, w: 18, h: 18 };

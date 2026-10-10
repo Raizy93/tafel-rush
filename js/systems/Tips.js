@@ -79,7 +79,7 @@ export class Tips {
     const k = Math.min(1, c.t / 0.25);
     ctx.fillStyle = `rgba(8,5,16,${0.5 * k})`;
     ctx.fillRect(0, 0, W, CONFIG.height);
-    const lines = ui.font.wrap(tip.text, 250, { outline: false });
+    const lines = ui.font.wrap(ui.touch && tip.touch ? tip.touch : tip.text, 250, { outline: false });
     const pw = 300, ph = 40 + lines.length * 10, px = Math.round(W / 2 - pw / 2), py = Math.round(96 - ph / 2 + (1 - k) * 12);
     ui.panel(ctx, px, py, pw, ph, 'panel');
     ctx.fillStyle = '#ffc93c'; ctx.fillRect(px + 3, py + 2, pw - 6, 1);
@@ -87,6 +87,6 @@ export class Tips {
     ui.icon(ctx, tip.icon, px + 12, py + 10 + bob);
     ui.text(ctx, 'TIP!', px + 30, py + 12, { font: 'big', color: ['#fff1a0', '#ffc93c'] });
     lines.forEach((l, i) => ui.text(ctx, l, px + 30, py + 30 + i * 10, { color: '#e8e4ff', outline: null, shadow: false }));
-    if (c.t >= 0.6) ui.text(ctx, 'ENTER = OK', px + pw - 10, py + 12, { align: 'right', color: Math.floor(c.t * 2) % 2 ? '#a8a0c8' : '#e8e4ff', outline: null, shadow: false });
+    if (c.t >= 0.6) ui.text(ctx, ui.hint('ENTER = OK', 'TIK = OK'), px + pw - 10, py + 12, { align: 'right', color: Math.floor(c.t * 2) % 2 ? '#a8a0c8' : '#e8e4ff', outline: null, shadow: false });
   }
 }

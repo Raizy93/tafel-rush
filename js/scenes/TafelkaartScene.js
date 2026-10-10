@@ -97,7 +97,7 @@ export class TafelkaartScene {
 
     this.drawGrid(ctx, ui);
     this.drawPanel(ctx, ui);
-    ui.text(ctx, 'GOUD = 4 DAGEN SNEL EN GOED   ENTER = TAFEL TRAINEN   ESC = TERUG', W / 2, 258, { align: 'center', color: '#e8e4ff' });
+    ui.text(ctx, ui.hint('GOUD = 4 DAGEN SNEL EN GOED   ENTER = TAFEL TRAINEN   ESC = TERUG', 'GOUD = 4 DAGEN SNEL EN GOED   TIK OP EEN VAKJE EN OP TRAINEN'), W / 2, 258, { align: 'center', color: '#e8e4ff' });
   }
 
   drawGrid(ctx, ui) {

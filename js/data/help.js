@@ -16,7 +16,7 @@ export const HELP_CHAPTERS = [
   {
     id: 'spelen', title: 'ZO SPEEL JE', icon: 'target',
     blocks: [
-      { p: 'TYP HET ANTWOORD EN DRUK OP ENTER. JE HELD VALT DAN AAN!' },
+      { p: 'TYP HET ANTWOORD EN DRUK OP ENTER. JE HELD VALT DAN AAN!', touch: 'TIK HET ANTWOORD OP DE CIJFERS ONDERIN EN DRUK OP OK. JE HELD VALT DAN AAN!' },
       { big: '7 × 8 = 56' },
       { p: 'HOE SNELLER, HOE BETER. HEEL SNEL GOED = PERFECT! EN DAT GEEFT EXTRA COINS.' },
       { p: 'GOED OP RIJ = EEN COMBO. BIJ 5, 10, 20 EN 30 GA JE STEEDS SNELLER EN VERDIEN JE MEER.' },
@@ -70,11 +70,15 @@ export const HELP_CHAPTERS = [
       { row: [{ text: 'GREENWOOD', color: '#c8f0c0', label: 'START' }, { text: '→', color: '#e8e4ff' }, { text: 'FROSTPEAK', color: '#b4e4ff', label: 'NA DE WOUDWACHTER' }, { text: '→', color: '#e8e4ff' }, { text: 'STORMRIJK', color: '#ffe24a', label: 'NA DE IJSREUS' }] },
       { p: 'IEDERE WERELD HEEFT 5 EIGEN PETS. DIE ZITTEN ALLEEN IN DE WERELDKIST VAN DAAR.' },
       { row: [{ chest: 'bos', label: 'BOSKIST' }, { chest: 'sneeuw', label: 'SNEEUWKIST' }, { chest: 'storm', label: 'STORMKIST' }] },
-      { p: 'EEN WERELDKIST KRIJG JE ALS JE DE BOSS VAN DIE WERELD VERSLAAT. KIES JE WERELD OP HET STARTSCHERM MET W.' },
+      { p: 'EEN WERELDKIST KRIJG JE ALS JE DE BOSS VAN DIE WERELD VERSLAAT. KIES JE WERELD OP HET STARTSCHERM MET W.', touch: 'EEN WERELDKIST KRIJG JE ALS JE DE BOSS VAN DIE WERELD VERSLAAT. KIES JE WERELD BOVENAAN HET STARTSCHERM.' },
     ],
   },
   {
-    id: 'toetsen', title: 'TOETSEN', icon: 'enter',
+    id: 'toetsen', title: 'TOETSEN', touchTitle: 'BEDIENING', icon: 'enter',
+    touchBlocks: [
+      { keys: [['CIJFERS', 'TIK HET ANTWOORD OP DE CIJFERS ONDERIN'], ['OK', 'ANTWOORD GEVEN'], ['<', 'CIJFER WISSEN'], ['PAUZE', 'KNOP RECHTSBOVEN TIJDENS HET SPELEN'], ['KIEZEN', 'TIK OP EEN MODUS, TAFEL, HELD OF KNOP'], ['WERELD', 'TIK OP DE PIJLTJES BOVENAAN HET STARTSCHERM'], ['?', 'UITLEG BIJ HET SCHERM WAAR JE BENT'], ['DWARS', 'HOUD JE TELEFOON DWARS']] },
+      { p: 'TIP: ZET TAFEL RUSH OP JE BEGINSCHERM. DAN SPEEL JE SCHERMVULLEND, OOK ZONDER INTERNET.' },
+    ],
     blocks: [
       { keys: [['TIKKEN', 'TELEFOON OF TABLET: CIJFERS ONDERIN, OK = ENTER'], ['0 - 9', 'ANTWOORD TYPEN (OOK HET NUMPAD)'], ['ENTER', 'ANTWOORD GEVEN / KIEZEN'], ['BACKSPACE', 'CIJFER WISSEN'], ['← →', 'MODUS KIEZEN (STARTSCHERM)'], ['↑ ↓', 'HELD KIEZEN'], ['1 - 9, 0', 'TAFEL KIEZEN (0 = 10)'], ['W', 'WERELD KIEZEN'], ['U / K / B', 'UITRUSTING / TAFELKAART / PETBOEK'], ['H', 'DEZE UITLEG'], ['M', 'GELUID AAN OF UIT'], ['F', 'VOLLEDIG SCHERM AAN OF UIT'], ['P / ESC', 'PAUZE / TERUG']] },
     ],
@@ -84,12 +88,12 @@ export const HELP_CHAPTERS = [
 // --- tips: één keer per onderwerp, op het moment dat het belangrijk wordt -------------
 // Nooit tijdens het rekenen (alleen op het startscherm, resultaatscherm en in het petboek).
 export const TIPS = {
-  help: { icon: 'book', text: 'ALLES OVER DE GAME STAAT IN DE UITLEG. DRUK OP H OF KLIK OP ? UITLEG.' },
-  firstChest: { icon: 'chest_wood', text: 'JE HEBT EEN KIST! OPEN HEM IN HET PETBOEK (B). ER ZIT EEN PET IN DIE MET JE MEELOOPT.' },
+  help: { icon: 'book', text: 'ALLES OVER DE GAME STAAT IN DE UITLEG. DRUK OP H OF KLIK OP ? UITLEG.', touch: 'ALLES OVER DE GAME STAAT IN DE UITLEG. TIK LINKSBOVEN OP ? UITLEG.' },
+  firstChest: { icon: 'chest_wood', text: 'JE HEBT EEN KIST! OPEN HEM IN HET PETBOEK (B). ER ZIT EEN PET IN DIE MET JE MEELOOPT.', touch: 'JE HEBT EEN KIST! OPEN HEM IN HET PETBOEK. ER ZIT EEN PET IN DIE MET JE MEELOOPT.' },
   worldChest: { icon: 'chest_bos', text: 'EEN WERELDKIST! DAARIN ZITTEN PETS DIE JE ALLEEN IN DEZE WERELD KUNT VINDEN.' },
-  mapStep: { icon: 'star', text: 'JE SOMMEN KLEUREN OP DE TAFELKAART (K). GOUD = OP 4 VERSCHILLENDE DAGEN SNEL EN GOED!' },
-  coins: { icon: 'coin', text: 'JE HEBT AL VEEL COINS! KOOP EEN HOUTEN KIST IN HET PETBOEK (B) OF EEN WAPEN BIJ UITRUSTING (U).' },
-  newWorld: { icon: 'trophy', text: 'ER IS EEN NIEUWE WERELD OPEN! KIES HEM BOVENAAN MET W OF DE PIJLTJES.' },
+  mapStep: { icon: 'star', text: 'JE SOMMEN KLEUREN OP DE TAFELKAART (K). GOUD = OP 4 VERSCHILLENDE DAGEN SNEL EN GOED!', touch: 'JE SOMMEN KLEUREN OP DE TAFELKAART. GOUD = OP 4 VERSCHILLENDE DAGEN SNEL EN GOED!' },
+  coins: { icon: 'coin', text: 'JE HEBT AL VEEL COINS! KOOP EEN HOUTEN KIST IN HET PETBOEK (B) OF EEN WAPEN BIJ UITRUSTING (U).', touch: 'JE HEBT AL VEEL COINS! KOOP EEN HOUTEN KIST IN HET PETBOEK OF EEN WAPEN BIJ UITRUSTING.' },
+  newWorld: { icon: 'trophy', text: 'ER IS EEN NIEUWE WERELD OPEN! KIES HEM BOVENAAN MET W OF DE PIJLTJES.', touch: 'ER IS EEN NIEUWE WERELD OPEN! TIK BOVENAAN OP DE PIJLTJES NAAST DE WERELD.' },
   duplicate: { icon: 'treat', text: 'DEZE PET HAD JE AL. DAAROM KRIJG JE SNOEPJES. DAARMEE LOK JE ZELF EEN PET DIE JE MIST!' },
-  pages: { icon: 'book', text: 'HET PETBOEK HEEFT PAGINA\'S: DE KIST-PETS EN DE PETS VAN IEDERE WERELD. BLADER MET W.' },
+  pages: { icon: 'book', text: 'HET PETBOEK HEEFT PAGINA\'S: DE KIST-PETS EN DE PETS VAN IEDERE WERELD. BLADER MET W.', touch: 'HET PETBOEK HEEFT PAGINA\'S: DE KIST-PETS EN DE PETS VAN IEDERE WERELD. TIK BOVENIN OP EEN PAGINA.' },
 };

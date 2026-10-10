@@ -239,7 +239,7 @@ export class EquipmentScene {
     });
     this.items.forEach((it, i) => this.drawRow(ctx, ui, it, i));
     const note = this.tabId === 'weapons' ? 'WAPENS VOOR ' + this.character.name + '   * DAMAGE WERKT NIET OP DE BOSS'
-      : 'GELDEN VOOR ALLE HELDEN   PETS VIND JE IN KISTEN (B)';
+      : 'GELDEN VOOR ALLE HELDEN   ' + ui.key('PETS VIND JE IN KISTEN', 'B');
     ui.text(ctx, note, RX + RW / 2, RY + RH - 12, { align: 'center', color: '#8a84a0', outline: null, shadow: false });
 
     // melding (vervangt even de hint-regel onderaan)
@@ -247,7 +247,7 @@ export class EquipmentScene {
       const a = Math.min(1, this.toast.t / 0.4);
       ui.text(ctx, this.toast.text, W / 2, 258, { align: 'center', color: this.toast.color, alpha: a });
     } else {
-      ui.text(ctx, 'TAB = WAPENS / POWER-UPS   ↑↓ KIES   ENTER KOOP / GEBRUIK   ESC', W / 2, 258, { align: 'center', color: '#e8e4ff' });
+      ui.text(ctx, ui.hint('TAB = WAPENS / POWER-UPS   ↑↓ KIES   ENTER KOOP / GEBRUIK   ESC', 'TIK OP EEN TAB BOVENIN, DAARNA OP KOPEN OF GEBRUIK'), W / 2, 258, { align: 'center', color: '#e8e4ff' });
     }
     g.particles.draw(ctx, 0, true);
   }
@@ -313,7 +313,7 @@ export class EquipmentScene {
     if (st === 'equipped') { kind = 'btn_go'; label = 'IN GEBRUIK'; }
     else if (st === 'owned') { if (it.kind === 'powerup') { kind = 'btn_go'; label = 'GEKOCHT'; } else label = 'GEBRUIK'; }
     else if (st === 'needPrevious') { kind = 'btn_off'; label = 'EERST VORIGE'; color = '#8a84a0'; icon = 'lock'; }
-    else if (confirming) { kind = 'btn_on'; label = Math.floor(this.time * 4) % 2 ? 'ZEKER? ENTER' : 'ZEKER?'; color = '#3a1d10'; }
+    else if (confirming) { kind = 'btn_on'; label = Math.floor(this.time * 4) % 2 ? ui.hint('ZEKER? ENTER', 'TIK NOG EENS') : 'ZEKER?'; color = '#3a1d10'; }
     else { kind = st === 'buyable' ? 'btn' : 'btn_off'; label = fmtInt(this.price(it)); icon = 'coin'; color = st === 'buyable' ? COLORS.goldFlat : '#c08080'; }
     ui.panel(ctx, a.x, a.y, a.w, a.h, kind);
     const tw = ui.font.measure(label, { outline: kind !== 'btn_on' });
