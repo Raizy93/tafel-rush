@@ -217,6 +217,9 @@ export class Game {
       const k = s.engine.current.key;
       lines.push(`SOM ${k.replace('x', '×')}  M ${this.trainer.mastery(k).toFixed(2)}  NEED ${this.trainer.need(k).toFixed(2)}`);
     }
-    lines.forEach((l, i) => this.font.draw(ctx, l, 4, 200 + i * 10, { color: '#7dff8a' }));
+    // schermmaten (om problemen op telefoons te kunnen zien: open de game met ?debug)
+    const vv = window.visualViewport, st = document.getElementById('stage'), sr = st ? st.getBoundingClientRect() : null, cr = this.canvas.getBoundingClientRect();
+    lines.unshift('VENSTER ' + innerWidth + 'X' + innerHeight + (vv ? '  ZICHTBAAR ' + Math.round(vv.width) + 'X' + Math.round(vv.height) + ' +' + Math.round(vv.offsetTop) : '') + (sr ? '  STAGE ' + Math.round(sr.top) + '/' + Math.round(sr.height) : '') + '  GAME ' + Math.round(cr.top) + '/' + Math.round(cr.height));
+    lines.forEach((l, i) => this.font.draw(ctx, l, 4, 190 + i * 10, { color: '#7dff8a' }));
   }
 }

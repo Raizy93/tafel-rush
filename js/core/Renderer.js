@@ -31,9 +31,10 @@ export class Renderer {
   }
 
   resize() {
-    // zichtbare schermmaat (op mobiel betrouwbaarder dan innerWidth/innerHeight)
-    const vv = window.visualViewport;
-    const vw = Math.round(vv ? vv.width : window.innerWidth), vh = Math.round(vv ? vv.height : window.innerHeight);
+    // maat van de stage = precies het vak waarin de game staat (zie css/style.css)
+    const stage = this.display.parentElement;
+    const box = stage && stage.id === 'stage' ? stage.getBoundingClientRect() : { width: window.innerWidth, height: window.innerHeight, left: 0, top: 0 };
+    const vw = Math.floor(box.width), vh = Math.floor(box.height);
     if (window.scrollX || window.scrollY) window.scrollTo(0, 0); // pagina terug naar boven (iOS)
     const key = vw + 'x' + vh + '@' + (window.devicePixelRatio || 1);
     if (key === this.lastSize) return; // niets veranderd: niet opnieuw opbouwen (geen flikkering)
@@ -46,10 +47,9 @@ export class Renderer {
     this.display.height = this.H * k;
     this.display.style.width = cssW + 'px';
     this.display.style.height = cssH + 'px';
-    this.display.style.left = Math.floor((vw - cssW) / 2) + 'px';
-    this.display.style.top = Math.floor((vh - cssH) / 2) + 'px';
+    // centreren doet de stage (flexbox), dus geen eigen left/top
     this.cssScale = s;
-    this.rect = { x: Math.floor((vw - cssW) / 2), y: Math.floor((vh - cssH) / 2), w: cssW, h: cssH };
+    this.rect = { x: Math.floor(box.left + (vw - cssW) / 2), y: Math.floor(box.top + (vh - cssH) / 2), w: cssW, h: cssH };
     this.dctx.imageSmoothingEnabled = false;
   }
 

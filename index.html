@@ -17,7 +17,10 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <canvas id="game" width="480" height="270" tabindex="0" aria-label="Tafel Rush spel. Typ het antwoord en druk op Enter."></canvas>
+  <!-- stage = precies het zichtbare scherm; de game wordt daarin gecentreerd (zie css/style.css) -->
+  <div id="stage">
+    <canvas id="game" width="480" height="270" tabindex="0" aria-label="Tafel Rush spel. Typ het antwoord en druk op Enter."></canvas>
+  </div>
   <!-- Onzichtbaar invoerveld: vangnet voor schermtoetsenborden die geen keydown met cijfers sturen -->
   <input id="kbd" type="text" inputmode="numeric" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" aria-label="Antwoord">
   <!-- Alleen op telefoons/tablets die rechtop gehouden worden (zie css/style.css) -->

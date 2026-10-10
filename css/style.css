@@ -24,9 +24,26 @@ html, body {
   pointer-events: none;
 }
 
-#game {
-  /* fixed: op iPhone kan de pagina na het draaien niet meer "wegschuiven" */
+/* De stage vult het zichtbare scherm; de browser centreert de game erin.
+   Meten (Renderer.resize) en plaatsen gebeuren zo in hetzelfde vak, ook op
+   iPhone waar de schermmaat en "vast op het scherm" anders kunnen uitvallen. */
+#stage {
   position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  height: 100dvh;     /* zichtbare hoogte op mobiel (zonder adresbalk-gedoe) */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: #120c18;
+}
+
+#game {
+  position: relative;
+  flex: none;
   display: block;
   outline: none;
   /* de renderer schaalt al met een integer factor; de browser doet de laatste (kleine) stap */
@@ -68,4 +85,4 @@ html, body {
 }
 
 /* iPhone/iPad: geen "bounce", knijp-zoom of verschoven pagina na het draaien */
-body { overscroll-behavior: none; -webkit-touch-callout: none; position: fixed; inset: 0; width: 100%; }
+body { overscroll-behavior: none; -webkit-touch-callout: none; }
