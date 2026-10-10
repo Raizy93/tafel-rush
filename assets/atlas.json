@@ -1,0 +1,3624 @@
+{
+ "version": 1,
+ "sheets": {
+  "hero_kai": {
+   "src": "assets/characters/hero_kai.png",
+   "fw": 48,
+   "fh": 56,
+   "anims": {
+    "idle": {
+     "row": 0,
+     "frames": 4,
+     "fps": 6,
+     "loop": true
+    },
+    "run": {
+     "row": 1,
+     "frames": 8,
+     "fps": 14,
+     "loop": true
+    },
+    "sprint": {
+     "row": 2,
+     "frames": 8,
+     "fps": 20,
+     "loop": true
+    },
+    "attack": {
+     "row": 3,
+     "frames": 6,
+     "fps": 28,
+     "loop": false
+    },
+    "hit": {
+     "row": 4,
+     "frames": 4,
+     "fps": 10,
+     "loop": false
+    },
+    "victory": {
+     "row": 5,
+     "frames": 6,
+     "fps": 8,
+     "loop": true
+    }
+   },
+   "anchor": [
+    21,
+    52
+   ]
+  },
+  "hero_kai_w1": {
+   "src": "assets/characters/hero_kai_w1.png",
+   "fw": 48,
+   "fh": 56,
+   "anims": {
+    "idle": {
+     "row": 0,
+     "frames": 4,
+     "fps": 6,
+     "loop": true
+    },
+    "run": {
+     "row": 1,
+     "frames": 8,
+     "fps": 14,
+     "loop": true
+    },
+    "sprint": {
+     "row": 2,
+     "frames": 8,
+     "fps": 20,
+     "loop": true
+    },
+    "attack": {
+     "row": 3,
+     "frames": 6,
+     "fps": 28,
+     "loop": false
+    },
+    "hit": {
+     "row": 4,
+     "frames": 4,
+     "fps": 10,
+     "loop": false
+    },
+    "victory": {
+     "row": 5,
+     "frames": 6,
+     "fps": 8,
+     "loop": true
+    }
+   },
+   "anchor": [
+    21,
+    52
+   ]
+  },
+  "hero_kai_w2": {
+   "src": "assets/characters/hero_kai_w2.png",
+   "fw": 48,
+   "fh": 56,
+   "anims": {
+    "idle": {
+     "row": 0,
+     "frames": 4,
+     "fps": 6,
+     "loop": true
+    },
+    "run": {
+     "row": 1,
+     "frames": 8,
+     "fps": 14,
+     "loop": true
+    },
+    "sprint": {
+     "row": 2,
+     "frames": 8,
+     "fps": 20,
+     "loop": true
+    },
+    "attack": {
+     "row": 3,
+     "frames": 6,
+     "fps": 28,
+     "loop": false
+    },
+    "hit": {
+     "row": 4,
+     "frames": 4,
+     "fps": 10,
+     "loop": false
+    },
+    "victory": {
+     "row": 5,
+     "frames": 6,
+     "fps": 8,
+     "loop": true
+    }
+   },
+   "anchor": [
+    21,
+    52
+   ]
+  },
+  "hero_kai_w3": {
+   "src": "assets/characters/hero_kai_w3.png",
+   "fw": 48,
+   "fh": 56,
+   "anims": {
+    "idle": {
+     "row": 0,
+     "frames": 4,
+     "fps": 6,
+     "loop": true
+    },
+    "run": {
+     "row": 1,
+     "frames": 8,
+     "fps": 14,
+     "loop": true
+    },
+    "sprint": {
+     "row": 2,
+     "frames": 8,
+     "fps": 20,
+     "loop": true
+    },
+    "attack": {
+     "row": 3,
+     "frames": 6,
+     "fps": 28,
+     "loop": false
+    },
+    "hit": {
+     "row": 4,
+     "frames": 4,
+     "fps": 10,
+     "loop": false
+    },
+    "victory": {
+     "row": 5,
+     "frames": 6,
+     "fps": 8,
+     "loop": true
+    }
+   },
+   "anchor": [
+    21,
+    52
+   ]
+  },
+  "hero_mila": {
+   "src": "assets/characters/ranger_mila.png",
+   "fw": 48,
+   "fh": 56,
+   "anims": {
+    "idle": {
+     "row": 0,
+     "frames": 4,
+     "fps": 6,
+     "loop": true
+    },
+    "run": {
+     "row": 1,
+     "frames": 8,
+     "fps": 14,
+     "loop": true
+    },
+    "sprint": {
+     "row": 2,
+     "frames": 8,
+     "fps": 20,
+     "loop": true
+    },
+    "attack": {
+     "row": 3,
+     "frames": 6,
+     "fps": 28,
+     "loop": false
+    },
+    "hit": {
+     "row": 4,
+     "frames": 4,
+     "fps": 10,
+     "loop": false
+    },
+    "victory": {
+     "row": 5,
+     "frames": 6,
+     "fps": 8,
+     "loop": true
+    }
+   },
+   "anchor": [
+    21,
+    52
+   ]
+  },
+  "hero_mila_w1": {
+   "src": "assets/characters/ranger_mila_w1.png",
+   "fw": 48,
+   "fh": 56,
+   "anims": {
+    "idle": {
+     "row": 0,
+     "frames": 4,
+     "fps": 6,
+     "loop": true
+    },
+    "run": {
+     "row": 1,
+     "frames": 8,
+     "fps": 14,
+     "loop": true
+    },
+    "sprint": {
+     "row": 2,
+     "frames": 8,
+     "fps": 20,
+     "loop": true
+    },
+    "attack": {
+     "row": 3,
+     "frames": 6,
+     "fps": 28,
+     "loop": false
+    },
+    "hit": {
+     "row": 4,
+     "frames": 4,
+     "fps": 10,
+     "loop": false
+    },
+    "victory": {
+     "row": 5,
+     "frames": 6,
+     "fps": 8,
+     "loop": true
+    }
+   },
+   "anchor": [
+    21,
+    52
+   ]
+  },
+  "hero_mila_w2": {
+   "src": "assets/characters/ranger_mila_w2.png",
+   "fw": 48,
+   "fh": 56,
+   "anims": {
+    "idle": {
+     "row": 0,
+     "frames": 4,
+     "fps": 6,
+     "loop": true
+    },
+    "run": {
+     "row": 1,
+     "frames": 8,
+     "fps": 14,
+     "loop": true
+    },
+    "sprint": {
+     "row": 2,
+     "frames": 8,
+     "fps": 20,
+     "loop": true
+    },
+    "attack": {
+     "row": 3,
+     "frames": 6,
+     "fps": 28,
+     "loop": false
+    },
+    "hit": {
+     "row": 4,
+     "frames": 4,
+     "fps": 10,
+     "loop": false
+    },
+    "victory": {
+     "row": 5,
+     "frames": 6,
+     "fps": 8,
+     "loop": true
+    }
+   },
+   "anchor": [
+    21,
+    52
+   ]
+  },
+  "hero_mila_w3": {
+   "src": "assets/characters/ranger_mila_w3.png",
+   "fw": 48,
+   "fh": 56,
+   "anims": {
+    "idle": {
+     "row": 0,
+     "frames": 4,
+     "fps": 6,
+     "loop": true
+    },
+    "run": {
+     "row": 1,
+     "frames": 8,
+     "fps": 14,
+     "loop": true
+    },
+    "sprint": {
+     "row": 2,
+     "frames": 8,
+     "fps": 20,
+     "loop": true
+    },
+    "attack": {
+     "row": 3,
+     "frames": 6,
+     "fps": 28,
+     "loop": false
+    },
+    "hit": {
+     "row": 4,
+     "frames": 4,
+     "fps": 10,
+     "loop": false
+    },
+    "victory": {
+     "row": 5,
+     "frames": 6,
+     "fps": 8,
+     "loop": true
+    }
+   },
+   "anchor": [
+    21,
+    52
+   ]
+  },
+  "hero_nova": {
+   "src": "assets/characters/tech_nova.png",
+   "fw": 48,
+   "fh": 56,
+   "anims": {
+    "idle": {
+     "row": 0,
+     "frames": 4,
+     "fps": 6,
+     "loop": true
+    },
+    "run": {
+     "row": 1,
+     "frames": 8,
+     "fps": 14,
+     "loop": true
+    },
+    "sprint": {
+     "row": 2,
+     "frames": 8,
+     "fps": 20,
+     "loop": true
+    },
+    "attack": {
+     "row": 3,
+     "frames": 6,
+     "fps": 28,
+     "loop": false
+    },
+    "hit": {
+     "row": 4,
+     "frames": 4,
+     "fps": 10,
+     "loop": false
+    },
+    "victory": {
+     "row": 5,
+     "frames": 6,
+     "fps": 8,
+     "loop": true
+    }
+   },
+   "anchor": [
+    21,
+    52
+   ]
+  },
+  "hero_nova_w1": {
+   "src": "assets/characters/tech_nova_w1.png",
+   "fw": 48,
+   "fh": 56,
+   "anims": {
+    "idle": {
+     "row": 0,
+     "frames": 4,
+     "fps": 6,
+     "loop": true
+    },
+    "run": {
+     "row": 1,
+     "frames": 8,
+     "fps": 14,
+     "loop": true
+    },
+    "sprint": {
+     "row": 2,
+     "frames": 8,
+     "fps": 20,
+     "loop": true
+    },
+    "attack": {
+     "row": 3,
+     "frames": 6,
+     "fps": 28,
+     "loop": false
+    },
+    "hit": {
+     "row": 4,
+     "frames": 4,
+     "fps": 10,
+     "loop": false
+    },
+    "victory": {
+     "row": 5,
+     "frames": 6,
+     "fps": 8,
+     "loop": true
+    }
+   },
+   "anchor": [
+    21,
+    52
+   ]
+  },
+  "hero_nova_w2": {
+   "src": "assets/characters/tech_nova_w2.png",
+   "fw": 48,
+   "fh": 56,
+   "anims": {
+    "idle": {
+     "row": 0,
+     "frames": 4,
+     "fps": 6,
+     "loop": true
+    },
+    "run": {
+     "row": 1,
+     "frames": 8,
+     "fps": 14,
+     "loop": true
+    },
+    "sprint": {
+     "row": 2,
+     "frames": 8,
+     "fps": 20,
+     "loop": true
+    },
+    "attack": {
+     "row": 3,
+     "frames": 6,
+     "fps": 28,
+     "loop": false
+    },
+    "hit": {
+     "row": 4,
+     "frames": 4,
+     "fps": 10,
+     "loop": false
+    },
+    "victory": {
+     "row": 5,
+     "frames": 6,
+     "fps": 8,
+     "loop": true
+    }
+   },
+   "anchor": [
+    21,
+    52
+   ]
+  },
+  "hero_nova_w3": {
+   "src": "assets/characters/tech_nova_w3.png",
+   "fw": 48,
+   "fh": 56,
+   "anims": {
+    "idle": {
+     "row": 0,
+     "frames": 4,
+     "fps": 6,
+     "loop": true
+    },
+    "run": {
+     "row": 1,
+     "frames": 8,
+     "fps": 14,
+     "loop": true
+    },
+    "sprint": {
+     "row": 2,
+     "frames": 8,
+     "fps": 20,
+     "loop": true
+    },
+    "attack": {
+     "row": 3,
+     "frames": 6,
+     "fps": 28,
+     "loop": false
+    },
+    "hit": {
+     "row": 4,
+     "frames": 4,
+     "fps": 10,
+     "loop": false
+    },
+    "victory": {
+     "row": 5,
+     "frames": 6,
+     "fps": 8,
+     "loop": true
+    }
+   },
+   "anchor": [
+    21,
+    52
+   ]
+  },
+  "pet_fox": {
+   "src": "assets/pets/pet_fox.png",
+   "fw": 24,
+   "fh": 24,
+   "anims": {
+    "idle": {
+     "row": 0,
+     "frames": 4,
+     "fps": 6,
+     "loop": true
+    },
+    "run": {
+     "row": 1,
+     "frames": 6,
+     "fps": 12,
+     "loop": true
+    },
+    "cheer": {
+     "row": 2,
+     "frames": 4,
+     "fps": 10,
+     "loop": true
+    }
+   },
+   "anchor": [
+    12,
+    22
+   ]
+  },
+  "pet_owl": {
+   "src": "assets/pets/pet_owl.png",
+   "fw": 24,
+   "fh": 24,
+   "anims": {
+    "idle": {
+     "row": 0,
+     "frames": 4,
+     "fps": 6,
+     "loop": true
+    },
+    "run": {
+     "row": 1,
+     "frames": 6,
+     "fps": 12,
+     "loop": true
+    },
+    "cheer": {
+     "row": 2,
+     "frames": 4,
+     "fps": 10,
+     "loop": true
+    }
+   },
+   "anchor": [
+    12,
+    22
+   ]
+  },
+  "pet_slime": {
+   "src": "assets/pets/pet_slime.png",
+   "fw": 24,
+   "fh": 24,
+   "anims": {
+    "idle": {
+     "row": 0,
+     "frames": 4,
+     "fps": 6,
+     "loop": true
+    },
+    "run": {
+     "row": 1,
+     "frames": 6,
+     "fps": 12,
+     "loop": true
+    },
+    "cheer": {
+     "row": 2,
+     "frames": 4,
+     "fps": 10,
+     "loop": true
+    }
+   },
+   "anchor": [
+    12,
+    22
+   ]
+  },
+  "pet_dragon": {
+   "src": "assets/pets/pet_dragon.png",
+   "fw": 28,
+   "fh": 28,
+   "anims": {
+    "idle": {
+     "row": 0,
+     "frames": 4,
+     "fps": 6,
+     "loop": true
+    },
+    "run": {
+     "row": 1,
+     "frames": 6,
+     "fps": 12,
+     "loop": true
+    },
+    "cheer": {
+     "row": 2,
+     "frames": 6,
+     "fps": 15,
+     "loop": true
+    }
+   },
+   "anchor": [
+    14,
+    26
+   ]
+  },
+  "pet_wisp": {
+   "src": "assets/pets/pet_wisp.png",
+   "fw": 24,
+   "fh": 26,
+   "anims": {
+    "idle": {
+     "row": 0,
+     "frames": 6,
+     "fps": 9,
+     "loop": true
+    },
+    "run": {
+     "row": 1,
+     "frames": 6,
+     "fps": 12,
+     "loop": true
+    },
+    "cheer": {
+     "row": 2,
+     "frames": 6,
+     "fps": 15,
+     "loop": true
+    }
+   },
+   "anchor": [
+    12,
+    24
+   ]
+  },
+  "pet_cat": {
+   "src": "assets/pets/pet_cat.png",
+   "fw": 28,
+   "fh": 24,
+   "anims": {
+    "idle": {
+     "row": 0,
+     "frames": 4,
+     "fps": 6,
+     "loop": true
+    },
+    "run": {
+     "row": 1,
+     "frames": 6,
+     "fps": 12,
+     "loop": true
+    },
+    "cheer": {
+     "row": 2,
+     "frames": 6,
+     "fps": 15,
+     "loop": true
+    }
+   },
+   "anchor": [
+    14,
+    22
+   ]
+  },
+  "pet_robo": {
+   "src": "assets/pets/pet_robo.png",
+   "fw": 28,
+   "fh": 30,
+   "anims": {
+    "idle": {
+     "row": 0,
+     "frames": 6,
+     "fps": 9,
+     "loop": true
+    },
+    "run": {
+     "row": 1,
+     "frames": 6,
+     "fps": 12,
+     "loop": true
+    },
+    "cheer": {
+     "row": 2,
+     "frames": 6,
+     "fps": 15,
+     "loop": true
+    }
+   },
+   "anchor": [
+    14,
+    28
+   ]
+  },
+  "pet_turtle": {
+   "src": "assets/pets/pet_turtle.png",
+   "fw": 36,
+   "fh": 30,
+   "anims": {
+    "idle": {
+     "row": 0,
+     "frames": 6,
+     "fps": 9,
+     "loop": true
+    },
+    "run": {
+     "row": 1,
+     "frames": 6,
+     "fps": 12,
+     "loop": true
+    },
+    "cheer": {
+     "row": 2,
+     "frames": 6,
+     "fps": 15,
+     "loop": true
+    }
+   },
+   "anchor": [
+    18,
+    28
+   ]
+  },
+  "pet_star": {
+   "src": "assets/pets/pet_star.png",
+   "fw": 34,
+   "fh": 34,
+   "anims": {
+    "idle": {
+     "row": 0,
+     "frames": 8,
+     "fps": 12,
+     "loop": true
+    },
+    "run": {
+     "row": 1,
+     "frames": 8,
+     "fps": 16,
+     "loop": true
+    },
+    "cheer": {
+     "row": 2,
+     "frames": 8,
+     "fps": 20,
+     "loop": true
+    }
+   },
+   "anchor": [
+    17,
+    32
+   ]
+  },
+  "pet_wolf": {
+   "src": "assets/pets/pet_wolf.png",
+   "fw": 46,
+   "fh": 38,
+   "anims": {
+    "idle": {
+     "row": 0,
+     "frames": 6,
+     "fps": 9,
+     "loop": true
+    },
+    "run": {
+     "row": 1,
+     "frames": 6,
+     "fps": 12,
+     "loop": true
+    },
+    "cheer": {
+     "row": 2,
+     "frames": 8,
+     "fps": 20,
+     "loop": true
+    }
+   },
+   "anchor": [
+    23,
+    36
+   ]
+  },
+  "pet_squirrel": {
+   "src": "assets/pets/pet_squirrel.png",
+   "fw": 24,
+   "fh": 24,
+   "anims": {
+    "idle": {
+     "row": 0,
+     "frames": 4,
+     "fps": 6,
+     "loop": true
+    },
+    "run": {
+     "row": 1,
+     "frames": 6,
+     "fps": 12,
+     "loop": true
+    },
+    "cheer": {
+     "row": 2,
+     "frames": 4,
+     "fps": 10,
+     "loop": true
+    }
+   },
+   "anchor": [
+    12,
+    22
+   ]
+  },
+  "pet_hedgehog": {
+   "src": "assets/pets/pet_hedgehog.png",
+   "fw": 24,
+   "fh": 24,
+   "anims": {
+    "idle": {
+     "row": 0,
+     "frames": 4,
+     "fps": 6,
+     "loop": true
+    },
+    "run": {
+     "row": 1,
+     "frames": 6,
+     "fps": 12,
+     "loop": true
+    },
+    "cheer": {
+     "row": 2,
+     "frames": 6,
+     "fps": 15,
+     "loop": true
+    }
+   },
+   "anchor": [
+    12,
+    22
+   ]
+  },
+  "pet_hummingbird": {
+   "src": "assets/pets/pet_hummingbird.png",
+   "fw": 24,
+   "fh": 24,
+   "anims": {
+    "idle": {
+     "row": 0,
+     "frames": 6,
+     "fps": 9,
+     "loop": true
+    },
+    "run": {
+     "row": 1,
+     "frames": 6,
+     "fps": 12,
+     "loop": true
+    },
+    "cheer": {
+     "row": 2,
+     "frames": 6,
+     "fps": 15,
+     "loop": true
+    }
+   },
+   "anchor": [
+    12,
+    22
+   ]
+  },
+  "pet_deer": {
+   "src": "assets/pets/pet_deer.png",
+   "fw": 32,
+   "fh": 34,
+   "anims": {
+    "idle": {
+     "row": 0,
+     "frames": 6,
+     "fps": 9,
+     "loop": true
+    },
+    "run": {
+     "row": 1,
+     "frames": 6,
+     "fps": 12,
+     "loop": true
+    },
+    "cheer": {
+     "row": 2,
+     "frames": 6,
+     "fps": 15,
+     "loop": true
+    }
+   },
+   "anchor": [
+    16,
+    32
+   ]
+  },
+  "pet_butterfly": {
+   "src": "assets/pets/pet_butterfly.png",
+   "fw": 38,
+   "fh": 34,
+   "anims": {
+    "idle": {
+     "row": 0,
+     "frames": 8,
+     "fps": 12,
+     "loop": true
+    },
+    "run": {
+     "row": 1,
+     "frames": 8,
+     "fps": 16,
+     "loop": true
+    },
+    "cheer": {
+     "row": 2,
+     "frames": 8,
+     "fps": 20,
+     "loop": true
+    }
+   },
+   "anchor": [
+    19,
+    32
+   ]
+  },
+  "pet_bunny": {
+   "src": "assets/pets/pet_bunny.png",
+   "fw": 24,
+   "fh": 26,
+   "anims": {
+    "idle": {
+     "row": 0,
+     "frames": 4,
+     "fps": 6,
+     "loop": true
+    },
+    "run": {
+     "row": 1,
+     "frames": 6,
+     "fps": 12,
+     "loop": true
+    },
+    "cheer": {
+     "row": 2,
+     "frames": 4,
+     "fps": 10,
+     "loop": true
+    }
+   },
+   "anchor": [
+    12,
+    24
+   ]
+  },
+  "pet_polarbear": {
+   "src": "assets/pets/pet_polarbear.png",
+   "fw": 26,
+   "fh": 24,
+   "anims": {
+    "idle": {
+     "row": 0,
+     "frames": 4,
+     "fps": 6,
+     "loop": true
+    },
+    "run": {
+     "row": 1,
+     "frames": 6,
+     "fps": 12,
+     "loop": true
+    },
+    "cheer": {
+     "row": 2,
+     "frames": 4,
+     "fps": 10,
+     "loop": true
+    }
+   },
+   "anchor": [
+    13,
+    22
+   ]
+  },
+  "pet_reindeer": {
+   "src": "assets/pets/pet_reindeer.png",
+   "fw": 28,
+   "fh": 30,
+   "anims": {
+    "idle": {
+     "row": 0,
+     "frames": 4,
+     "fps": 6,
+     "loop": true
+    },
+    "run": {
+     "row": 1,
+     "frames": 6,
+     "fps": 12,
+     "loop": true
+    },
+    "cheer": {
+     "row": 2,
+     "frames": 6,
+     "fps": 15,
+     "loop": true
+    }
+   },
+   "anchor": [
+    14,
+    28
+   ]
+  },
+  "pet_narwhal": {
+   "src": "assets/pets/pet_narwhal.png",
+   "fw": 38,
+   "fh": 28,
+   "anims": {
+    "idle": {
+     "row": 0,
+     "frames": 6,
+     "fps": 9,
+     "loop": true
+    },
+    "run": {
+     "row": 1,
+     "frames": 6,
+     "fps": 12,
+     "loop": true
+    },
+    "cheer": {
+     "row": 2,
+     "frames": 6,
+     "fps": 15,
+     "loop": true
+    }
+   },
+   "anchor": [
+    19,
+    26
+   ]
+  },
+  "pet_mammoth": {
+   "src": "assets/pets/pet_mammoth.png",
+   "fw": 44,
+   "fh": 38,
+   "anims": {
+    "idle": {
+     "row": 0,
+     "frames": 6,
+     "fps": 9,
+     "loop": true
+    },
+    "run": {
+     "row": 1,
+     "frames": 6,
+     "fps": 12,
+     "loop": true
+    },
+    "cheer": {
+     "row": 2,
+     "frames": 8,
+     "fps": 20,
+     "loop": true
+    }
+   },
+   "anchor": [
+    22,
+    36
+   ]
+  },
+  "pet_gecko": {
+   "src": "assets/pets/pet_gecko.png",
+   "fw": 26,
+   "fh": 22,
+   "anims": {
+    "idle": {
+     "row": 0,
+     "frames": 4,
+     "fps": 6,
+     "loop": true
+    },
+    "run": {
+     "row": 1,
+     "frames": 6,
+     "fps": 12,
+     "loop": true
+    },
+    "cheer": {
+     "row": 2,
+     "frames": 4,
+     "fps": 10,
+     "loop": true
+    }
+   },
+   "anchor": [
+    13,
+    20
+   ]
+  },
+  "pet_anglerfish": {
+   "src": "assets/pets/pet_anglerfish.png",
+   "fw": 24,
+   "fh": 26,
+   "anims": {
+    "idle": {
+     "row": 0,
+     "frames": 6,
+     "fps": 9,
+     "loop": true
+    },
+    "run": {
+     "row": 1,
+     "frames": 6,
+     "fps": 12,
+     "loop": true
+    },
+    "cheer": {
+     "row": 2,
+     "frames": 6,
+     "fps": 15,
+     "loop": true
+    }
+   },
+   "anchor": [
+    12,
+    24
+   ]
+  },
+  "pet_bee": {
+   "src": "assets/pets/pet_bee.png",
+   "fw": 24,
+   "fh": 24,
+   "anims": {
+    "idle": {
+     "row": 0,
+     "frames": 6,
+     "fps": 9,
+     "loop": true
+    },
+    "run": {
+     "row": 1,
+     "frames": 6,
+     "fps": 12,
+     "loop": true
+    },
+    "cheer": {
+     "row": 2,
+     "frames": 6,
+     "fps": 15,
+     "loop": true
+    }
+   },
+   "anchor": [
+    12,
+    22
+   ]
+  },
+  "pet_griffin": {
+   "src": "assets/pets/pet_griffin.png",
+   "fw": 36,
+   "fh": 34,
+   "anims": {
+    "idle": {
+     "row": 0,
+     "frames": 6,
+     "fps": 9,
+     "loop": true
+    },
+    "run": {
+     "row": 1,
+     "frames": 6,
+     "fps": 12,
+     "loop": true
+    },
+    "cheer": {
+     "row": 2,
+     "frames": 6,
+     "fps": 15,
+     "loop": true
+    }
+   },
+   "anchor": [
+    18,
+    32
+   ]
+  },
+  "pet_phoenix": {
+   "src": "assets/pets/pet_phoenix.png",
+   "fw": 40,
+   "fh": 36,
+   "anims": {
+    "idle": {
+     "row": 0,
+     "frames": 8,
+     "fps": 12,
+     "loop": true
+    },
+    "run": {
+     "row": 1,
+     "frames": 8,
+     "fps": 16,
+     "loop": true
+    },
+    "cheer": {
+     "row": 2,
+     "frames": 8,
+     "fps": 20,
+     "loop": true
+    }
+   },
+   "anchor": [
+    20,
+    34
+   ]
+  },
+  "chest_wood": {
+   "src": "assets/ui/chest_wood.png",
+   "fw": 40,
+   "fh": 36,
+   "anims": {
+    "idle": {
+     "row": 0,
+     "frames": 4,
+     "fps": 8,
+     "loop": true
+    },
+    "shake": {
+     "row": 1,
+     "frames": 4,
+     "fps": 18,
+     "loop": true
+    },
+    "open": {
+     "row": 2,
+     "frames": 6,
+     "fps": 16,
+     "loop": false
+    }
+   },
+   "anchor": [
+    20,
+    34
+   ]
+  },
+  "chest_tafel": {
+   "src": "assets/ui/chest_tafel.png",
+   "fw": 40,
+   "fh": 36,
+   "anims": {
+    "idle": {
+     "row": 0,
+     "frames": 4,
+     "fps": 8,
+     "loop": true
+    },
+    "shake": {
+     "row": 1,
+     "frames": 4,
+     "fps": 18,
+     "loop": true
+    },
+    "open": {
+     "row": 2,
+     "frames": 6,
+     "fps": 16,
+     "loop": false
+    }
+   },
+   "anchor": [
+    20,
+    34
+   ]
+  },
+  "chest_bos": {
+   "src": "assets/ui/chest_bos.png",
+   "fw": 40,
+   "fh": 36,
+   "anims": {
+    "idle": {
+     "row": 0,
+     "frames": 4,
+     "fps": 8,
+     "loop": true
+    },
+    "shake": {
+     "row": 1,
+     "frames": 4,
+     "fps": 18,
+     "loop": true
+    },
+    "open": {
+     "row": 2,
+     "frames": 6,
+     "fps": 16,
+     "loop": false
+    }
+   },
+   "anchor": [
+    20,
+    34
+   ]
+  },
+  "chest_sneeuw": {
+   "src": "assets/ui/chest_sneeuw.png",
+   "fw": 40,
+   "fh": 36,
+   "anims": {
+    "idle": {
+     "row": 0,
+     "frames": 4,
+     "fps": 8,
+     "loop": true
+    },
+    "shake": {
+     "row": 1,
+     "frames": 4,
+     "fps": 18,
+     "loop": true
+    },
+    "open": {
+     "row": 2,
+     "frames": 6,
+     "fps": 16,
+     "loop": false
+    }
+   },
+   "anchor": [
+    20,
+    34
+   ]
+  },
+  "chest_storm": {
+   "src": "assets/ui/chest_storm.png",
+   "fw": 40,
+   "fh": 36,
+   "anims": {
+    "idle": {
+     "row": 0,
+     "frames": 4,
+     "fps": 8,
+     "loop": true
+    },
+    "shake": {
+     "row": 1,
+     "frames": 4,
+     "fps": 18,
+     "loop": true
+    },
+    "open": {
+     "row": 2,
+     "frames": 6,
+     "fps": 16,
+     "loop": false
+    }
+   },
+   "anchor": [
+    20,
+    34
+   ]
+  },
+  "chest_gold": {
+   "src": "assets/ui/chest_gold.png",
+   "fw": 40,
+   "fh": 36,
+   "anims": {
+    "idle": {
+     "row": 0,
+     "frames": 4,
+     "fps": 8,
+     "loop": true
+    },
+    "shake": {
+     "row": 1,
+     "frames": 4,
+     "fps": 18,
+     "loop": true
+    },
+    "open": {
+     "row": 2,
+     "frames": 6,
+     "fps": 16,
+     "loop": false
+    }
+   },
+   "anchor": [
+    20,
+    34
+   ]
+  },
+  "slime_green": {
+   "src": "assets/enemies/slime_green.png",
+   "fw": 32,
+   "fh": 32,
+   "anims": {
+    "move": {
+     "row": 0,
+     "frames": 6,
+     "fps": 10,
+     "loop": true
+    },
+    "attack": {
+     "row": 1,
+     "frames": 4,
+     "fps": 14,
+     "loop": false
+    },
+    "hurt": {
+     "row": 2,
+     "frames": 1,
+     "fps": 1,
+     "loop": false
+    }
+   },
+   "anchor": [
+    16,
+    30
+   ]
+  },
+  "slime_blue": {
+   "src": "assets/enemies/slime_blue.png",
+   "fw": 32,
+   "fh": 32,
+   "anims": {
+    "move": {
+     "row": 0,
+     "frames": 6,
+     "fps": 10,
+     "loop": true
+    },
+    "attack": {
+     "row": 1,
+     "frames": 4,
+     "fps": 14,
+     "loop": false
+    },
+    "hurt": {
+     "row": 2,
+     "frames": 1,
+     "fps": 1,
+     "loop": false
+    }
+   },
+   "anchor": [
+    16,
+    30
+   ]
+  },
+  "slime_purple": {
+   "src": "assets/enemies/slime_purple.png",
+   "fw": 32,
+   "fh": 32,
+   "anims": {
+    "move": {
+     "row": 0,
+     "frames": 6,
+     "fps": 10,
+     "loop": true
+    },
+    "attack": {
+     "row": 1,
+     "frames": 4,
+     "fps": 14,
+     "loop": false
+    },
+    "hurt": {
+     "row": 2,
+     "frames": 1,
+     "fps": 1,
+     "loop": false
+    }
+   },
+   "anchor": [
+    16,
+    30
+   ]
+  },
+  "mushroom": {
+   "src": "assets/enemies/mushroom.png",
+   "fw": 32,
+   "fh": 32,
+   "anims": {
+    "move": {
+     "row": 0,
+     "frames": 4,
+     "fps": 8,
+     "loop": true
+    },
+    "attack": {
+     "row": 1,
+     "frames": 4,
+     "fps": 14,
+     "loop": false
+    },
+    "hurt": {
+     "row": 2,
+     "frames": 1,
+     "fps": 1,
+     "loop": false
+    }
+   },
+   "anchor": [
+    16,
+    30
+   ]
+  },
+  "goblin": {
+   "src": "assets/enemies/goblin.png",
+   "fw": 32,
+   "fh": 32,
+   "anims": {
+    "move": {
+     "row": 0,
+     "frames": 6,
+     "fps": 12,
+     "loop": true
+    },
+    "attack": {
+     "row": 1,
+     "frames": 4,
+     "fps": 14,
+     "loop": false
+    },
+    "hurt": {
+     "row": 2,
+     "frames": 1,
+     "fps": 1,
+     "loop": false
+    }
+   },
+   "anchor": [
+    16,
+    30
+   ]
+  },
+  "bat": {
+   "src": "assets/enemies/bat.png",
+   "fw": 32,
+   "fh": 32,
+   "anims": {
+    "move": {
+     "row": 0,
+     "frames": 4,
+     "fps": 12,
+     "loop": true
+    },
+    "attack": {
+     "row": 1,
+     "frames": 4,
+     "fps": 14,
+     "loop": false
+    },
+    "hurt": {
+     "row": 2,
+     "frames": 1,
+     "fps": 1,
+     "loop": false
+    }
+   },
+   "anchor": [
+    16,
+    30
+   ]
+  },
+  "bat_red": {
+   "src": "assets/enemies/bat_red.png",
+   "fw": 32,
+   "fh": 32,
+   "anims": {
+    "move": {
+     "row": 0,
+     "frames": 4,
+     "fps": 12,
+     "loop": true
+    },
+    "attack": {
+     "row": 1,
+     "frames": 4,
+     "fps": 14,
+     "loop": false
+    },
+    "hurt": {
+     "row": 2,
+     "frames": 1,
+     "fps": 1,
+     "loop": false
+    }
+   },
+   "anchor": [
+    16,
+    30
+   ]
+  },
+  "rock": {
+   "src": "assets/enemies/rock_critter.png",
+   "fw": 32,
+   "fh": 32,
+   "anims": {
+    "move": {
+     "row": 0,
+     "frames": 4,
+     "fps": 7,
+     "loop": true
+    },
+    "attack": {
+     "row": 1,
+     "frames": 4,
+     "fps": 14,
+     "loop": false
+    },
+    "hurt": {
+     "row": 2,
+     "frames": 1,
+     "fps": 1,
+     "loop": false
+    }
+   },
+   "anchor": [
+    16,
+    30
+   ]
+  },
+  "chest": {
+   "src": "assets/enemies/chest.png",
+   "fw": 32,
+   "fh": 32,
+   "anims": {
+    "move": {
+     "row": 0,
+     "frames": 4,
+     "fps": 6,
+     "loop": true
+    },
+    "attack": {
+     "row": 1,
+     "frames": 1,
+     "fps": 14,
+     "loop": false
+    },
+    "hurt": {
+     "row": 2,
+     "frames": 1,
+     "fps": 1,
+     "loop": false
+    }
+   },
+   "anchor": [
+    16,
+    30
+   ]
+  },
+  "beetle": {
+   "src": "assets/enemies/beetle_armored.png",
+   "fw": 32,
+   "fh": 32,
+   "anims": {
+    "move": {
+     "row": 0,
+     "frames": 4,
+     "fps": 8,
+     "loop": true
+    },
+    "attack": {
+     "row": 1,
+     "frames": 4,
+     "fps": 14,
+     "loop": false
+    },
+    "hurt": {
+     "row": 2,
+     "frames": 1,
+     "fps": 1,
+     "loop": false
+    }
+   },
+   "anchor": [
+    16,
+    30
+   ]
+  },
+  "slime_snow": {
+   "src": "assets/enemies/slime_snow.png",
+   "fw": 32,
+   "fh": 32,
+   "anims": {
+    "move": {
+     "row": 0,
+     "frames": 6,
+     "fps": 10,
+     "loop": true
+    },
+    "attack": {
+     "row": 1,
+     "frames": 4,
+     "fps": 14,
+     "loop": false
+    },
+    "hurt": {
+     "row": 2,
+     "frames": 1,
+     "fps": 1,
+     "loop": false
+    }
+   },
+   "anchor": [
+    16,
+    30
+   ]
+  },
+  "slime_ice": {
+   "src": "assets/enemies/slime_ice.png",
+   "fw": 32,
+   "fh": 32,
+   "anims": {
+    "move": {
+     "row": 0,
+     "frames": 6,
+     "fps": 10,
+     "loop": true
+    },
+    "attack": {
+     "row": 1,
+     "frames": 4,
+     "fps": 14,
+     "loop": false
+    },
+    "hurt": {
+     "row": 2,
+     "frames": 1,
+     "fps": 1,
+     "loop": false
+    }
+   },
+   "anchor": [
+    16,
+    30
+   ]
+  },
+  "bat_ice": {
+   "src": "assets/enemies/bat_ice.png",
+   "fw": 32,
+   "fh": 32,
+   "anims": {
+    "move": {
+     "row": 0,
+     "frames": 4,
+     "fps": 12,
+     "loop": true
+    },
+    "attack": {
+     "row": 1,
+     "frames": 4,
+     "fps": 14,
+     "loop": false
+    },
+    "hurt": {
+     "row": 2,
+     "frames": 1,
+     "fps": 1,
+     "loop": false
+    }
+   },
+   "anchor": [
+    16,
+    30
+   ]
+  },
+  "penguin": {
+   "src": "assets/enemies/penguin.png",
+   "fw": 32,
+   "fh": 32,
+   "anims": {
+    "move": {
+     "row": 0,
+     "frames": 6,
+     "fps": 10,
+     "loop": true
+    },
+    "attack": {
+     "row": 1,
+     "frames": 4,
+     "fps": 14,
+     "loop": false
+    },
+    "hurt": {
+     "row": 2,
+     "frames": 1,
+     "fps": 1,
+     "loop": false
+    }
+   },
+   "anchor": [
+    16,
+    30
+   ]
+  },
+  "yeti": {
+   "src": "assets/enemies/yeti.png",
+   "fw": 32,
+   "fh": 32,
+   "anims": {
+    "move": {
+     "row": 0,
+     "frames": 6,
+     "fps": 10,
+     "loop": true
+    },
+    "attack": {
+     "row": 1,
+     "frames": 4,
+     "fps": 14,
+     "loop": false
+    },
+    "hurt": {
+     "row": 2,
+     "frames": 1,
+     "fps": 1,
+     "loop": false
+    }
+   },
+   "anchor": [
+    16,
+    30
+   ]
+  },
+  "icerock": {
+   "src": "assets/enemies/ice_rock.png",
+   "fw": 32,
+   "fh": 32,
+   "anims": {
+    "move": {
+     "row": 0,
+     "frames": 4,
+     "fps": 7,
+     "loop": true
+    },
+    "attack": {
+     "row": 1,
+     "frames": 4,
+     "fps": 14,
+     "loop": false
+    },
+    "hurt": {
+     "row": 2,
+     "frames": 1,
+     "fps": 1,
+     "loop": false
+    }
+   },
+   "anchor": [
+    16,
+    30
+   ]
+  },
+  "snail": {
+   "src": "assets/enemies/storm_snail.png",
+   "fw": 32,
+   "fh": 32,
+   "anims": {
+    "move": {
+     "row": 0,
+     "frames": 6,
+     "fps": 8,
+     "loop": true
+    },
+    "attack": {
+     "row": 1,
+     "frames": 4,
+     "fps": 14,
+     "loop": false
+    },
+    "hurt": {
+     "row": 2,
+     "frames": 1,
+     "fps": 1,
+     "loop": false
+    }
+   },
+   "anchor": [
+    16,
+    30
+   ]
+  },
+  "vonkje": {
+   "src": "assets/enemies/vonkje.png",
+   "fw": 32,
+   "fh": 32,
+   "anims": {
+    "move": {
+     "row": 0,
+     "frames": 4,
+     "fps": 12,
+     "loop": true
+    },
+    "attack": {
+     "row": 1,
+     "frames": 4,
+     "fps": 14,
+     "loop": false
+    },
+    "hurt": {
+     "row": 2,
+     "frames": 1,
+     "fps": 1,
+     "loop": false
+    }
+   },
+   "anchor": [
+    16,
+    30
+   ]
+  },
+  "crow": {
+   "src": "assets/enemies/storm_crow.png",
+   "fw": 32,
+   "fh": 32,
+   "anims": {
+    "move": {
+     "row": 0,
+     "frames": 4,
+     "fps": 12,
+     "loop": true
+    },
+    "attack": {
+     "row": 1,
+     "frames": 4,
+     "fps": 14,
+     "loop": false
+    },
+    "hurt": {
+     "row": 2,
+     "frames": 1,
+     "fps": 1,
+     "loop": false
+    }
+   },
+   "anchor": [
+    16,
+    30
+   ]
+  },
+  "toad": {
+   "src": "assets/enemies/thunder_toad.png",
+   "fw": 32,
+   "fh": 32,
+   "anims": {
+    "move": {
+     "row": 0,
+     "frames": 6,
+     "fps": 10,
+     "loop": true
+    },
+    "attack": {
+     "row": 1,
+     "frames": 4,
+     "fps": 14,
+     "loop": false
+    },
+    "hurt": {
+     "row": 2,
+     "frames": 1,
+     "fps": 1,
+     "loop": false
+    }
+   },
+   "anchor": [
+    16,
+    30
+   ]
+  },
+  "stormcloud": {
+   "src": "assets/enemies/storm_cloud.png",
+   "fw": 32,
+   "fh": 32,
+   "anims": {
+    "move": {
+     "row": 0,
+     "frames": 6,
+     "fps": 10,
+     "loop": true
+    },
+    "attack": {
+     "row": 1,
+     "frames": 4,
+     "fps": 14,
+     "loop": false
+    },
+    "hurt": {
+     "row": 2,
+     "frames": 1,
+     "fps": 1,
+     "loop": false
+    }
+   },
+   "anchor": [
+    16,
+    30
+   ]
+  },
+  "crab": {
+   "src": "assets/enemies/storm_crab.png",
+   "fw": 32,
+   "fh": 32,
+   "anims": {
+    "move": {
+     "row": 0,
+     "frames": 4,
+     "fps": 8,
+     "loop": true
+    },
+    "attack": {
+     "row": 1,
+     "frames": 4,
+     "fps": 14,
+     "loop": false
+    },
+    "hurt": {
+     "row": 2,
+     "frames": 1,
+     "fps": 1,
+     "loop": false
+    }
+   },
+   "anchor": [
+    16,
+    30
+   ]
+  },
+  "boss_guardian": {
+   "src": "assets/enemies/boss_guardian.png",
+   "fw": 128,
+   "fh": 112,
+   "anims": {
+    "calm_idle": {
+     "row": 0,
+     "frames": 6,
+     "fps": 6,
+     "loop": true
+    },
+    "calm_attack": {
+     "row": 1,
+     "frames": 6,
+     "fps": 12,
+     "loop": false
+    },
+    "calm_hurt": {
+     "row": 2,
+     "frames": 2,
+     "fps": 14,
+     "loop": false
+    },
+    "calm_death": {
+     "row": 3,
+     "frames": 4,
+     "fps": 4,
+     "loop": false
+    },
+    "angry_idle": {
+     "row": 4,
+     "frames": 6,
+     "fps": 6,
+     "loop": true
+    },
+    "angry_attack": {
+     "row": 5,
+     "frames": 6,
+     "fps": 12,
+     "loop": false
+    },
+    "angry_hurt": {
+     "row": 6,
+     "frames": 2,
+     "fps": 14,
+     "loop": false
+    },
+    "angry_death": {
+     "row": 7,
+     "frames": 4,
+     "fps": 4,
+     "loop": false
+    }
+   },
+   "anchor": [
+    66,
+    108
+   ]
+  },
+  "boss_frost": {
+   "src": "assets/enemies/boss_icegiant.png",
+   "fw": 128,
+   "fh": 112,
+   "anims": {
+    "calm_idle": {
+     "row": 0,
+     "frames": 6,
+     "fps": 6,
+     "loop": true
+    },
+    "calm_attack": {
+     "row": 1,
+     "frames": 6,
+     "fps": 12,
+     "loop": false
+    },
+    "calm_hurt": {
+     "row": 2,
+     "frames": 2,
+     "fps": 14,
+     "loop": false
+    },
+    "calm_death": {
+     "row": 3,
+     "frames": 4,
+     "fps": 4,
+     "loop": false
+    },
+    "angry_idle": {
+     "row": 4,
+     "frames": 6,
+     "fps": 6,
+     "loop": true
+    },
+    "angry_attack": {
+     "row": 5,
+     "frames": 6,
+     "fps": 12,
+     "loop": false
+    },
+    "angry_hurt": {
+     "row": 6,
+     "frames": 2,
+     "fps": 14,
+     "loop": false
+    },
+    "angry_death": {
+     "row": 7,
+     "frames": 4,
+     "fps": 4,
+     "loop": false
+    }
+   },
+   "anchor": [
+    66,
+    108
+   ]
+  },
+  "boss_storm": {
+   "src": "assets/enemies/boss_thunderdragon.png",
+   "fw": 128,
+   "fh": 112,
+   "anims": {
+    "calm_idle": {
+     "row": 0,
+     "frames": 6,
+     "fps": 6,
+     "loop": true
+    },
+    "calm_attack": {
+     "row": 1,
+     "frames": 6,
+     "fps": 10,
+     "loop": false
+    },
+    "calm_hurt": {
+     "row": 2,
+     "frames": 2,
+     "fps": 14,
+     "loop": false
+    },
+    "calm_death": {
+     "row": 3,
+     "frames": 4,
+     "fps": 4,
+     "loop": false
+    },
+    "angry_idle": {
+     "row": 4,
+     "frames": 6,
+     "fps": 6,
+     "loop": true
+    },
+    "angry_attack": {
+     "row": 5,
+     "frames": 6,
+     "fps": 10,
+     "loop": false
+    },
+    "angry_hurt": {
+     "row": 6,
+     "frames": 2,
+     "fps": 14,
+     "loop": false
+    },
+    "angry_death": {
+     "row": 7,
+     "frames": 4,
+     "fps": 4,
+     "loop": false
+    }
+   },
+   "anchor": [
+    66,
+    108
+   ]
+  },
+  "coin": {
+   "src": "assets/effects/coin.png",
+   "fw": 12,
+   "fh": 12,
+   "anims": {
+    "spin": {
+     "row": 0,
+     "frames": 6,
+     "fps": 12,
+     "loop": true
+    }
+   },
+   "anchor": [
+    6,
+    6
+   ]
+  },
+  "slash": {
+   "src": "assets/effects/slash.png",
+   "fw": 48,
+   "fh": 40,
+   "anims": {
+    "normal": {
+     "row": 0,
+     "frames": 5,
+     "fps": 24,
+     "loop": false
+    },
+    "crit": {
+     "row": 1,
+     "frames": 5,
+     "fps": 24,
+     "loop": false
+    },
+    "ultra": {
+     "row": 2,
+     "frames": 5,
+     "fps": 24,
+     "loop": false
+    },
+    "fire": {
+     "row": 3,
+     "frames": 5,
+     "fps": 24,
+     "loop": false
+    }
+   },
+   "anchor": [
+    16,
+    20
+   ]
+  },
+  "arrow": {
+   "src": "assets/effects/arrow.png",
+   "fw": 24,
+   "fh": 8,
+   "anims": {
+    "normal": {
+     "row": 0,
+     "frames": 2,
+     "fps": 16,
+     "loop": true
+    },
+    "crit": {
+     "row": 1,
+     "frames": 2,
+     "fps": 16,
+     "loop": true
+    },
+    "ultra": {
+     "row": 2,
+     "frames": 2,
+     "fps": 16,
+     "loop": true
+    },
+    "fire": {
+     "row": 3,
+     "frames": 2,
+     "fps": 16,
+     "loop": true
+    }
+   },
+   "anchor": [
+    20,
+    4
+   ]
+  },
+  "plasma": {
+   "src": "assets/effects/plasma.png",
+   "fw": 16,
+   "fh": 16,
+   "anims": {
+    "normal": {
+     "row": 0,
+     "frames": 4,
+     "fps": 16,
+     "loop": true
+    },
+    "crit": {
+     "row": 1,
+     "frames": 4,
+     "fps": 16,
+     "loop": true
+    },
+    "ultra": {
+     "row": 2,
+     "frames": 4,
+     "fps": 16,
+     "loop": true
+    },
+    "fire": {
+     "row": 3,
+     "frames": 4,
+     "fps": 16,
+     "loop": true
+    }
+   },
+   "anchor": [
+    8,
+    8
+   ]
+  },
+  "slash_w1": {
+   "src": "assets/effects/slash_w1.png",
+   "fw": 48,
+   "fh": 40,
+   "anims": {
+    "normal": {
+     "row": 0,
+     "frames": 5,
+     "fps": 24,
+     "loop": false
+    },
+    "crit": {
+     "row": 1,
+     "frames": 5,
+     "fps": 24,
+     "loop": false
+    },
+    "ultra": {
+     "row": 2,
+     "frames": 5,
+     "fps": 24,
+     "loop": false
+    },
+    "fire": {
+     "row": 3,
+     "frames": 5,
+     "fps": 24,
+     "loop": false
+    }
+   },
+   "anchor": [
+    16,
+    20
+   ]
+  },
+  "slash_w2": {
+   "src": "assets/effects/slash_w2.png",
+   "fw": 48,
+   "fh": 40,
+   "anims": {
+    "normal": {
+     "row": 0,
+     "frames": 5,
+     "fps": 24,
+     "loop": false
+    },
+    "crit": {
+     "row": 1,
+     "frames": 5,
+     "fps": 24,
+     "loop": false
+    },
+    "ultra": {
+     "row": 2,
+     "frames": 5,
+     "fps": 24,
+     "loop": false
+    },
+    "fire": {
+     "row": 3,
+     "frames": 5,
+     "fps": 24,
+     "loop": false
+    }
+   },
+   "anchor": [
+    16,
+    20
+   ]
+  },
+  "slash_w3": {
+   "src": "assets/effects/slash_w3.png",
+   "fw": 48,
+   "fh": 40,
+   "anims": {
+    "normal": {
+     "row": 0,
+     "frames": 5,
+     "fps": 24,
+     "loop": false
+    },
+    "crit": {
+     "row": 1,
+     "frames": 5,
+     "fps": 24,
+     "loop": false
+    },
+    "ultra": {
+     "row": 2,
+     "frames": 5,
+     "fps": 24,
+     "loop": false
+    },
+    "fire": {
+     "row": 3,
+     "frames": 5,
+     "fps": 24,
+     "loop": false
+    }
+   },
+   "anchor": [
+    16,
+    20
+   ]
+  },
+  "arrow_w1": {
+   "src": "assets/effects/arrow_w1.png",
+   "fw": 24,
+   "fh": 8,
+   "anims": {
+    "normal": {
+     "row": 0,
+     "frames": 2,
+     "fps": 16,
+     "loop": true
+    },
+    "crit": {
+     "row": 1,
+     "frames": 2,
+     "fps": 16,
+     "loop": true
+    },
+    "ultra": {
+     "row": 2,
+     "frames": 2,
+     "fps": 16,
+     "loop": true
+    },
+    "fire": {
+     "row": 3,
+     "frames": 2,
+     "fps": 16,
+     "loop": true
+    }
+   },
+   "anchor": [
+    20,
+    4
+   ]
+  },
+  "arrow_w2": {
+   "src": "assets/effects/arrow_w2.png",
+   "fw": 24,
+   "fh": 8,
+   "anims": {
+    "normal": {
+     "row": 0,
+     "frames": 2,
+     "fps": 16,
+     "loop": true
+    },
+    "crit": {
+     "row": 1,
+     "frames": 2,
+     "fps": 16,
+     "loop": true
+    },
+    "ultra": {
+     "row": 2,
+     "frames": 2,
+     "fps": 16,
+     "loop": true
+    },
+    "fire": {
+     "row": 3,
+     "frames": 2,
+     "fps": 16,
+     "loop": true
+    }
+   },
+   "anchor": [
+    20,
+    4
+   ]
+  },
+  "arrow_w3": {
+   "src": "assets/effects/arrow_w3.png",
+   "fw": 24,
+   "fh": 8,
+   "anims": {
+    "normal": {
+     "row": 0,
+     "frames": 2,
+     "fps": 16,
+     "loop": true
+    },
+    "crit": {
+     "row": 1,
+     "frames": 2,
+     "fps": 16,
+     "loop": true
+    },
+    "ultra": {
+     "row": 2,
+     "frames": 2,
+     "fps": 16,
+     "loop": true
+    },
+    "fire": {
+     "row": 3,
+     "frames": 2,
+     "fps": 16,
+     "loop": true
+    }
+   },
+   "anchor": [
+    20,
+    4
+   ]
+  },
+  "plasma_w1": {
+   "src": "assets/effects/plasma_w1.png",
+   "fw": 16,
+   "fh": 16,
+   "anims": {
+    "normal": {
+     "row": 0,
+     "frames": 4,
+     "fps": 16,
+     "loop": true
+    },
+    "crit": {
+     "row": 1,
+     "frames": 4,
+     "fps": 16,
+     "loop": true
+    },
+    "ultra": {
+     "row": 2,
+     "frames": 4,
+     "fps": 16,
+     "loop": true
+    },
+    "fire": {
+     "row": 3,
+     "frames": 4,
+     "fps": 16,
+     "loop": true
+    }
+   },
+   "anchor": [
+    8,
+    8
+   ]
+  },
+  "plasma_w2": {
+   "src": "assets/effects/plasma_w2.png",
+   "fw": 16,
+   "fh": 16,
+   "anims": {
+    "normal": {
+     "row": 0,
+     "frames": 4,
+     "fps": 16,
+     "loop": true
+    },
+    "crit": {
+     "row": 1,
+     "frames": 4,
+     "fps": 16,
+     "loop": true
+    },
+    "ultra": {
+     "row": 2,
+     "frames": 4,
+     "fps": 16,
+     "loop": true
+    },
+    "fire": {
+     "row": 3,
+     "frames": 4,
+     "fps": 16,
+     "loop": true
+    }
+   },
+   "anchor": [
+    8,
+    8
+   ]
+  },
+  "plasma_w3": {
+   "src": "assets/effects/plasma_w3.png",
+   "fw": 16,
+   "fh": 16,
+   "anims": {
+    "normal": {
+     "row": 0,
+     "frames": 4,
+     "fps": 16,
+     "loop": true
+    },
+    "crit": {
+     "row": 1,
+     "frames": 4,
+     "fps": 16,
+     "loop": true
+    },
+    "ultra": {
+     "row": 2,
+     "frames": 4,
+     "fps": 16,
+     "loop": true
+    },
+    "fire": {
+     "row": 3,
+     "frames": 4,
+     "fps": 16,
+     "loop": true
+    }
+   },
+   "anchor": [
+    8,
+    8
+   ]
+  },
+  "spark": {
+   "src": "assets/effects/spark.png",
+   "fw": 24,
+   "fh": 24,
+   "anims": {
+    "white": {
+     "row": 0,
+     "frames": 4,
+     "fps": 24,
+     "loop": false
+    },
+    "gold": {
+     "row": 1,
+     "frames": 4,
+     "fps": 24,
+     "loop": false
+    },
+    "red": {
+     "row": 2,
+     "frames": 4,
+     "fps": 24,
+     "loop": false
+    }
+   },
+   "anchor": [
+    12,
+    12
+   ]
+  },
+  "poof": {
+   "src": "assets/effects/poof.png",
+   "fw": 32,
+   "fh": 32,
+   "anims": {
+    "poof": {
+     "row": 0,
+     "frames": 6,
+     "fps": 18,
+     "loop": false
+    }
+   },
+   "anchor": [
+    16,
+    16
+   ]
+  },
+  "dust": {
+   "src": "assets/effects/dust.png",
+   "fw": 12,
+   "fh": 10,
+   "anims": {
+    "dust": {
+     "row": 0,
+     "frames": 4,
+     "fps": 14,
+     "loop": false
+    }
+   },
+   "anchor": [
+    6,
+    9
+   ]
+  },
+  "twinkle": {
+   "src": "assets/effects/twinkle.png",
+   "fw": 9,
+   "fh": 9,
+   "anims": {
+    "twinkle": {
+     "row": 0,
+     "frames": 4,
+     "fps": 12,
+     "loop": false
+    }
+   },
+   "anchor": [
+    4,
+    4
+   ]
+  },
+  "flame": {
+   "src": "assets/effects/flame.png",
+   "fw": 16,
+   "fh": 20,
+   "anims": {
+    "fire": {
+     "row": 0,
+     "frames": 4,
+     "fps": 12,
+     "loop": true
+    },
+    "ultra": {
+     "row": 1,
+     "frames": 4,
+     "fps": 12,
+     "loop": true
+    },
+    "blue": {
+     "row": 2,
+     "frames": 4,
+     "fps": 12,
+     "loop": true
+    }
+   },
+   "anchor": [
+    8,
+    18
+   ]
+  }
+ },
+ "atlases": {
+  "props": {
+   "src": "assets/world/greenwood/props.png",
+   "rects": {
+    "arch": {
+     "x": 1,
+     "y": 1,
+     "w": 64,
+     "h": 52
+    },
+    "pillar": {
+     "x": 66,
+     "y": 1,
+     "w": 20,
+     "h": 44
+    },
+    "sr_tree": {
+     "x": 87,
+     "y": 1,
+     "w": 30,
+     "h": 44
+    },
+    "fg_leaves0": {
+     "x": 118,
+     "y": 1,
+     "w": 56,
+     "h": 40
+    },
+    "fg_leaves1": {
+     "x": 175,
+     "y": 1,
+     "w": 56,
+     "h": 40
+    },
+    "fp_pine": {
+     "x": 1,
+     "y": 54,
+     "w": 24,
+     "h": 40
+    },
+    "fp_fg_branch": {
+     "x": 26,
+     "y": 54,
+     "w": 60,
+     "h": 40
+    },
+    "fp_fg_ice": {
+     "x": 87,
+     "y": 54,
+     "w": 56,
+     "h": 40
+    },
+    "sr_rod": {
+     "x": 144,
+     "y": 54,
+     "w": 12,
+     "h": 40
+    },
+    "sr_fg_thorns": {
+     "x": 157,
+     "y": 54,
+     "w": 60,
+     "h": 40
+    },
+    "sr_fg_shards": {
+     "x": 1,
+     "y": 95,
+     "w": 56,
+     "h": 40
+    },
+    "lantern": {
+     "x": 58,
+     "y": 95,
+     "w": 12,
+     "h": 36
+    },
+    "fp_crystal1": {
+     "x": 71,
+     "y": 95,
+     "w": 27,
+     "h": 36
+    },
+    "fp_lantern": {
+     "x": 99,
+     "y": 95,
+     "w": 12,
+     "h": 36
+    },
+    "sr_lantern": {
+     "x": 112,
+     "y": 95,
+     "w": 12,
+     "h": 36
+    },
+    "runestone": {
+     "x": 125,
+     "y": 95,
+     "w": 18,
+     "h": 34
+    },
+    "fp_snowman": {
+     "x": 144,
+     "y": 95,
+     "w": 22,
+     "h": 32
+    },
+    "sign": {
+     "x": 167,
+     "y": 95,
+     "w": 22,
+     "h": 30
+    },
+    "fp_icicle": {
+     "x": 190,
+     "y": 95,
+     "w": 14,
+     "h": 30
+    },
+    "fp_igloo": {
+     "x": 205,
+     "y": 95,
+     "w": 48,
+     "h": 26
+    },
+    "sr_rune": {
+     "x": 1,
+     "y": 136,
+     "w": 16,
+     "h": 26
+    },
+    "bush": {
+     "x": 18,
+     "y": 136,
+     "w": 40,
+     "h": 24
+    },
+    "bush_deep": {
+     "x": 59,
+     "y": 136,
+     "w": 40,
+     "h": 24
+    },
+    "bush_dark": {
+     "x": 100,
+     "y": 136,
+     "w": 40,
+     "h": 24
+    },
+    "bush_ruins": {
+     "x": 141,
+     "y": 136,
+     "w": 40,
+     "h": 24
+    },
+    "fp_crystal0": {
+     "x": 182,
+     "y": 136,
+     "w": 18,
+     "h": 24
+    },
+    "sr_crystal": {
+     "x": 201,
+     "y": 136,
+     "w": 14,
+     "h": 24
+    },
+    "fp_rock1": {
+     "x": 216,
+     "y": 136,
+     "w": 34,
+     "h": 22
+    },
+    "fp_cairn": {
+     "x": 1,
+     "y": 163,
+     "w": 16,
+     "h": 22
+    },
+    "rock1": {
+     "x": 18,
+     "y": 163,
+     "w": 32,
+     "h": 20
+    },
+    "crystal": {
+     "x": 51,
+     "y": 163,
+     "w": 16,
+     "h": 20
+    },
+    "sr_rock1": {
+     "x": 68,
+     "y": 163,
+     "w": 32,
+     "h": 20
+    },
+    "fern": {
+     "x": 101,
+     "y": 163,
+     "w": 26,
+     "h": 18
+    },
+    "fp_snow0": {
+     "x": 128,
+     "y": 163,
+     "w": 30,
+     "h": 18
+    },
+    "fp_snow1": {
+     "x": 159,
+     "y": 163,
+     "w": 40,
+     "h": 18
+    },
+    "fp_fence": {
+     "x": 200,
+     "y": 163,
+     "w": 34,
+     "h": 18
+    },
+    "sr_bush": {
+     "x": 1,
+     "y": 186,
+     "w": 28,
+     "h": 18
+    },
+    "sr_stump": {
+     "x": 30,
+     "y": 186,
+     "w": 22,
+     "h": 18
+    },
+    "sr_fence": {
+     "x": 53,
+     "y": 186,
+     "w": 34,
+     "h": 18
+    },
+    "rock0": {
+     "x": 88,
+     "y": 186,
+     "w": 22,
+     "h": 16
+    },
+    "stump": {
+     "x": 111,
+     "y": 186,
+     "w": 24,
+     "h": 16
+    },
+    "fp_rock0": {
+     "x": 136,
+     "y": 186,
+     "w": 24,
+     "h": 16
+    },
+    "sr_rock0": {
+     "x": 161,
+     "y": 186,
+     "w": 24,
+     "h": 16
+    },
+    "glowshrooms": {
+     "x": 186,
+     "y": 186,
+     "w": 16,
+     "h": 14
+    },
+    "log": {
+     "x": 203,
+     "y": 186,
+     "w": 48,
+     "h": 14
+    },
+    "sr_shrooms": {
+     "x": 1,
+     "y": 205,
+     "w": 16,
+     "h": 14
+    },
+    "flowers0": {
+     "x": 18,
+     "y": 205,
+     "w": 16,
+     "h": 12
+    },
+    "flowers1": {
+     "x": 35,
+     "y": 205,
+     "w": 16,
+     "h": 12
+    },
+    "flowers2": {
+     "x": 52,
+     "y": 205,
+     "w": 16,
+     "h": 12
+    },
+    "rock2": {
+     "x": 69,
+     "y": 205,
+     "w": 16,
+     "h": 12
+    },
+    "shrooms": {
+     "x": 86,
+     "y": 205,
+     "w": 14,
+     "h": 10
+    },
+    "sr_ash": {
+     "x": 101,
+     "y": 205,
+     "w": 20,
+     "h": 9
+    },
+    "tuft": {
+     "x": 122,
+     "y": 205,
+     "w": 12,
+     "h": 8
+    },
+    "fp_tuft": {
+     "x": 135,
+     "y": 205,
+     "w": 12,
+     "h": 8
+    },
+    "sr_tuft": {
+     "x": 148,
+     "y": 205,
+     "w": 12,
+     "h": 8
+    }
+   }
+  },
+  "ui": {
+   "src": "assets/ui/ui.png",
+   "rects": {
+    "panel": {
+     "x": 1,
+     "y": 1,
+     "w": 24,
+     "h": 24
+    },
+    "panel_light": {
+     "x": 26,
+     "y": 1,
+     "w": 24,
+     "h": 24
+    },
+    "btn": {
+     "x": 51,
+     "y": 1,
+     "w": 24,
+     "h": 24
+    },
+    "btn_hover": {
+     "x": 76,
+     "y": 1,
+     "w": 24,
+     "h": 24
+    },
+    "btn_on": {
+     "x": 101,
+     "y": 1,
+     "w": 24,
+     "h": 24
+    },
+    "btn_go": {
+     "x": 1,
+     "y": 26,
+     "w": 24,
+     "h": 24
+    },
+    "btn_go_hover": {
+     "x": 26,
+     "y": 26,
+     "w": 24,
+     "h": 24
+    },
+    "btn_down": {
+     "x": 51,
+     "y": 26,
+     "w": 24,
+     "h": 24
+    },
+    "btn_off": {
+     "x": 76,
+     "y": 26,
+     "w": 24,
+     "h": 24
+    },
+    "coin": {
+     "x": 101,
+     "y": 26,
+     "w": 12,
+     "h": 12
+    },
+    "flame": {
+     "x": 114,
+     "y": 26,
+     "w": 12,
+     "h": 12
+    },
+    "bolt": {
+     "x": 1,
+     "y": 51,
+     "w": 12,
+     "h": 12
+    },
+    "star": {
+     "x": 14,
+     "y": 51,
+     "w": 12,
+     "h": 12
+    },
+    "trophy": {
+     "x": 27,
+     "y": 51,
+     "w": 12,
+     "h": 12
+    },
+    "clock": {
+     "x": 40,
+     "y": 51,
+     "w": 12,
+     "h": 12
+    },
+    "check": {
+     "x": 53,
+     "y": 51,
+     "w": 12,
+     "h": 12
+    },
+    "cross": {
+     "x": 66,
+     "y": 51,
+     "w": 12,
+     "h": 12
+    },
+    "fullscreen": {
+     "x": 79,
+     "y": 51,
+     "w": 12,
+     "h": 12
+    },
+    "fullscreen_exit": {
+     "x": 92,
+     "y": 51,
+     "w": 12,
+     "h": 12
+    },
+    "sound": {
+     "x": 105,
+     "y": 51,
+     "w": 12,
+     "h": 12
+    },
+    "mute": {
+     "x": 1,
+     "y": 64,
+     "w": 12,
+     "h": 12
+    },
+    "music": {
+     "x": 14,
+     "y": 64,
+     "w": 12,
+     "h": 12
+    },
+    "lock": {
+     "x": 27,
+     "y": 64,
+     "w": 12,
+     "h": 12
+    },
+    "target": {
+     "x": 40,
+     "y": 64,
+     "w": 12,
+     "h": 12
+    },
+    "sword": {
+     "x": 53,
+     "y": 64,
+     "w": 12,
+     "h": 12
+    },
+    "skull": {
+     "x": 66,
+     "y": 64,
+     "w": 12,
+     "h": 12
+    },
+    "heart": {
+     "x": 79,
+     "y": 64,
+     "w": 12,
+     "h": 12
+    },
+    "shield": {
+     "x": 92,
+     "y": 64,
+     "w": 12,
+     "h": 12
+    },
+    "enter": {
+     "x": 105,
+     "y": 64,
+     "w": 12,
+     "h": 12
+    },
+    "chest_wood": {
+     "x": 1,
+     "y": 77,
+     "w": 12,
+     "h": 12
+    },
+    "chest_tafel": {
+     "x": 14,
+     "y": 77,
+     "w": 12,
+     "h": 12
+    },
+    "chest_bos": {
+     "x": 27,
+     "y": 77,
+     "w": 12,
+     "h": 12
+    },
+    "chest_sneeuw": {
+     "x": 40,
+     "y": 77,
+     "w": 12,
+     "h": 12
+    },
+    "chest_storm": {
+     "x": 53,
+     "y": 77,
+     "w": 12,
+     "h": 12
+    },
+    "chest_gold": {
+     "x": 66,
+     "y": 77,
+     "w": 12,
+     "h": 12
+    },
+    "treat": {
+     "x": 79,
+     "y": 77,
+     "w": 12,
+     "h": 12
+    },
+    "book": {
+     "x": 92,
+     "y": 77,
+     "w": 12,
+     "h": 12
+    }
+   },
+   "slice": 8
+  }
+ },
+ "worlds": {
+  "greenwood": {
+   "biomes": {
+    "edge": {
+     "sky": "assets/world/greenwood/edge/sky.png",
+     "clouds": "assets/world/greenwood/edge/clouds.png",
+     "far": "assets/world/greenwood/edge/far.png",
+     "mid": "assets/world/greenwood/edge/mid.png",
+     "near": "assets/world/greenwood/edge/near.png",
+     "ground": {
+      "src": "assets/world/greenwood/edge/ground.png",
+      "tw": 32,
+      "th": 48,
+      "count": 7,
+      "bridge": [
+       4,
+       5,
+       6
+      ]
+     }
+    },
+    "deep": {
+     "sky": "assets/world/greenwood/deep/sky.png",
+     "clouds": "assets/world/greenwood/deep/clouds.png",
+     "far": "assets/world/greenwood/deep/far.png",
+     "mid": "assets/world/greenwood/deep/mid.png",
+     "near": "assets/world/greenwood/deep/near.png",
+     "ground": {
+      "src": "assets/world/greenwood/deep/ground.png",
+      "tw": 32,
+      "th": 48,
+      "count": 7,
+      "bridge": [
+       4,
+       5,
+       6
+      ]
+     }
+    },
+    "ruins": {
+     "sky": "assets/world/greenwood/ruins/sky.png",
+     "clouds": "assets/world/greenwood/ruins/clouds.png",
+     "far": "assets/world/greenwood/ruins/far.png",
+     "mid": "assets/world/greenwood/ruins/mid.png",
+     "near": "assets/world/greenwood/ruins/near.png",
+     "ground": {
+      "src": "assets/world/greenwood/ruins/ground.png",
+      "tw": 32,
+      "th": 48,
+      "count": 7,
+      "bridge": [
+       4,
+       5,
+       6
+      ]
+     }
+    },
+    "dark": {
+     "sky": "assets/world/greenwood/dark/sky.png",
+     "clouds": "assets/world/greenwood/dark/clouds.png",
+     "far": "assets/world/greenwood/dark/far.png",
+     "mid": "assets/world/greenwood/dark/mid.png",
+     "near": "assets/world/greenwood/dark/near.png",
+     "ground": {
+      "src": "assets/world/greenwood/dark/ground.png",
+      "tw": 32,
+      "th": 48,
+      "count": 7,
+      "bridge": [
+       4,
+       5,
+       6
+      ]
+     }
+    }
+   }
+  },
+  "frostpeak": {
+   "biomes": {
+    "lake": {
+     "sky": "assets/world/frostpeak/lake/sky.png",
+     "clouds": "assets/world/frostpeak/lake/clouds.png",
+     "far": "assets/world/frostpeak/lake/far.png",
+     "mid": "assets/world/frostpeak/lake/mid.png",
+     "near": "assets/world/frostpeak/lake/near.png",
+     "ground": {
+      "src": "assets/world/frostpeak/lake/ground.png",
+      "tw": 32,
+      "th": 48,
+      "count": 7,
+      "bridge": [
+       4,
+       5,
+       6
+      ]
+     }
+    },
+    "caves": {
+     "sky": "assets/world/frostpeak/caves/sky.png",
+     "clouds": "assets/world/frostpeak/caves/clouds.png",
+     "far": "assets/world/frostpeak/caves/far.png",
+     "mid": "assets/world/frostpeak/caves/mid.png",
+     "near": "assets/world/frostpeak/caves/near.png",
+     "ground": {
+      "src": "assets/world/frostpeak/caves/ground.png",
+      "tw": 32,
+      "th": 48,
+      "count": 7,
+      "bridge": [
+       4,
+       5,
+       6
+      ]
+     }
+    },
+    "pass": {
+     "sky": "assets/world/frostpeak/pass/sky.png",
+     "clouds": "assets/world/frostpeak/pass/clouds.png",
+     "far": "assets/world/frostpeak/pass/far.png",
+     "mid": "assets/world/frostpeak/pass/mid.png",
+     "near": "assets/world/frostpeak/pass/near.png",
+     "ground": {
+      "src": "assets/world/frostpeak/pass/ground.png",
+      "tw": 32,
+      "th": 48,
+      "count": 7,
+      "bridge": [
+       4,
+       5,
+       6
+      ]
+     }
+    },
+    "summit": {
+     "sky": "assets/world/frostpeak/summit/sky.png",
+     "clouds": "assets/world/frostpeak/summit/clouds.png",
+     "far": "assets/world/frostpeak/summit/far.png",
+     "mid": "assets/world/frostpeak/summit/mid.png",
+     "near": "assets/world/frostpeak/summit/near.png",
+     "ground": {
+      "src": "assets/world/frostpeak/summit/ground.png",
+      "tw": 32,
+      "th": 48,
+      "count": 7,
+      "bridge": [
+       4,
+       5,
+       6
+      ]
+     }
+    }
+   }
+  },
+  "stormrijk": {
+   "biomes": {
+    "plain": {
+     "sky": "assets/world/stormrijk/plain/sky.png",
+     "clouds": "assets/world/stormrijk/plain/clouds.png",
+     "far": "assets/world/stormrijk/plain/far.png",
+     "mid": "assets/world/stormrijk/plain/mid.png",
+     "near": "assets/world/stormrijk/plain/near.png",
+     "ground": {
+      "src": "assets/world/stormrijk/plain/ground.png",
+      "tw": 32,
+      "th": 48,
+      "count": 7,
+      "bridge": [
+       4,
+       5,
+       6
+      ]
+     }
+    },
+    "charred": {
+     "sky": "assets/world/stormrijk/charred/sky.png",
+     "clouds": "assets/world/stormrijk/charred/clouds.png",
+     "far": "assets/world/stormrijk/charred/far.png",
+     "mid": "assets/world/stormrijk/charred/mid.png",
+     "near": "assets/world/stormrijk/charred/near.png",
+     "ground": {
+      "src": "assets/world/stormrijk/charred/ground.png",
+      "tw": 32,
+      "th": 48,
+      "count": 7,
+      "bridge": [
+       4,
+       5,
+       6
+      ]
+     }
+    },
+    "towers": {
+     "sky": "assets/world/stormrijk/towers/sky.png",
+     "clouds": "assets/world/stormrijk/towers/clouds.png",
+     "far": "assets/world/stormrijk/towers/far.png",
+     "mid": "assets/world/stormrijk/towers/mid.png",
+     "near": "assets/world/stormrijk/towers/near.png",
+     "ground": {
+      "src": "assets/world/stormrijk/towers/ground.png",
+      "tw": 32,
+      "th": 48,
+      "count": 7,
+      "bridge": [
+       4,
+       5,
+       6
+      ]
+     }
+    },
+    "eye": {
+     "sky": "assets/world/stormrijk/eye/sky.png",
+     "clouds": "assets/world/stormrijk/eye/clouds.png",
+     "far": "assets/world/stormrijk/eye/far.png",
+     "mid": "assets/world/stormrijk/eye/mid.png",
+     "near": "assets/world/stormrijk/eye/near.png",
+     "ground": {
+      "src": "assets/world/stormrijk/eye/ground.png",
+      "tw": 32,
+      "th": 48,
+      "count": 7,
+      "bridge": [
+       4,
+       5,
+       6
+      ]
+     }
+    }
+   }
+  }
+ }
+}

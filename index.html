@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>Tafel Rush</title>
+  <meta name="description" content="Tafel Rush – een snelle PixelArt endless runner waarin je de tafels powertraint.">
+  <meta name="theme-color" content="#120c18">
+  <link rel="icon" type="image/png" href="assets/ui/favicon.png">
+  <!-- web-app (op het beginscherm van telefoon/tablet) -->
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="assets/app/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Tafel Rush">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <canvas id="game" width="480" height="270" tabindex="0" aria-label="Tafel Rush spel. Typ het antwoord en druk op Enter."></canvas>
+  <!-- Onzichtbaar invoerveld: vangnet voor schermtoetsenborden die geen keydown met cijfers sturen -->
+  <input id="kbd" type="text" inputmode="numeric" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" aria-label="Antwoord">
+  <!-- Alleen op telefoons/tablets die rechtop gehouden worden (zie css/style.css) -->
+  <div id="rotate" aria-live="polite">
+    <div class="rotate-phone"></div>
+    <p>DRAAI JE TELEFOON</p>
+    <small>TAFEL RUSH SPEEL JE DWARS</small>
+  </div>
+
+  <noscript>Tafel Rush heeft JavaScript nodig.</noscript>
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

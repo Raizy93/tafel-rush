@@ -1,0 +1,17 @@
+import fs from 'node:fs';
+import { sheet, encodePNG, Img, pack } from '../lib/raster.js';
+import { P } from '../lib/palette.js';
+import * as FX from '../art/effects.js';
+import { buildPanels, buildIcons } from '../art/ui.js';
+const out = process.argv[2];
+const bg = new Img(300, 200).fill('#3a5a7a');
+const rows = [FX.buildSlash(P.energy), FX.buildSlash(P.gold.concat(['#ffffff']))];
+bg.blit(sheet(rows,48,40),0,0);
+bg.blit(sheet([FX.buildCoin(), FX.buildTwinkle()],12,12),0,82);
+bg.blit(sheet([FX.buildSpark(['#ff9a2a','#ffe66a','#ffffff'])],24,24),80,82);
+bg.blit(sheet([FX.buildPoof()],32,32),0,110);
+bg.blit(sheet([FX.buildFlame(P.fire)],16,20),200,82);
+bg.blit(sheet([FX.buildDust()],12,10),200,105);
+const pk = pack([...Object.entries(buildPanels()).map(([name,img])=>({name,img})), ...buildIcons()],128);
+bg.blit(pk.img, 0, 145);
+fs.writeFileSync(out, encodePNG(bg.scaled(4)));

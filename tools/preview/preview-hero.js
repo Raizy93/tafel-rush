@@ -1,0 +1,10 @@
+import fs from 'node:fs';
+import { sheet, encodePNG, Img } from '../lib/raster.js';
+import { buildHero, HERO_FW, HERO_FH } from '../art/hero.js';
+const out = process.argv[2];
+const { rows } = buildHero();
+const s = sheet(rows, HERO_FW, HERO_FH);
+const bg = new Img(s.w, s.h).fill('#7cc4e8');
+for (let y=0;y<s.h;y+=HERO_FH) bg.rect(0,y+53,s.w,3,'#3d8f44');
+bg.blit(s,0,0);
+fs.writeFileSync(out, encodePNG(bg.scaled(4)));

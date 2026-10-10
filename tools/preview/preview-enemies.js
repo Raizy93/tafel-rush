@@ -1,0 +1,12 @@
+import fs from 'node:fs';
+import { sheet, encodePNG, Img } from '../lib/raster.js';
+import { P } from '../lib/palette.js';
+import * as E from '../art/enemies.js';
+const out = process.argv[2];
+const sets = [E.buildSlime(P.slimeGreen), E.buildMushroom(), E.buildGoblin(), E.buildRock(), E.buildBeetle()];
+const rows = sets.map(s => [...s.move, ...s.attack, ...s.hurt]);
+const s = sheet(rows, 32, 32);
+const bg = new Img(s.w, s.h).fill('#7cc4e8');
+for (let y=0;y<s.h;y+=32) bg.rect(0,y+31,s.w,1,'#3d8f44');
+bg.blit(s,0,0);
+fs.writeFileSync(out, encodePNG(bg.scaled(5)));

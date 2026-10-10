@@ -1,0 +1,19 @@
+{
+  "name": "Tafel Rush",
+  "short_name": "Tafel Rush",
+  "description": "Powertrain de tafels in een snelle PixelArt-avonturengame.",
+  "lang": "nl",
+  "start_url": "./",
+  "scope": "./",
+  "display": "fullscreen",
+  "display_override": ["fullscreen", "standalone"],
+  "orientation": "landscape",
+  "background_color": "#120c18",
+  "theme_color": "#120c18",
+  "categories": ["education", "games", "kids"],
+  "icons": [
+    { "src": "assets/app/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "assets/app/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "assets/app/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
