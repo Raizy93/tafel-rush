@@ -123,6 +123,11 @@ export class Game {
   // --- volledig scherm (knop rechtsboven of toets F) ------------------------------------
   get fullscreenSupported() { const d = document; return !!(d.fullscreenEnabled || d.webkitFullscreenEnabled); }
   get isFullscreen() { const d = document; return !!(d.fullscreenElement || d.webkitFullscreenElement); }
+  /** iPhone/iPad (ook iPadOS dat zich als Mac voordoet). */
+  get isIOS() {
+    const ua = navigator.userAgent || '';
+    return /iPhone|iPad|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  }
   /** Geopend als web-app vanaf het beginscherm (dan is hij al schermvullend). */
   get isStandalone() {
     const mm = q => typeof matchMedia === 'function' && matchMedia(q).matches;

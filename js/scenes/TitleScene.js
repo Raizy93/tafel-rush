@@ -50,6 +50,8 @@ export class TitleScene {
   /** Tips die op het startscherm passen (pas na de eerste run, zodat de start rustig blijft). */
   queueTips() {
     const g = this.game, P = g.profile;
+    // app op het beginscherm (iPhone/iPad) met nog lege voortgang: uitleggen hoe je hem ophaalt
+    if (g.isStandalone && g.isIOS && P.stats.totalAnswered === 0) { g.tips.queue('appImport'); return; }
     if (P.stats.runs < 1) return;
     // belangrijkste eerst: er verschijnt hooguit één tip per bezoek
     const fresh = Worlds.all().some(w => w.id !== 'greenwood' && Worlds.isUnlocked(P, w.id) && !P.profile.history.some(h => h.world === w.id));

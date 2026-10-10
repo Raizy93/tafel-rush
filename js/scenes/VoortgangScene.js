@@ -9,6 +9,11 @@
 //
 // De QR-code is een los, haarscherp <canvas> over de game heen (niet in de
 // pixelart-buffer), zodat een camera hem zo makkelijk mogelijk leest.
+//
+// iPhone/iPad: een web-app op het beginscherm heeft een EIGEN opslag, los van
+// Safari. Een gescande QR-code opent in Safari; daarom bieden we daar ook
+// "KOPIEER VOOR DE APP" aan (het klembord wordt wél gedeeld). In de app tik je
+// dan VOORTGANG → CODE PLAKKEN.
 // ---------------------------------------------------------------------------
 import { CONFIG } from '../config.js';
 import { COLORS } from '../ui/UI.js';
@@ -22,7 +27,7 @@ const RX = 206, RY = 34, RW = 266, RH = 214;
 
 export class VoortgangScene {
   /** importText: code of link die al klaarligt (bijv. uit een gescande QR-link) */
-  constructor(game, importText = null) { this.game = game; this.importText = importText; }
+  constructor(game, importText = null) { this.game = game; this.importText = importText; this.fromLink = !!importText; }
 
   enter() {
     this.time = 0;
@@ -84,7 +89,9 @@ export class VoortgangScene {
     const g = this.game;
     try {
       const profile = await ProgressCode.read(text);
-      this.pending = { profile, sum: ProgressCode.summary(profile), cur: ProgressCode.summary(g.profile.profile), t: 0 };
+      this.pending = { profile, text, sum: ProgressCode.summary(profile), cur: ProgressCode.summary(g.profile.profile), t: 0,
+        // in Safari op iPhone/iPad (niet in de app zelf): ook naar de app kunnen sturen
+        forApp: this.fromLink && g.isIOS && !g.isStandalone };
       g.audio.play('chest');
     } catch (e) {
       g.audio.play('error');
@@ -103,6 +110,14 @@ export class VoortgangScene {
     this.say('VOORTGANG OPGEHAALD! VEEL PLEZIER', '#7dff8a', 3);
     this.makeCode(); // de code hoort nu bij de nieuwe voortgang
   }
+  /** Code op het klembord zetten voor de app op het beginscherm (iPhone/iPad). */
+  async copyForApp() {
+    const g = this.game, p = this.pending;
+    if (!p) return;
+    const link = ProgressCode.link(ProgressCode.extract(p.text));
+    try { await navigator.clipboard.writeText(link); p.copied = true; g.audio.play('confirm'); }
+    catch (e) { window.prompt('Kopieer deze code en plak hem in de app:', link); p.copied = true; }
+  }
   cancelImport() { this.pending = null; this.game.audio.play('select'); this.say('NIETS VERANDERD', '#c8c0e8'); }
 
   // --- input ---------------------------------------------------------------------------
@@ -110,6 +125,7 @@ export class VoortgangScene {
     const g = this.game;
     if (a.type === 'mute') { g.toggleAllSound(); return; }
     if (this.pending) {
+      if (this.pending.copied) { if (a.type === 'enter' || a.type === 'escape') { this.pending = null; g.goToTitle(); } return; }
       if (a.type === 'enter') this.confirmImport();
       else if (a.type === 'escape') this.cancelImport();
       return;
@@ -121,8 +137,10 @@ export class VoortgangScene {
     if (kind !== 'down') return;
     const inside = r => r && x >= r.x && y >= r.y && x < r.x + r.w && y < r.y + r.h;
     if (this.pending) {
+      if (this.pending.copied) { if (inside(this.okRect)) { this.pending = null; this.game.goToTitle(); } return; }
       if (inside(this.okRect)) this.confirmImport();
       else if (inside(this.noRect)) this.cancelImport();
+      else if (this.pending.forApp && inside(this.appRect)) this.copyForApp();
       return;
     }
     if (inside(this.backRect)) { this.game.audio.play('select'); this.game.goToTitle(); }
@@ -204,7 +222,8 @@ export class VoortgangScene {
   drawConfirm(ctx, ui) {
     const p = this.pending;
     ctx.fillStyle = 'rgba(8,5,16,0.8)'; ctx.fillRect(0, 0, W, H);
-    const pw = 320, ph = 150, px = (W - pw) / 2, py = 52;
+    if (p.copied) { this.drawCopiedForApp(ctx, ui); return; }
+    const pw = 320, ph = p.forApp ? 196 : 150, px = (W - pw) / 2, py = p.forApp ? 34 : 52;
     ui.panel(ctx, px, py, pw, ph, 'panel');
     ui.text(ctx, 'VOORTGANG OPHALEN?', W / 2, py + 9, { font: 'big', align: 'center', color: COLORS.gold });
     const row = (label, s, y, color) => {
@@ -214,11 +233,28 @@ export class VoortgangScene {
     row('IN DE CODE:', p.sum, py + 32, '#7dff8a');
     row('NU OP DIT APPARAAT (WORDT VERVANGEN):', p.cur, py + 62, '#ffb0a0');
     ui.text(ctx, 'ZEKER WETEN?', W / 2, py + 92, { align: 'center', color: '#e8e4ff' });
-    this.okRect = { x: px + 22, y: py + ph - 34, w: 130, h: 22 };
-    this.noRect = { x: px + pw - 152, y: py + ph - 34, w: 130, h: 22 };
+    const by = py + (p.forApp ? 106 : ph - 34);
+    this.okRect = { x: px + 22, y: by, w: 130, h: 22 };
+    this.noRect = { x: px + pw - 152, y: by, w: 130, h: 22 };
+    this.appRect = p.forApp ? { x: px + 22, y: py + ph - 34, w: pw - 44, h: 22 } : null;
     if (p.t >= 0.5) {
-      this.button(ctx, ui, this.okRect, ui.hint('VERVANGEN (ENTER)', 'VERVANGEN'), 'btn_go');
+      this.button(ctx, ui, this.okRect, ui.hint('VERVANGEN (ENTER)', 'HIER OPHALEN'), 'btn_go');
       this.button(ctx, ui, this.noRect, ui.hint('ANNULEREN (ESC)', 'ANNULEREN'), 'btn');
+      if (p.forApp) {
+        ctx.fillStyle = '#2a2248'; ctx.fillRect(px + 14, py + 136, pw - 28, 1);
+        ui.text(ctx, 'SPEEL JE VIA HET ICOON OP JE BEGINSCHERM?', W / 2, py + 144, { align: 'center', color: '#8ff2ff', outline: null, shadow: false });
+        this.button(ctx, ui, this.appRect, 'KOPIEER VOOR DE APP', 'btn_go');
+      }
     }
+  }
+
+  /** Na "KOPIEER VOOR DE APP": korte stappen om in de app te plakken. */
+  drawCopiedForApp(ctx, ui) {
+    const pw = 320, ph = 150, px = (W - pw) / 2, py = 52;
+    ui.panel(ctx, px, py, pw, ph, 'panel');
+    ui.text(ctx, 'GEKOPIEERD!', W / 2, py + 9, { font: 'big', align: 'center', color: ['#d0ffd8', '#5fd65a'] });
+    ['1. OPEN TAFEL RUSH VIA HET ICOON OP JE BEGINSCHERM', '2. TIK LINKSBOVEN OP VOORTGANG', '3. TIK OP CODE PLAKKEN EN DAN OP PLAK', '4. KIES VERVANGEN'].forEach((l, i) => ui.text(ctx, l, px + 16, py + 34 + i * 14, { color: '#e8e4ff', outline: null, shadow: false }));
+    this.okRect = { x: W / 2 - 60, y: py + ph - 34, w: 120, h: 22 };
+    this.button(ctx, ui, this.okRect, 'OK', 'btn_go');
   }
 }
