@@ -793,5 +793,64 @@ test('manifest, iconen, service worker en draai-je-telefoon-scherm zijn aanwezig
   assert(sw.includes("addEventListener('fetch'") && sw.includes('caches.match'), 'service worker met offline-cache');
 });
 
+console.log('\nVoortgangscode & QR');
+const { QRCode, dataCodewords, alignmentPositions } = await import('../js/ui/QRCode.js');
+const { readQR } = await import('./qr-reader.js');
+const { ProgressCode } = await import('../js/storage/ProgressCode.js');
+test('QR: capaciteit klopt met de QR-standaard (bytes per versie/niveau)', () => {
+  // bekende maximale aantallen bytes in byte-modus
+  const known = [[1, 'L', 17], [1, 'M', 14], [1, 'Q', 11], [1, 'H', 7], [10, 'L', 271], [10, 'M', 213], [10, 'Q', 151], [10, 'H', 119], [40, 'L', 2953], [40, 'M', 2331], [40, 'Q', 1663], [40, 'H', 1273]];
+  for (const [v, e, bytes] of known) {
+    const cc = v <= 9 ? 8 : 16;
+    assert(Math.floor((dataCodewords(v, e) * 8 - 4 - cc) / 8) === bytes, v + e + ' → ' + bytes);
+  }
+  assert(alignmentPositions(7).join() === '6,22,38' && alignmentPositions(32).join() === '6,34,60,86,112,138' && alignmentPositions(36).join() === '6,24,50,76,102,128,154', 'uitlijnpatronen');
+});
+test('QR: wat we maken, leest een onafhankelijke lezer exact terug (formaat, Reed-Solomon, inhoud)', () => {
+  // teksten die een versie precies tot de rand vullen (versies die de lezer kent)
+  const cap = (v, e) => Math.floor((dataCodewords(v, e) * 8 - 4 - (v <= 9 ? 8 : 16)) / 8);
+  const chars = 'Tafel Rush 7x8=56 https://tafelrush.meesterdanny.com/#voortgang=TR1.Ab9_-';
+  const fill = n => Array.from({ length: n }, (_, i) => chars[(i * 7) % chars.length]).join('');
+  for (const ecl of ['L', 'M']) for (const v of [1, 2, 5, 7, 10, 15, 20, 25, 30, 35, 40]) {
+    const s = fill(cap(v, ecl));
+    assert(QRCode.encode(s, ecl).version === v, 'versie ' + v + ecl);
+    if (v > 1) assert(QRCode.encode(fill(cap(v - 1, ecl) + 1), ecl).version === v, 'net over de rand → ' + v + ecl);
+    const qr = QRCode.encode(s, ecl);
+    const got = readQR((x, y) => qr.get(x, y), qr.size, alignmentPositions(qr.version));
+    assert(got.text === s && got.ecl === ecl && got.ver === qr.version, ecl + ' v' + v + ': ' + (got.text === s ? 'meta' : 'tekst'));
+  }
+  const uni = 'é€ 7×8=56';
+  assert(readQR((x, y) => QRCode.encode(uni).get(x, y), QRCode.encode(uni).size, []).text === uni, 'tekens buiten ASCII');
+});
+await atest('voortgangscode: inpakken + uitpakken geeft dezelfde voortgang, past in een QR-code', async () => {
+  const ps = await newPS();
+  const tr = new AdaptiveTrainer(ps.masteryStore), T0 = Date.now() - 20 * 864e5;
+  for (let d = 0; d < 20; d++) for (const k of factsForTables([2, 3, 4, 5, 6, 7, 8, 9])) tr.recordAnswer(k, { correct: (d + k.length) % 7 !== 0, rtMs: 900 + (d * 37) % 3000, now: T0 + d * 864e5 });
+  ps.addCoins(4321); Chests.grant(ps, 'wolf'); Chests.grant(ps, 'mammoth'); ps.unlockWorld('frostpeak'); ps.collection.treats = 75;
+  const code = await ProgressCode.make(ps.profile);
+  const link = ProgressCode.link(code, 'https://tafelrush.meesterdanny.com/');
+  assert(code.startsWith('TR1.') && link.length < 2400, 'lengte ' + link.length);
+  const back = await ProgressCode.read('kijk: ' + link + ' (bewaren!)');
+  assert(JSON.stringify(ProgressCode.summary(back)) === JSON.stringify(ProgressCode.summary(ps.profile)), 'samenvatting gelijk');
+  for (const k of ['7x8', '6x7', '9x9']) {
+    const a = ps.profile.mastery[k], b = back.mastery[k];
+    assert(a.seen === b.seen && a.wrong === b.wrong && a.correct === b.correct && a.recent === b.recent && a.map.level === b.map.level && a.map.upDay === b.map.upDay, k);
+    assert(Math.abs(a.avgRt - b.avgRt) <= 50 && Math.abs(a.lastSeen - b.lastSeen) <= 60000 && Math.abs(a.mastery - b.mastery) < 0.006, k + ' afronding');
+  }
+  assert(back.unlocks.owned.pets.includes('wolf') && back.worlds.unlocked.frostpeak && back.collection.treats === 75 && back.version === PROFILE_VERSION, 'rest van het profiel');
+  const qr = QRCode.encode(link, 'L');
+  assert(readQR((x, y) => qr.get(x, y), qr.size, alignmentPositions(qr.version)).text === link, 'QR van de link leesbaar');
+  // na importeren werkt het profiel gewoon (laden + opslaan)
+  const ps2 = await newPS(); await ps2.importData(back);
+  assert(ps2.coins === ps.coins && Chests.owns(ps2, 'mammoth'), 'importeren');
+});
+await atest('voortgangscode: onzin of een kapotte code geeft een nette fout', async () => {
+  for (const bad of ['', 'hallo', 'TR1.', 'TR1.@@@@', 'TR1.AAAA']) {
+    let threw = false;
+    try { await ProgressCode.read(bad); } catch (e) { threw = true; }
+    assert(threw, 'geen fout bij: ' + bad);
+  }
+});
+
 console.log(`\n${passed} geslaagd, ${failed} mislukt\n`);
 process.exit(failed ? 1 : 0);

@@ -146,6 +146,7 @@ export class TitleScene {
     if (a.type === 'map') { g.audio.play('select'); g.openMap(); return; }
     if (a.type === 'world') { this.cycleWorld(1); return; }
     if (a.type === 'help') { g.audio.play('select'); g.openHelp('spelen'); return; }
+    if (a.type === 'progress') { g.audio.play('select'); g.openProgress(); return; }
     if (a.type === 'book') { g.audio.play('select'); g.openBook(Chests.total(g.profile) > 0 ? 'chests' : 'book'); return; }
     if (a.type === 'up' || a.type === 'down') { this.selector.cycle(a.type === 'up' ? -1 : 1); return; }
     if (a.type === 'left' || a.type === 'right') {
@@ -168,6 +169,8 @@ export class TitleScene {
     for (const [r, d] of this.worldArrows || []) if (x >= r.x && y >= r.y && x < r.x + r.w && y < r.y + r.h) { this.cycleWorld(d); return; }
     const hr = this.helpRect;
     if (hr && x >= hr.x && y >= hr.y && x < hr.x + hr.w && y < hr.y + hr.h) { this.game.audio.play('select'); this.game.openHelp('spelen'); return; }
+    const pr = this.progressRect;
+    if (pr && x >= pr.x && y >= pr.y && x < pr.x + pr.w && y < pr.y + pr.h) { this.game.audio.play('select'); this.game.openProgress(); return; }
     const m = this.mapRect, bk = this.bookRect;
     if (m && x >= m.x && y >= m.y && x < m.x + m.w && y < m.y + m.h) { this.game.audio.play('select'); this.game.openMap(); return; }
     if (bk && x >= bk.x && y >= bk.y && x < bk.x + bk.w && y < bk.y + bk.h) { this.game.audio.play('select'); this.game.openBook(Chests.total(this.game.profile) > 0 ? 'chests' : 'book'); return; }
@@ -210,6 +213,11 @@ export class TitleScene {
     const hp0 = this.hoverPoint, hh = hp0 && hp0.x >= 6 && hp0.y >= 6 && hp0.x < 82 && hp0.y < 23;
     ui.panel(ctx, 6, 6, 76, 17, hh ? 'btn_hover' : 'btn');
     ui.text(ctx, ui.key('? UITLEG', 'H'), 44, 11, { align: 'center', color: '#ffc93c', outline: null, shadow: false });
+    // knop VOORTGANG (meenemen naar een ander apparaat)
+    this.progressRect = { x: 6, y: 25, w: 76, h: 17 };
+    const hp1 = this.hoverPoint, ph = hp1 && hp1.x >= 6 && hp1.y >= 25 && hp1.x < 82 && hp1.y < 42;
+    ui.panel(ctx, 6, 25, 76, 17, ph ? 'btn_hover' : 'btn');
+    ui.text(ctx, ui.key('VOORTGANG', 'V'), 44, 30, { align: 'center', color: '#8ff2ff', outline: null, shadow: false });
 
     // paneel
     const p = this.panelRect;

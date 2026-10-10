@@ -39,6 +39,13 @@ async function boot() {
   window.tafelRush = game; // handig voor debuggen in de console
   game.start();
   setupWebApp();
+  // geopend via een voortgangs-QR/link? Dan meteen aanbieden (na bevestiging) en
+  // de code uit de adresbalk halen, zodat hij niet blijft staan of opnieuw start.
+  if (location.hash.startsWith('#voortgang=')) {
+    const code = location.hash.slice(1);
+    history.replaceState(null, '', location.pathname + location.search);
+    game.openProgress(code);
+  }
 }
 
 /** Web-app: offline spelen (service worker) en vragen of de opslag blijvend mag zijn

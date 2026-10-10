@@ -25,6 +25,7 @@ import { EquipmentScene } from '../scenes/EquipmentScene.js';
 import { TafelkaartScene } from '../scenes/TafelkaartScene.js';
 import { PetboekScene } from '../scenes/PetboekScene.js';
 import { UitlegScene } from '../scenes/UitlegScene.js';
+import { VoortgangScene } from '../scenes/VoortgangScene.js';
 import { Tips } from '../systems/Tips.js';
 
 export class Game {
@@ -95,6 +96,8 @@ export class Game {
   openBook(tab) { this.setScene(new PetboekScene(this, tab)); }
   /** Uitleg openen bij een hoofdstuk; back = waar "terug" naartoe gaat. */
   openHelp(chapter, back) { this.setScene(new UitlegScene(this, chapter, back)); }
+  /** Voortgang meenemen (QR/code). importText = code/link die al klaarligt. */
+  openProgress(importText = null) { this.setScene(new VoortgangScene(this, importText)); }
   /** Mag de huidige scene nu een tip tonen? */
   get tipsAllowed() { return !!(this.scene && this.scene.tipsAllowed && this.scene.tipsAllowed()); }
   runOptions(mode, tables, world) { return TitleScene.runOptions(this, mode, tables, world); }

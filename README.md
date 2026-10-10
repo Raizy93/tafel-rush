@@ -195,6 +195,14 @@ Eén game voor alles: **op pc/laptop verandert er niets**, op een telefoon of ta
 De web-app is daar de basis van: met **Capacitor** wordt dezelfde game een echte iOS-app (WKWebView met de bestanden in de app, dus volledig offline), met de schermstand vast op dwars.
 Nodig: Apple Developer-account ($99/jaar), een Mac met Xcode (of een online bouwdienst zoals Codemagic), app-icoon 1024×1024 (`assets/app/icon-1024.png` staat klaar), screenshots, een privacyverklaring ("verzamelt geen gegevens") en bij voorkeur TestFlight om eerst met kinderen te testen. Voor de categorie "Kids": geen advertenties, geen tracking, geen externe links zonder ouderslot – daar voldoet Tafel Rush al aan. De opslag kan dan via een eigen `StorageAdapter` naar de opslag van de app.
 
+### Voortgang meenemen (QR-code / code) – zonder account of database
+Knop **VOORTGANG** (toets V) op het startscherm.
+- **Meenemen**: een QR-code om te scannen met de camera van het andere apparaat (opent de game en biedt de voortgang aan), of **CODE KOPIEREN** (de link; zelf bewaren of versturen).
+- **Ophalen**: de QR-link openen, of **CODE PLAKKEN**. Altijd eerst een overzicht (in de code ↔ op dit apparaat) en een bevestiging; ophalen **vervangt** de voortgang op dat apparaat.
+- **Geen server, geen database**: de code ís de voortgang (compact ingepakt en gecomprimeerd, `js/storage/ProgressCode.js`). In de link staat hij achter `#`, dat deel stuurt een browser nooit naar een server. Er zitten geen persoonsgegevens in (geen naam/e-mail): sommen, scores, coins, pets, werelden en een willekeurig profielnummer. De run-geschiedenis gaat niet mee.
+- Codelengte: nieuw profiel ±260 tekens, na veel oefenen ±1.000-1.750 (past ruim in een QR-code). De QR-generator is eigen code (`js/ui/QRCode.js`) en wordt in de tests gecontroleerd door een onafhankelijke lezer (`tests/qr-reader.js`).
+- **iPhone-let op**: een web-app op het beginscherm heeft zijn eigen opslag, los van Safari. Scan je de QR-code met de camera, dan opent hij in **Safari**. Wil je de voortgang in de app op het beginscherm: open die app → VOORTGANG → CODE PLAKKEN (de code eerst kopiëren op het andere apparaat en bijv. via AirDrop/berichtje naar dit apparaat sturen).
+
 ### Uitleg en tips
 - **UITLEG** (toets H, knop "? UITLEG (H)" linksboven op het startscherm): 7 hoofdstukken in kindertaal met echte plaatjes uit de game – zo speel je, oefenmodi, de tafelkaart, coins en uitrusting, pets en kisten, werelden, toetsen. Het ?-knopje in het petboek, de tafelkaart en de uitrusting opent meteen het juiste hoofdstuk, en "terug" gaat weer naar dat scherm.
 - **Tips op het juiste moment**, ieder maar één keer (`settings.tipsSeen`): eerste kist, eerste wereldkist, eerste stapjes op de tafelkaart, genoeg coins voor iets leuks, nieuwe wereld open, eerste dubbele pet (snoepjes), de pagina's van het petboek, en dat er een uitleg is.

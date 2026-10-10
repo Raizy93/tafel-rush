@@ -1,7 +1,8 @@
 # PROJECT_STATE – Tafel Rush
 
 > Overdrachtsdocument voor een volgend (Claude-)contextvenster. Houd dit bij bij iedere wijziging.
-> Laatste update: 2026-10-10 — v1.0.0: telefoon/tablet-geschikt + web-app (beginscherm, offline, altijd dwars); pc-versie ongewijzigd.
+> Laatste update: 2026-10-10 — v1.1.0: VOORTGANG meenemen met QR-code of code (zonder account/database).
+> (v1.0.0: telefoon/tablet-geschikt + web-app (beginscherm, offline, altijd dwars); pc-versie ongewijzigd.)
 > (v0.9.1: knop VOLLEDIG SCHERM rechtsboven (en toets F); geluidsknoppen iets naar links.)
 > (v0.9.0: UITLEG-scherm (H) met 7 hoofdstukken + korte tips op het juiste moment.)
 > (v0.8.0: wereld-exclusieve pets (15, 5 per wereld) + wereldkisten (alleen via de boss van die wereld) + petboek met pagina's.)
@@ -17,7 +18,7 @@
 
 **Speelbaar en getest in Chromium.** Drie werelden (Greenwood, Frostpeak, Stormrijk) met elk 4 fases + boss, volledige adaptieve tafeltrainer, lokale opslag, titelscherm, tutorial, resultaatscherm, audio, touch-ondersteuning en iframe-geschiktheid.
 
-- 70/70 unit-tests slagen (`node tests/run-tests.js`), o.a. HP 1/2/3, geen dubbele hits, spawn-balans, profielmigraties v1→v6, werelden compleet + vrijspelen, character-unlocks, wapens/perks/boss-immuniteit/power-ups, pets + kisten (kansen, snoepjes, verdienen), tafelkaart.
+- 74/74 unit-tests slagen (`node tests/run-tests.js`), o.a. HP 1/2/3, geen dubbele hits, spawn-balans, profielmigraties v1→v6, werelden compleet + vrijspelen, character-unlocks, wapens/perks/boss-immuniteit/power-ups, pets + kisten (kansen, snoepjes, verdienen), tafelkaart.
 - Geen console-errors tijdens volledige runs (titel → run → 4 fases → boss → resultaten → nog een run).
 - Gemeten (Chromium, built-in browser): antwoord verwerken ≈ 0,4 ms; **Enter → nieuwe som zichtbaar ≈ 13 ms** (binnen één frame); rekenwerk ≈ 1 ms per frame.
 
