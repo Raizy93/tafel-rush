@@ -186,6 +186,7 @@ Eén game voor alles: **op pc/laptop verandert er niets**, op een telefoon of ta
 - **Offline**: `sw.js` (service worker, "eerst netwerk, anders cache"): na één keer online spelen werkt alles offline; updates komen vanzelf door als je online bent. Werkt alleen via https (GitHub Pages) of localhost.
 - **Voortgang bewaren**: de game vraagt de browser om blijvende opslag (`navigator.storage.persist()`), zodat Safari de voortgang niet na een tijdje opruimt.
 - **iPhone-details**: geluid start na de eerste aanraking (iOS-regel), knijp-zoom en "bounce" staan uit, audio herstelt na een onderbreking.
+- **Draaien**: na het draaien meet de game de schermmaat nog een paar keer opnieuw (Safari geeft de nieuwe maat soms te laat door) en de pagina staat vast, zodat het beeld niet verschuift (`Renderer.resize`, `body { position: fixed }`).
 - Bestanden: `manifest.webmanifest`, `sw.js`, `assets/app/` (iconen 192/512/1024, apple-touch-icon; getekend in `tools/art/appicon.js`).
 - **Nog niet getest op een echte iPhone/iPad** (alleen via de telefoon-weergave van de browser). Menuknoppen zijn op een telefoon bruikbaar maar aan de kleine kant; dat is het eerste om na te kijken bij een test op een echt toestel.
 

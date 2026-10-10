@@ -21,11 +21,23 @@ export class Renderer {
     this.rect = { x: 0, y: 0, w: this.W, h: this.H };
     this.shakeT = 0; this.shakeAmp = 0;
     this.resize();
-    window.addEventListener('resize', () => this.resize());
+    // iPhone/Safari geeft na het draaien de nieuwe maat soms pas later door (en de
+    // adresbalk schuift nog): daarom meteen én nog een paar keer kort daarna meten.
+    const settle = () => { this.resize(); for (const ms of [60, 250, 600, 1200]) setTimeout(() => this.resize(), ms); };
+    window.addEventListener('resize', settle);
+    window.addEventListener('orientationchange', settle);
+    if (window.visualViewport) window.visualViewport.addEventListener('resize', settle);
+    document.addEventListener('visibilitychange', () => { if (!document.hidden) settle(); });
   }
 
   resize() {
-    const vw = window.innerWidth, vh = window.innerHeight;
+    // zichtbare schermmaat (op mobiel betrouwbaarder dan innerWidth/innerHeight)
+    const vv = window.visualViewport;
+    const vw = Math.round(vv ? vv.width : window.innerWidth), vh = Math.round(vv ? vv.height : window.innerHeight);
+    if (window.scrollX || window.scrollY) window.scrollTo(0, 0); // pagina terug naar boven (iOS)
+    const key = vw + 'x' + vh + '@' + (window.devicePixelRatio || 1);
+    if (key === this.lastSize) return; // niets veranderd: niet opnieuw opbouwen (geen flikkering)
+    this.lastSize = key;
     const s = Math.min(vw / this.W, vh / this.H);
     const cssW = Math.floor(this.W * s), cssH = Math.floor(this.H * s);
     const dpr = window.devicePixelRatio || 1;
