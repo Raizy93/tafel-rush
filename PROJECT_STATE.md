@@ -1,7 +1,8 @@
 # PROJECT_STATE – Tafel Rush
 
 > Overdrachtsdocument voor een volgend (Claude-)contextvenster. Houd dit bij bij iedere wijziging.
-> Laatste update: 2026-10-10 — v1.1.1: iPhone: QR geopend in Safari → knop KOPIEER VOOR DE APP (beginscherm-app heeft eigen opslag) + tip in de lege app.
+> Laatste update: 2026-10-10 — v1.1.2: plak-/kopieervenster met echte HTML-knoppen (iOS gaf geen "Plakken"), `js/ui/ClipboardPanel.js`.
+> (v1.1.1: iPhone: QR geopend in Safari → knop KOPIEER VOOR DE APP (beginscherm-app heeft eigen opslag) + tip in de lege app.)
 > (v1.1.0: VOORTGANG meenemen met QR-code of code (zonder account/database).)
 > (v1.0.0: telefoon/tablet-geschikt + web-app (beginscherm, offline, altijd dwars); pc-versie ongewijzigd.)
 > (v0.9.1: knop VOLLEDIG SCHERM rechtsboven (en toets F); geluidsknoppen iets naar links.)

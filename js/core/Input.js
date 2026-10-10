@@ -89,6 +89,7 @@ export class Input {
 
   onKeyDown(e) {
     if (e.ctrlKey || e.metaKey || e.altKey) return; // browser-shortcuts met modifier laten we met rust
+    if (e.target && e.target.closest && e.target.closest('.cbp')) return; // typen/plakken in het plakvenster
     if (/^F\d+$/.test(e.key)) return;              // F5/F11/F12 blijven werken
     const action = Input.normalize(e);
     // alles wat we kennen of wat tekst zou typen: onderdrukken (bijv. '/' quick find)

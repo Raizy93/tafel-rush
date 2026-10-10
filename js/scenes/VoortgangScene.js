@@ -18,6 +18,7 @@
 import { CONFIG } from '../config.js';
 import { COLORS } from '../ui/UI.js';
 import { QRCode } from '../ui/QRCode.js';
+import { ClipboardPanel } from '../ui/ClipboardPanel.js';
 import { ProgressCode } from '../storage/ProgressCode.js';
 import { fmtInt } from '../core/util.js';
 
@@ -43,7 +44,16 @@ export class VoortgangScene {
     if (this.importText) this.startImport(this.importText);
   }
 
-  exit() { if (this.qrEl) { this.qrEl.remove(); this.qrEl = null; } }
+  exit() {
+    if (this.qrEl) { this.qrEl.remove(); this.qrEl = null; }
+    if (this.panel) { const p = this.panel; this.panel = null; p.onClose = null; p.close(); }
+  }
+
+  /** Plak-/kopieervenster (HTML) openen; zolang het open is negeert de game invoer. */
+  openPanel(kind, opts) {
+    const g = this.game;
+    this.panel = ClipboardPanel[kind]({ ...opts, touch: g.input.usingTouch, onClose: () => { this.panel = null; g.input.focus(); } });
+  }
 
   async makeCode() {
     try {
@@ -67,8 +77,10 @@ export class VoortgangScene {
       await navigator.clipboard.writeText(this.link);
       this.say('GEKOPIEERD! BEWAAR HEM GOED (BIJV. IN JE NOTITIES)', '#7dff8a', 3);
     } catch (e) {
-      // geen toegang tot het klembord: dan zelf kopiëren uit een venster
-      window.prompt('Kopieer deze voortgangscode en bewaar hem goed:', this.link);
+      // geen toegang tot het klembord (bijv. iPhone): venster met een echte KOPIEER-knop
+      this.openPanel('copy', { text: this.link, info: 'Tik op KOPIEER en bewaar de code goed (bijv. in je notities).',
+        onCopied: () => this.say('GEKOPIEERD! BEWAAR HEM GOED (BIJV. IN JE NOTITIES)', '#7dff8a', 3) });
+      return;
     }
     g.input.focus();
   }
@@ -78,11 +90,11 @@ export class VoortgangScene {
     const g = this.game;
     g.audio.play('select');
     let text = null;
-    try { if (navigator.clipboard && navigator.clipboard.readText) text = await navigator.clipboard.readText(); } catch (e) { text = null; }
-    if (!ProgressCode.extract(text)) text = window.prompt('Plak hier je voortgangscode:', '');
-    g.input.focus();
-    if (text == null || text === '') return;
-    this.startImport(text);
+    if (!g.isIOS && !g.input.usingTouch) {
+      try { if (navigator.clipboard && navigator.clipboard.readText) text = await navigator.clipboard.readText(); } catch (e) { text = null; }
+    }
+    if (ProgressCode.extract(text)) { g.input.focus(); this.startImport(text); return; }
+    this.openPanel('paste', { valid: t => !!ProgressCode.extract(t), onDone: t => this.startImport(t) });
   }
 
   async startImport(text) {
@@ -116,13 +128,17 @@ export class VoortgangScene {
     if (!p) return;
     const link = ProgressCode.link(ProgressCode.extract(p.text));
     try { await navigator.clipboard.writeText(link); p.copied = true; g.audio.play('confirm'); }
-    catch (e) { window.prompt('Kopieer deze code en plak hem in de app:', link); p.copied = true; }
+    catch (e) {
+      this.openPanel('copy', { text: link, title: 'KOPIEER VOOR DE APP', info: 'Tik op KOPIEER. Daarna open je Tafel Rush via het icoon op je beginscherm.',
+        onCopied: () => { p.copied = true; g.audio.play('confirm'); } });
+    }
   }
   cancelImport() { this.pending = null; this.game.audio.play('select'); this.say('NIETS VERANDERD', '#c8c0e8'); }
 
   // --- input ---------------------------------------------------------------------------
   onKey(a) {
     const g = this.game;
+    if (this.panel) return;
     if (a.type === 'mute') { g.toggleAllSound(); return; }
     if (this.pending) {
       if (this.pending.copied) { if (a.type === 'enter' || a.type === 'escape') { this.pending = null; g.goToTitle(); } return; }
@@ -134,7 +150,7 @@ export class VoortgangScene {
   }
 
   onPointer(kind, x, y) {
-    if (kind !== 'down') return;
+    if (kind !== 'down' || this.panel) return;
     const inside = r => r && x >= r.x && y >= r.y && x < r.x + r.w && y < r.y + r.h;
     if (this.pending) {
       if (this.pending.copied) { if (inside(this.okRect)) { this.pending = null; this.game.goToTitle(); } return; }
@@ -158,7 +174,7 @@ export class VoortgangScene {
 
   /** Scherpe QR-code als los canvas precies op QR_BOX (volgt het schalen van de game). */
   placeQR() {
-    const show = this.qr && !this.pending;
+    const show = this.qr && !this.pending && !this.panel;
     if (!show) { if (this.qrEl) this.qrEl.style.display = 'none'; return; }
     if (!this.qrEl) {
       this.qrEl = document.createElement('canvas');
@@ -203,7 +219,7 @@ export class VoortgangScene {
     this.button(ctx, ui, this.copyRect, 'CODE KOPIEREN', 'btn_go');
     ctx.fillStyle = '#2a2248'; ctx.fillRect(RX + 10, RY + 102, RW - 20, 1);
     ui.text(ctx, 'OPHALEN', RX + 12, RY + 110, { font: 'big', color: ['#e0ffff', '#4fd0ff'] });
-    line('HEB JE EEN CODE VAN EEN ANDER APPARAAT? KOPIEER HEM EN TIK HIERONDER.', RY + 128);
+    line(ui.hint('HEB JE EEN CODE VAN EEN ANDER APPARAAT? KOPIEER HEM EN KLIK HIERONDER.', 'HEB JE EEN CODE VAN EEN ANDER APPARAAT? KOPIEER HEM EN TIK HIERONDER.'), RY + 128);
     this.button(ctx, ui, this.pasteRect, 'CODE PLAKKEN', 'btn');
     line('DE CODE BLIJFT BIJ JOU: ER GAAT NIETS NAAR INTERNET. NA VEEL OEFENEN? MAAK DAN EEN NIEUWE CODE.', RY + 178, COLORS.dim);
 
