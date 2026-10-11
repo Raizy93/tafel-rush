@@ -1,7 +1,7 @@
 # PROJECT_STATE – Tafel Rush
 
 > Overdrachtsdocument voor een volgend (Claude-)contextvenster. Houd dit bij bij iedere wijziging.
-> Laatste update: 2026-10-11 — v1.2.0: Esc heeft geen game-functie meer (beter in iframe, geen krimpend scherm). P = pauze/verder, T = TERUG/stoppen (T was nog vrij); pauzescherm met knoppen VERDER/STOPPEN; elk scherm een klikbare < TERUG (T); Keyboard Lock verwijderd.
+> Laatste update: 2026-10-11 — v1.2.0: Esc heeft geen game-functie meer (beter in iframe, geen krimpend scherm). P = pauze/verder, T = TERUG/stoppen (T was nog vrij); pauzescherm met knoppen VERDER/STOPPEN; elk scherm een klikbare < TERUG (T); knop PAUZE (P) rechtsboven onder de geluidsknoppen (alle apparaten); focus-pauze heeft dezelfde knoppen; Keyboard Lock verwijderd.
 > (v1.1.2: plak-/kopieervenster met echte HTML-knoppen (iOS gaf geen "Plakken"), `js/ui/ClipboardPanel.js`.)
 > (v1.1.1: iPhone: QR geopend in Safari → knop KOPIEER VOOR DE APP (beginscherm-app heeft eigen opslag) + tip in de lege app.)
 > (v1.1.0: VOORTGANG meenemen met QR-code of code (zonder account/database).)

@@ -117,7 +117,7 @@ export class RunScene {
         else if (a.type === 'back') this.finishRun(false);
         return;
       case 'focuslost':
-        this.resume();
+        if (a.type === 'back') this.finishRun(false); else this.resume();
         return;
       case 'ending':
         return;
@@ -142,8 +142,9 @@ export class RunScene {
   onPointer(kind, x, y) {
     if (kind !== 'down') return;
     const hit = r => r && x >= r.x && y >= r.y && x < r.x + r.w && y < r.y + r.h;
-    if (this.state === 'paused' && hit(this.stopRect)) { this.finishRun(false); return; }
-    if (this.state === 'paused' && hit(this.resumeRect)) { this.resume(); return; }
+    const pausedNow = this.state === 'paused' || this.state === 'focuslost';
+    if (pausedNow && hit(this.stopRect)) { this.finishRun(false); return; }
+    if (pausedNow && hit(this.resumeRect)) { this.resume(); return; }
     if (this.state === 'focuslost' || this.state === 'paused') { this.resume(); return; }
     if (this.state === 'play' && hit(this.pauseRect)) { this.pause('paused'); return; }
     // on-screen cijferbalk (touch)
@@ -498,16 +499,19 @@ export class RunScene {
     g.particles.draw(ctx, 0, true);
 
     if (g.input.usingTouch && this.state === 'play') this.drawKeypad(ctx, ui); else this.keypadRects = null;
-    // pauzeknop (touch heeft geen Esc-toets)
+    // pauzeknop rechtsboven, onder de geluidsknoppen (op elk apparaat, zodat iedereen weet hoe het moet)
     this.pauseRect = null;
-    if (g.input.usingTouch && this.state === 'play') {
-      const r = this.pauseRect = { x: CONFIG.width - 70, y: 27, w: 17, h: 17 };
-      ui.panel(ctx, r.x, r.y, r.w, r.h, 'btn');
-      ctx.fillStyle = '#fff8ec'; ctx.fillRect(r.x + 5, r.y + 4, 2, 7); ctx.fillRect(r.x + 10, r.y + 4, 2, 7);
+    if (this.state === 'play') {
+      const w = ui.touch ? 58 : 72;
+      const r = this.pauseRect = { x: CONFIG.width - 6 - w, y: 47, w, h: 17 };
+      const hp = g.input.pointer, over = !ui.touch && hp.x >= r.x && hp.y >= r.y && hp.x < r.x + r.w && hp.y < r.y + r.h;
+      ui.panel(ctx, r.x, r.y, r.w, r.h, over ? 'btn_hover' : 'btn');
+      ctx.fillStyle = '#fff8ec'; ctx.fillRect(r.x + 6, r.y + 5, 2, 7); ctx.fillRect(r.x + 10, r.y + 5, 2, 7);
+      ui.text(ctx, ui.key('PAUZE', 'P'), r.x + 15 + (r.w - 15) / 2, r.y + 5, { align: 'center', outline: null, shadow: false });
     }
     if (this.state === 'tutorial') this.drawTutorial(ctx, ui);
     if (this.state === 'paused') this.drawPause(ctx, ui, 'PAUZE', [ui.hint('P OF ENTER = VERDER   T = STOPPEN', 'JE COINS EN SOMMEN BLIJVEN BEWAARD')], true);
-    if (this.state === 'focuslost') this.drawPause(ctx, ui, 'PAUZE', ui.touch ? ['TIK OM VERDER', 'TE SPELEN'] : ['KLIK OF DRUK OP EEN TOETS', 'OM VERDER TE SPELEN']);
+    if (this.state === 'focuslost') this.drawPause(ctx, ui, 'PAUZE', [ui.hint('KLIK OF DRUK OP EEN TOETS = VERDER', 'TIK OM VERDER TE SPELEN')], true);
 
     // latentie-meting: Enter → nieuwe som in beeld
     if (this.enterAt) {
