@@ -32,5 +32,10 @@
 
   <noscript>Tafel Rush heeft JavaScript nodig.</noscript>
   <script type="module" src="js/main.js"></script>
+  <!-- Anonieme bezoekersteller (GoatCounter): geen cookies, geen persoonsgegevens.
+       Het adres telt met de domeinnaam ervoor, zodat meerdere games in één account
+       uit elkaar te houden zijn. Op localhost telt hij niet. -->
+  <script>window.goatcounter = { path: function (p) { return location.host + p; } };</script>
+  <script data-goatcounter="https://meesterdanny.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </body>
 </html>

@@ -19,6 +19,7 @@ import { CONFIG } from '../config.js';
 import { COLORS } from '../ui/UI.js';
 import { QRCode } from '../ui/QRCode.js';
 import { ClipboardPanel } from '../ui/ClipboardPanel.js';
+import { Analytics } from '../systems/Analytics.js';
 import { ProgressCode } from '../storage/ProgressCode.js';
 import { fmtInt } from '../core/util.js';
 
@@ -116,6 +117,7 @@ export class VoortgangScene {
     if (!p || p.t < 0.5) return;
     this.pending = null;
     await g.profile.importData(p.profile);
+    Analytics.event('voortgang-opgehaald', 'Voortgang opgehaald (code/QR)');
     g.tips.reset();
     g.audio.play('record');
     g.particles.burst(W / 2, 120, { count: 40, colors: ['#ffc93c', '#7dff8a', '#ffffff'], speed: 150, g: 160, life: 1, screen: true });

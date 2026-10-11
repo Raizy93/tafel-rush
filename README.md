@@ -196,6 +196,13 @@ Eén game voor alles: **op pc/laptop verandert er niets**, op een telefoon of ta
 De web-app is daar de basis van: met **Capacitor** wordt dezelfde game een echte iOS-app (WKWebView met de bestanden in de app, dus volledig offline), met de schermstand vast op dwars.
 Nodig: Apple Developer-account ($99/jaar), een Mac met Xcode (of een online bouwdienst zoals Codemagic), app-icoon 1024×1024 (`assets/app/icon-1024.png` staat klaar), screenshots, een privacyverklaring ("verzamelt geen gegevens") en bij voorkeur TestFlight om eerst met kinderen te testen. Voor de categorie "Kids": geen advertenties, geen tracking, geen externe links zonder ouderslot – daar voldoet Tafel Rush al aan. De opslag kan dan via een eigen `StorageAdapter` naar de opslag van de app.
 
+### Bezoekers en gebruik tellen (GoatCounter)
+Dashboard: **meesterdanny.goatcounter.com** (alleen de eigenaar kan inloggen). Geen cookies, geen persoonsgegevens, geen voortgang; dus geen cookiebanner nodig.
+- Paginabezoeken: het telscript in `index.html` telt met de domeinnaam ervoor (`tafelrush.meesterdanny.com/`), zodat meerdere games in één account uit elkaar te houden zijn.
+- Events (`js/systems/Analytics.js`), allemaal onder `tafelrush/`: `geopend/website|app|rechtstreeks`, `run-gestart/<modus>`, `boss-verslagen/<wereld>`, `run-gestopt`, `wereld-vrijgespeeld/<wereld>`, `voortgang-opgehaald`.
+- Op localhost wordt niets geteld. Offline of met een adblocker gebeurt er niets; de game speelt gewoon door.
+- De voortgangscode zit achter `#` en gaat nooit mee met een telling.
+
 ### Voortgang meenemen (QR-code / code) – zonder account of database
 Knop **VOORTGANG** (toets V) op het startscherm.
 - **Meenemen**: een QR-code om te scannen met de camera van het andere apparaat (opent de game en biedt de voortgang aan), of **CODE KOPIEREN** (de link; zelf bewaren of versturen).

@@ -7,6 +7,7 @@ import { Game } from './core/Game.js';
 import { AudioManager } from './audio/AudioManager.js';
 import { ProfileService } from './storage/ProfileService.js';
 import { createDefaultAdapter } from './storage/StorageAdapter.js';
+import { Analytics } from './systems/Analytics.js';
 
 const canvas = document.getElementById('game');
 
@@ -39,6 +40,7 @@ async function boot() {
   window.tafelRush = game; // handig voor debuggen in de console
   game.start();
   setupWebApp();
+  Analytics.opened(game);
   // geopend via een voortgangs-QR/link? Dan meteen aanbieden (na bevestiging) en
   // de code uit de adresbalk halen, zodat hij niet blijft staan of opnieuw start.
   if (location.hash.startsWith('#voortgang=')) {

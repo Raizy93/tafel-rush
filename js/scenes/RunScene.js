@@ -31,6 +31,7 @@ import { Equipment } from '../systems/Equipment.js';
 import { POWERUPS } from '../data/weapons.js';
 import { Chests } from '../systems/Chests.js';
 import { Worlds } from '../systems/Worlds.js';
+import { Analytics } from '../systems/Analytics.js';
 
 const TIER_LABEL = { perfect: 'PERFECT!', fast: 'SNEL!', good: 'GOED!', slow: 'GOED' };
 const TIER_COLOR = { perfect: COLORS.gold, fast: ['#e0ffff', '#4fd0ff'], good: ['#d0ffd8', '#5fd65a'], slow: '#c8c0e8' };
@@ -93,6 +94,7 @@ export class RunScene {
     this.hud.banner('GO!', { colors: ['#d0ffd8', '#5fd65a'], dur: 0.8 });
     this.nextQuestion();
     this.runStart = performance.now();
+    Analytics.event('run-gestart/' + this.opts.mode, 'Run gestart (' + this.opts.mode + ')');
   }
 
   nextQuestion() {
@@ -465,6 +467,9 @@ export class RunScene {
     const loot = Chests.awardForRun(g.profile, sum, { completed, world: this.worldDef.id });
     // nieuwe wereld vrijgespeeld? (Frostpeak na de Woudwachter)
     const newWorlds = Worlds.checkUnlocks(g.profile);
+    if (completed) Analytics.event('boss-verslagen/' + this.worldDef.id, 'Boss verslagen (' + this.worldDef.id + ')');
+    else Analytics.event('run-gestopt', 'Run gestopt');
+    for (const w of newWorlds || []) Analytics.event('wereld-vrijgespeeld/' + (w.id || w), 'Wereld vrijgespeeld');
     g.showResults({ summary: sum, newRecords, completed, runOpts: this.opts, loot, newWorlds, world: this.worldDef });
   }
 
