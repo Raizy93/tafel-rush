@@ -110,11 +110,11 @@ export class RunScene {
     switch (this.state) {
       case 'tutorial':
         if (a.type === 'enter' || a.type === 'space') { g.profile.updateSettings({ tutorialSeen: true }); g.audio.play('confirm'); this.startRun(); }
-        else if (a.type === 'escape') g.goToTitle();
+        else if (a.type === 'back') g.goToTitle();
         return;
       case 'paused':
         if (a.type === 'enter' || a.type === 'space' || a.type === 'pause') this.resume();
-        else if (a.type === 'escape') this.finishRun(false);
+        else if (a.type === 'back') this.finishRun(false);
         return;
       case 'focuslost':
         this.resume();
@@ -123,7 +123,7 @@ export class RunScene {
         return;
     }
     // --- spelen ---
-    if (a.type === 'escape' || a.type === 'pause') { this.pause('paused'); return; }
+    if (a.type === 'pause') { this.pause('paused'); return; }
     const locked = this.wrongPending || this.bossPhase === 'victory';
     if (a.type === 'digit') {
       if (locked) return;
@@ -143,6 +143,7 @@ export class RunScene {
     if (kind !== 'down') return;
     const hit = r => r && x >= r.x && y >= r.y && x < r.x + r.w && y < r.y + r.h;
     if (this.state === 'paused' && hit(this.stopRect)) { this.finishRun(false); return; }
+    if (this.state === 'paused' && hit(this.resumeRect)) { this.resume(); return; }
     if (this.state === 'focuslost' || this.state === 'paused') { this.resume(); return; }
     if (this.state === 'play' && hit(this.pauseRect)) { this.pause('paused'); return; }
     // on-screen cijferbalk (touch)
@@ -153,6 +154,7 @@ export class RunScene {
         return;
       }
     }
+    if (this.state === 'tutorial' && hit(this.tutBackRect)) { this.game.audio.play('select'); this.game.goToTitle(); return; }
     if (this.state === 'tutorial') { this.game.profile.updateSettings({ tutorialSeen: true }); this.startRun(); return; }
     for (const r of this.hud.soundRects || []) {
       if (x >= r.x && y >= r.y && x < r.x + r.w && y < r.y + r.h) { this.game.toggleSound(r.kind); return; }
@@ -504,7 +506,7 @@ export class RunScene {
       ctx.fillStyle = '#fff8ec'; ctx.fillRect(r.x + 5, r.y + 4, 2, 7); ctx.fillRect(r.x + 10, r.y + 4, 2, 7);
     }
     if (this.state === 'tutorial') this.drawTutorial(ctx, ui);
-    if (this.state === 'paused') this.drawPause(ctx, ui, 'PAUZE', g.input.usingTouch ? ['TIK = VERDER SPELEN', ''] : ['ENTER = VERDER SPELEN', 'ESC = STOPPEN', ...(g.escLocked ? ['ESC INGEDRUKT = KLEIN SCHERM'] : [])], g.input.usingTouch);
+    if (this.state === 'paused') this.drawPause(ctx, ui, 'PAUZE', [ui.hint('P OF ENTER = VERDER   T = STOPPEN', 'JE COINS EN SOMMEN BLIJVEN BEWAARD')], true);
     if (this.state === 'focuslost') this.drawPause(ctx, ui, 'PAUZE', ui.touch ? ['TIK OM VERDER', 'TE SPELEN'] : ['KLIK OF DRUK OP EEN TOETS', 'OM VERDER TE SPELEN']);
 
     // latentie-meting: Enter → nieuwe som in beeld
@@ -546,19 +548,27 @@ export class RunScene {
     const blink = Math.floor(this.game.time * 2) % 2 === 0;
     if (!ui.touch) ui.icon(ctx, 'enter', CONFIG.width / 2 - 64, y + h - 20);
     ui.text(ctx, ui.hint('ENTER = START!', 'TIK = START!'), CONFIG.width / 2 + 6, y + h - 18, { align: 'center', color: blink ? '#7dff8a' : '#d0ffd8' });
+    const b = this.tutBackRect = { x: CONFIG.width / 2 - 42, y: y + h + 6, w: 84, h: 18 };
+    ui.panel(ctx, b.x, b.y, b.w, b.h, 'btn');
+    ui.text(ctx, ui.key('< TERUG', 'T'), b.x + b.w / 2, b.y + 5, { align: 'center', outline: null, shadow: false });
   }
 
-  drawPause(ctx, ui, title, lines, stopButton = false) {
+  /** buttons = true: klikbare knoppen VERDER SPELEN en STOPPEN (naar de uitslag, alles blijft bewaard). */
+  drawPause(ctx, ui, title, lines, buttons = false) {
     this.dim(ctx, 0.55);
-    const w = 220, h = 80, x = (CONFIG.width - w) / 2, y = 94;
+    const w = 240, h = buttons ? 92 : 80, x = (CONFIG.width - w) / 2, y = 90;
     ui.panel(ctx, x, y, w, h, 'panel');
     ui.text(ctx, title, CONFIG.width / 2, y + 12, { font: 'big', align: 'center', color: COLORS.gold });
-    lines.forEach((l, i) => ui.text(ctx, l, CONFIG.width / 2, y + 40 + i * 12, { align: 'center' }));
-    this.stopRect = null;
-    if (stopButton) {
-      const r = this.stopRect = { x: CONFIG.width / 2 - 45, y: y + h - 26, w: 90, h: 18 };
-      ui.panel(ctx, r.x, r.y, r.w, r.h, 'btn');
-      ui.text(ctx, 'STOPPEN', r.x + r.w / 2, r.y + 5, { align: 'center', color: '#ffb0a0', outline: null, shadow: false });
+    lines.forEach((l, i) => ui.text(ctx, l, CONFIG.width / 2, y + 36 + i * 12, { align: 'center', color: buttons ? '#c8c0e8' : undefined }));
+    this.stopRect = this.resumeRect = null;
+    if (buttons) {
+      const hp = this.game.input.pointer, over = r => hp && hp.x >= r.x && hp.y >= r.y && hp.x < r.x + r.w && hp.y < r.y + r.h;
+      const go = this.resumeRect = { x: x + 14, y: y + h - 34, w: 120, h: 22 };
+      const st = this.stopRect = { x: x + w - 14 - 86, y: y + h - 34, w: 86, h: 22 };
+      ui.panel(ctx, go.x, go.y, go.w, go.h, over(go) ? 'btn_hover' : 'btn_go');
+      ui.text(ctx, ui.hint('VERDER (P)', 'VERDER'), go.x + go.w / 2, go.y + 7, { align: 'center', color: '#ffffff', outline: null, shadow: false });
+      ui.panel(ctx, st.x, st.y, st.w, st.h, over(st) ? 'btn_hover' : 'btn');
+      ui.text(ctx, ui.hint('STOPPEN (T)', 'STOPPEN'), st.x + st.w / 2, st.y + 7, { align: 'center', color: '#ffb0a0', outline: null, shadow: false });
     }
   }
 }

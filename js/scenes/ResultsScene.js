@@ -59,9 +59,9 @@ export class ResultsScene {
 
   onKey(a) {
     if (a.type === 'mute') { this.game.toggleAllSound(); return; }
-    if (this.unlockPopup && this.unlockPopup.t >= 0) { if (this.unlockPopup.t > 0.8 && (a.type === 'enter' || a.type === 'space' || a.type === 'escape')) { this.unlockPopup = null; this.game.audio.play('confirm'); } return; }
+    if (this.unlockPopup && this.unlockPopup.t >= 0) { if (this.unlockPopup.t > 0.8 && (a.type === 'enter' || a.type === 'space' || a.type === 'back')) { this.unlockPopup = null; this.game.audio.play('confirm'); } return; }
     if (a.type === 'enter' || a.type === 'space') this.playAgain();
-    else if (a.type === 'escape') this.toMenu();
+    else if (a.type === 'back') this.toMenu();
     else if (a.type === 'book' && this.lockT <= 0) { this.game.audio.play('select'); this.game.openBook('chests'); }
   }
   onPointer(kind, x, y) {
@@ -165,7 +165,7 @@ export class ResultsScene {
     if (this.unlockPopup && this.unlockPopup.t >= 0) { this.drawUnlock(ctx, ui); return; }
     if (this.lockT <= 0 && !ui.touch) {
       ui.icon(ctx, 'enter', this.again.x - 15, this.again.y + 6);
-      ui.text(ctx, 'ESC', this.menu.x + this.menu.w + 4, this.menu.y + 8, { color: COLORS.dim });
+      ui.text(ctx, 'T', this.menu.x + this.menu.w + 4, this.menu.y + 8, { color: COLORS.dim });
     }
   }
 

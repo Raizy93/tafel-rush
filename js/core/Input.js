@@ -67,7 +67,6 @@ export class Input {
     switch (e.key) {
       case 'Enter': return { type: 'enter' };
       case 'Backspace': case 'Delete': return { type: 'backspace' };
-      case 'Escape': return { type: 'escape' };
       case 'ArrowLeft': return { type: 'left' };
       case 'ArrowRight': return { type: 'right' };
       case 'ArrowUp': return { type: 'up' };
@@ -76,6 +75,7 @@ export class Input {
       case ' ': return { type: 'space' };
       case 'm': case 'M': return { type: 'mute' };
       case 'p': case 'P': return { type: 'pause' };
+      case 't': case 'T': return { type: 'back' };   // T = TERUG (Esc laten we aan de browser)
       case 'u': case 'U': return { type: 'shop' };
       case 'k': case 'K': return { type: 'map' };
       case 'b': case 'B': return { type: 'book' };

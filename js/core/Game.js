@@ -137,18 +137,16 @@ export class Game {
   }
   /** Moet vanuit een klik of toets komen (eis van de browser). In een iframe
    *  zonder allow="fullscreen" kan het niet: dan verschijnt er een korte melding.
-   *  Esc: de browser sluit volledig scherm altijd met Esc (veiligheidsregel).
-   *  In Chrome/Edge/Chromebook "lenen" we Esc met de Keyboard Lock API: dan is
-   *  Esc gewoon pauze, en verlaat je volledig scherm door Esc ingedrukt te houden.
-   *  Andere browsers: zie onFullscreenChange (de run pauzeert dan mee). */
+   *  Esc heeft in de game geen functie (pauze = P, terug = T): Esc sluit dus
+   *  gewoon het volledige scherm, zoals de browser dat altijd doet. */
   toggleFullscreen() {
     const d = document, el = d.documentElement;
     const fail = () => { this.fullscreenMsg = 2.2; };
     try {
-      if (this.isFullscreen) { this.leavingFullscreen = true; this.unlockEscape(); (d.exitFullscreen || d.webkitExitFullscreen).call(d); }
+      if (this.isFullscreen) { this.leavingFullscreen = true; (d.exitFullscreen || d.webkitExitFullscreen).call(d); }
       else if (this.fullscreenSupported) {
         const p = (el.requestFullscreen || el.webkitRequestFullscreen).call(el, { navigationUI: 'hide' });
-        if (p && p.then) p.then(() => this.lockEscape(), fail); else this.lockEscape();
+        if (p && p.then) p.then(null, fail);
         // sommige omgevingen (ingebouwde browsers) reageren helemaal niet: dan na 1,2 s toch een melding
         setTimeout(() => { if (!this.isFullscreen) fail(); }, 1200);
       } else fail();
@@ -156,23 +154,11 @@ export class Game {
     this.audio.play('select');
     this.input.focus();
   }
-  /** Esc voor de game houden (alleen in volledig scherm, alleen Chromium-browsers). */
-  lockEscape() {
-    const kb = navigator.keyboard;
-    if (kb && kb.lock) kb.lock(['Escape']).then(() => { this.escLocked = true; }, () => { this.escLocked = false; });
-  }
-  unlockEscape() {
-    const kb = navigator.keyboard;
-    if (kb && kb.unlock) kb.unlock();
-    this.escLocked = false;
-  }
   /** Volledig scherm veranderd (ook als de browser het zelf sloot, bijv. met Esc). */
   onFullscreenChange() {
     if (this.isFullscreen) return;
-    this.unlockEscape();
     if (this.leavingFullscreen) { this.leavingFullscreen = false; return; } // zelf via knop/F: niet pauzeren
-    // Esc sloot het volledige scherm tijdens een run: dan ook pauzeren, zodat die
-    // ene druk op Esc niet "kwijt" is (in browsers zonder Keyboard Lock).
+    // de browser sloot het volledige scherm tijdens een run (bijv. met Esc): pauzeren
     const s = this.scene;
     if (s && s.state === 'play' && s.pause) s.pause('paused');
   }

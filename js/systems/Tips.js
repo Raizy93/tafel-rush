@@ -63,7 +63,7 @@ export class Tips {
   onKey(a) {
     if (!this.current) return false;
     if (a.type === 'mute') return false;
-    if (a.type === 'enter' || a.type === 'space' || a.type === 'escape') this.close();
+    if (a.type === 'enter' || a.type === 'space' || a.type === 'back') this.close();
     return true;
   }
   onPointer(kind) {

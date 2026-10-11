@@ -30,7 +30,7 @@ export class UitlegScene {
     this.time = 0;
     this.hover = null;
     this.rows = HELP_CHAPTERS.map((c, i) => ({ x: LX + 4, y: LY + 6 + i * 25, w: LW - 8, h: 22 }));
-    this.backRect = { x: 150, y: 6, w: 70, h: 18 };
+    this.backRect = { x: 150, y: 6, w: 84, h: 18 };
     this.anis = {};
     this.game.particles.clear();
   }
@@ -44,7 +44,7 @@ export class UitlegScene {
   onKey(a) {
     const g = this.game;
     if (a.type === 'mute') { g.toggleAllSound(); return; }
-    if (a.type === 'escape' || a.type === 'help') { this.goBack(); return; }
+    if (a.type === 'back' || a.type === 'help') { this.goBack(); return; }
     if (a.type === 'up' || a.type === 'down' || a.type === 'left' || a.type === 'right' || a.type === 'next' || a.type === 'prev') {
       const d = a.type === 'up' || a.type === 'left' || a.type === 'prev' ? -1 : 1;
       this.sel = (this.sel + d + HELP_CHAPTERS.length) % HELP_CHAPTERS.length;
@@ -74,7 +74,7 @@ export class UitlegScene {
     ctx.fillRect(0, 0, W, H);
     ui.text(ctx, 'UITLEG', 12, 8, { font: 'big', color: COLORS.gold });
     ui.panel(ctx, this.backRect.x, this.backRect.y, this.backRect.w, this.backRect.h, 'btn');
-    ui.text(ctx, '< TERUG', this.backRect.x + 35, this.backRect.y + 5, { align: 'center', outline: null, shadow: false });
+    ui.text(ctx, ui.key('< TERUG', 'T'), this.backRect.x + this.backRect.w / 2, this.backRect.y + 5, { align: 'center', outline: null, shadow: false });
 
     // hoofdstukken
     ui.panel(ctx, LX, LY, LW, RH, 'panel');
@@ -94,7 +94,7 @@ export class UitlegScene {
     let y = RY + 30;
     for (const b of (ui.touch && ch.touchBlocks) || ch.blocks) y = this.drawBlock(ctx, ui, ui.touch && b.touch ? { p: b.touch } : b, RX + 12, y, RW - 24) + 5;
 
-    ui.text(ctx, ui.hint('↑ ↓ = HOOFDSTUK   ESC = TERUG', 'TIK LINKS OP EEN HOOFDSTUK'), W / 2, 258, { align: 'center', color: '#e8e4ff' });
+    ui.text(ctx, ui.hint('↑ ↓ = HOOFDSTUK   T = TERUG', 'TIK LINKS OP EEN HOOFDSTUK'), W / 2, 258, { align: 'center', color: '#e8e4ff' });
   }
 
   /** Tekent één blok en geeft de y onder het blok terug. */

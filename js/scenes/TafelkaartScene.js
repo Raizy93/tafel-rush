@@ -45,7 +45,7 @@ export class TafelkaartScene {
     if (a.type === 'help') { this.game.audio.play('select'); this.game.openHelp('kaart', () => this.game.openMap()); return; }
     const g = this.game;
     if (a.type === 'mute') { g.toggleAllSound(); return; }
-    if (a.type === 'escape' || a.type === 'map') { g.audio.play('select'); g.goToTitle(); return; }
+    if (a.type === 'back' || a.type === 'map') { g.audio.play('select'); g.goToTitle(); return; }
     const mv = { left: [0, -1], right: [0, 1], up: [-1, 0], down: [1, 0] }[a.type];
     if (mv) {
       this.cur = { a: clamp(this.cur.a + mv[0], 1, 10), b: clamp(this.cur.b + mv[1], 1, 10) };
@@ -90,14 +90,14 @@ export class TafelkaartScene {
     ctx.fillRect(0, 0, W, H);
 
     ui.text(ctx, 'TAFELKAART', 12, 8, { font: 'big', color: COLORS.gold });
-    this.backRect = { x: 150, y: 6, w: 70, h: 18 };
+    this.backRect = { x: 150, y: 6, w: 84, h: 18 };
     ui.panel(ctx, this.backRect.x, this.backRect.y, this.backRect.w, this.backRect.h, 'btn');
-    ui.text(ctx, '< TERUG', this.backRect.x + 35, this.backRect.y + 5, { align: 'center', outline: null, shadow: false });
-    this.helpRect = ui.helpButton(ctx, 224, 6);
+    ui.text(ctx, ui.key('< TERUG', 'T'), this.backRect.x + this.backRect.w / 2, this.backRect.y + 5, { align: 'center', outline: null, shadow: false });
+    this.helpRect = ui.helpButton(ctx, 238, 6);
 
     this.drawGrid(ctx, ui);
     this.drawPanel(ctx, ui);
-    ui.text(ctx, ui.hint('GOUD = 4 DAGEN SNEL EN GOED   ENTER = TAFEL TRAINEN   ESC = TERUG', 'GOUD = 4 DAGEN SNEL EN GOED   TIK OP EEN VAKJE EN OP TRAINEN'), W / 2, 258, { align: 'center', color: '#e8e4ff' });
+    ui.text(ctx, ui.hint('GOUD = 4 DAGEN SNEL EN GOED   ENTER = TAFEL TRAINEN   T = TERUG', 'GOUD = 4 DAGEN SNEL EN GOED   TIK OP EEN VAKJE EN OP TRAINEN'), W / 2, 258, { align: 'center', color: '#e8e4ff' });
   }
 
   drawGrid(ctx, ui) {

@@ -37,7 +37,7 @@ export class VoortgangScene {
     this.code = null;
     this.qr = null;
     this.qrError = null;
-    this.backRect = { x: 150, y: 6, w: 70, h: 18 };
+    this.backRect = { x: 150, y: 6, w: 84, h: 18 };
     this.copyRect = { x: RX + 14, y: RY + 72, w: RW - 28, h: 20 };
     this.pasteRect = { x: RX + 14, y: RY + 150, w: RW - 28, h: 20 };
     this.makeCode();
@@ -141,12 +141,12 @@ export class VoortgangScene {
     if (this.panel) return;
     if (a.type === 'mute') { g.toggleAllSound(); return; }
     if (this.pending) {
-      if (this.pending.copied) { if (a.type === 'enter' || a.type === 'escape') { this.pending = null; g.goToTitle(); } return; }
+      if (this.pending.copied) { if (a.type === 'enter' || a.type === 'back') { this.pending = null; g.goToTitle(); } return; }
       if (a.type === 'enter') this.confirmImport();
-      else if (a.type === 'escape') this.cancelImport();
+      else if (a.type === 'back') this.cancelImport();
       return;
     }
-    if (a.type === 'escape' || a.type === 'progress') { g.audio.play('select'); g.goToTitle(); }
+    if (a.type === 'back' || a.type === 'progress') { g.audio.play('select'); g.goToTitle(); }
   }
 
   onPointer(kind, x, y) {
@@ -204,7 +204,7 @@ export class VoortgangScene {
     ctx.fillRect(0, 0, W, H);
     ui.text(ctx, 'VOORTGANG', 12, 8, { font: 'big', color: COLORS.gold });
     ui.panel(ctx, this.backRect.x, this.backRect.y, this.backRect.w, this.backRect.h, 'btn');
-    ui.text(ctx, '< TERUG', this.backRect.x + 35, this.backRect.y + 5, { align: 'center', outline: null, shadow: false });
+    ui.text(ctx, ui.key('< TERUG', 'T'), this.backRect.x + this.backRect.w / 2, this.backRect.y + 5, { align: 'center', outline: null, shadow: false });
 
     // links: QR-code (het echte plaatje ligt er als los canvas overheen)
     ui.panel(ctx, QR_BOX.x - 6, QR_BOX.y - 6, QR_BOX.s + 12, QR_BOX.s + 12, 'panel_light');
@@ -224,7 +224,7 @@ export class VoortgangScene {
     line('DE CODE BLIJFT BIJ JOU: ER GAAT NIETS NAAR INTERNET. NA VEEL OEFENEN? MAAK DAN EEN NIEUWE CODE.', RY + 178, COLORS.dim);
 
     if (this.toast) ui.text(ctx, this.toast.text, W / 2, 258, { align: 'center', color: this.toast.color, alpha: Math.min(1, this.toast.t / 0.4) });
-    else ui.text(ctx, ui.hint('ESC = TERUG', 'TIK OP TERUG OM TERUG TE GAAN'), W / 2, 258, { align: 'center', color: '#e8e4ff' });
+    else ui.text(ctx, ui.hint('T = TERUG', 'TIK OP TERUG OM TERUG TE GAAN'), W / 2, 258, { align: 'center', color: '#e8e4ff' });
     if (this.pending) this.drawConfirm(ctx, ui);
     g.particles.draw(ctx, 0, true);
     void P;
@@ -255,7 +255,7 @@ export class VoortgangScene {
     this.appRect = p.forApp ? { x: px + 22, y: py + ph - 34, w: pw - 44, h: 22 } : null;
     if (p.t >= 0.5) {
       this.button(ctx, ui, this.okRect, ui.hint('VERVANGEN (ENTER)', 'HIER OPHALEN'), 'btn_go');
-      this.button(ctx, ui, this.noRect, ui.hint('ANNULEREN (ESC)', 'ANNULEREN'), 'btn');
+      this.button(ctx, ui, this.noRect, ui.hint('ANNULEREN (T)', 'ANNULEREN'), 'btn');
       if (p.forApp) {
         ctx.fillStyle = '#2a2248'; ctx.fillRect(px + 14, py + 136, pw - 28, 1);
         ui.text(ctx, 'SPEEL JE VIA HET ICOON OP JE BEGINSCHERM?', W / 2, py + 144, { align: 'center', color: '#8ff2ff', outline: null, shadow: false });

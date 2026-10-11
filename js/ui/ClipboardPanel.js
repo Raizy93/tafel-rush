@@ -128,11 +128,10 @@ export class ClipboardPanel {
     });
   }
 
-  /** Enter = hoofdactie, Esc = annuleren (de game zelf negeert toetsen in dit venster). */
+  /** Enter = hoofdactie (de game zelf negeert toetsen in dit venster; annuleren = knop). */
   keys(onEnter) {
     this.el.addEventListener('keydown', e => {
-      if (e.key === 'Escape') { e.preventDefault(); this.close(); }
-      else if (e.key === 'Enter' && e.target.tagName !== 'BUTTON') { e.preventDefault(); onEnter(); }
+      if (e.key === 'Enter' && e.target.tagName !== 'BUTTON') { e.preventDefault(); onEnter(); }
     });
   }
 

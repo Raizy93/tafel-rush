@@ -61,7 +61,7 @@ export class PetboekScene {
     if (this.tabId === 'chests' && !CHEST_ORDER.some(k => Chests.count(p, k) > 0) && WORLD_CHEST_ORDER.some(k => Chests.count(p, k) > 0)) this.tab = 2;
     this.tabRects = TABS.map((t, i) => ({ x: 10 + i * 104, y: 31, w: 100, h: 17 }));
     this.pageRects = PAGES.map((pg, i) => ({ x: GX + i * 74, y: 51, w: 70, h: 14 }));
-    this.backRect = { x: 150, y: 6, w: 70, h: 18 };
+    this.backRect = { x: 150, y: 6, w: 84, h: 18 };
     this.layoutCards();
     this.layoutChests();
     this.setPreview(this.petId);
@@ -238,10 +238,10 @@ export class PetboekScene {
     if (this.opening) {
       const o = this.opening;
       if (o.phase === 'reveal' && o.res.isNew && (a.type === 'enter' || a.type === 'space') && o.t >= 0.5) { this.useOpenedPet(); return; }
-      if (a.type === 'enter' || a.type === 'space' || a.type === 'escape') this.advanceOpening();
+      if (a.type === 'enter' || a.type === 'space' || a.type === 'back') this.advanceOpening();
       return;
     }
-    if (a.type === 'escape' || a.type === 'book') { g.audio.play('select'); g.goToTitle(); return; }
+    if (a.type === 'back' || a.type === 'book') { g.audio.play('select'); g.goToTitle(); return; }
     if (a.type === 'help') { this.openHelp(); return; }
     if (a.type === 'next' || a.type === 'prev') { this.switchTab(this.tab + 1); return; }
     if (this.tabId === 'book') {
@@ -350,8 +350,8 @@ export class PetboekScene {
     // kop: titel, terug, snoepjes + coins
     ui.text(ctx, 'PETBOEK', 12, 8, { font: 'big', color: COLORS.gold });
     ui.panel(ctx, this.backRect.x, this.backRect.y, this.backRect.w, this.backRect.h, 'btn');
-    ui.text(ctx, '< TERUG', this.backRect.x + 35, this.backRect.y + 5, { align: 'center', outline: null, shadow: false });
-    this.helpRect = ui.helpButton(ctx, 224, 6);
+    ui.text(ctx, ui.key('< TERUG', 'T'), this.backRect.x + this.backRect.w / 2, this.backRect.y + 5, { align: 'center', outline: null, shadow: false });
+    this.helpRect = ui.helpButton(ctx, 238, 6);
     ui.panel(ctx, W - 92, 6, 86, 20, 'panel');
     ui.icon(ctx, 'coin', W - 86, 10);
     ui.text(ctx, fmtInt(p.coins), W - 13, 12, { align: 'right', color: COLORS.gold });
@@ -378,7 +378,7 @@ export class PetboekScene {
     if (this.toast) ui.text(ctx, this.toast.text, W / 2, 258, { align: 'center', color: this.toast.color, alpha: Math.min(1, this.toast.t / 0.4) });
     else ui.text(ctx, ui.touch
       ? (this.tabId === 'book' ? 'TIK OP EEN PET. BLADER MET DE PAGINA\'S BOVENIN' : 'TIK OP OPENEN OF KOPEN BIJ EEN KIST')
-      : this.tabId === 'book' ? 'PIJLTJES = KIES   W = VOLGENDE PAGINA   ENTER = GEBRUIK / LOK   TAB   ESC' : this.tabId === 'chests' ? '← → KIES KIST   ENTER = OPENEN   SPATIE = HOUTEN KIST KOPEN   TAB   ESC' : '← → KIES KIST   ENTER = OPENEN   TAB = PETBOEK   ESC = TERUG', W / 2, 258, { align: 'center', color: '#e8e4ff' });
+      : this.tabId === 'book' ? 'PIJLTJES = KIES   W = VOLGENDE PAGINA   ENTER = GEBRUIK / LOK   TAB   T' : this.tabId === 'chests' ? '← → KIES KIST   ENTER = OPENEN   SPATIE = HOUTEN KIST KOPEN   TAB   T' : '← → KIES KIST   ENTER = OPENEN   TAB = PETBOEK   T = TERUG', W / 2, 258, { align: 'center', color: '#e8e4ff' });
     g.particles.draw(ctx, 0, true);
     if (this.opening) this.drawOpening(ctx, ui);
     ctx.restore();
@@ -629,7 +629,7 @@ export class PetboekScene {
     if (o.res.isNew) {
       this.useRect = { x: cx - 122, y: 222, w: 118, h: 22 };
       this.button(ctx, ui, this.useRect, ui.hint('GEBRUIK (ENTER)', 'GEBRUIK'), 'btn_go', '#fff8ec');
-      this.button(ctx, ui, { x: cx + 4, y: 222, w: 118, h: 22 }, ui.hint('VERDER (ESC)', 'VERDER'), 'btn', '#fff8ec');
+      this.button(ctx, ui, { x: cx + 4, y: 222, w: 118, h: 22 }, ui.hint('VERDER (T)', 'VERDER'), 'btn', '#fff8ec');
     } else {
       this.useRect = null;
       this.button(ctx, ui, { x: cx - 60, y: 222, w: 120, h: 22 }, ui.hint('VERDER (ENTER)', 'VERDER'), 'btn_go', '#fff8ec');

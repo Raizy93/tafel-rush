@@ -135,7 +135,7 @@ export class EquipmentScene {
     if (a.type === 'help') { this.game.audio.play('select'); this.game.openHelp('uitrusting', () => this.game.openEquipment(this.tabId)); return; }
     const g = this.game;
     if (a.type === 'mute') { g.toggleAllSound(); return; }
-    if (a.type === 'escape' || a.type === 'shop') { g.audio.play('select'); g.goToTitle(); return; }
+    if (a.type === 'back' || a.type === 'shop') { g.audio.play('select'); g.goToTitle(); return; }
     if (a.type === 'next' || a.type === 'prev') { this.switchTab(this.tab + (a.type === 'next' ? 1 : -1)); return; }
     if (a.type === 'left' || a.type === 'right') { this.switchChar(a.type === 'left' ? -1 : 1); return; }
     if (a.type === 'up' || a.type === 'down') {
@@ -223,10 +223,10 @@ export class EquipmentScene {
     ui.panel(ctx, W - 92, 6, 86, 20, 'panel');
     ui.icon(ctx, 'coin', W - 86, 10);
     ui.text(ctx, fmtInt(p.coins), W - 13, 12, { align: 'right', color: COLORS.gold });
-    this.backRect = { x: 150, y: 6, w: 70, h: 18 };
+    this.backRect = { x: 150, y: 6, w: 84, h: 18 };
     ui.panel(ctx, this.backRect.x, this.backRect.y, this.backRect.w, this.backRect.h, 'btn');
-    ui.text(ctx, '< TERUG', this.backRect.x + 35, this.backRect.y + 5, { align: 'center', outline: null, shadow: false });
-    this.helpRect = ui.helpButton(ctx, 224, 6);
+    ui.text(ctx, ui.key('< TERUG', 'T'), this.backRect.x + this.backRect.w / 2, this.backRect.y + 5, { align: 'center', outline: null, shadow: false });
+    this.helpRect = ui.helpButton(ctx, 238, 6);
 
     this.drawPreview(ctx, ui, p);
 
@@ -247,7 +247,7 @@ export class EquipmentScene {
       const a = Math.min(1, this.toast.t / 0.4);
       ui.text(ctx, this.toast.text, W / 2, 258, { align: 'center', color: this.toast.color, alpha: a });
     } else {
-      ui.text(ctx, ui.hint('TAB = WAPENS / POWER-UPS   ↑↓ KIES   ENTER KOOP / GEBRUIK   ESC', 'TIK OP EEN TAB BOVENIN, DAARNA OP KOPEN OF GEBRUIK'), W / 2, 258, { align: 'center', color: '#e8e4ff' });
+      ui.text(ctx, ui.hint('TAB = WAPENS / POWER-UPS   ↑↓ KIES   ENTER KOOP / GEBRUIK   T', 'TIK OP EEN TAB BOVENIN, DAARNA OP KOPEN OF GEBRUIK'), W / 2, 258, { align: 'center', color: '#e8e4ff' });
     }
     g.particles.draw(ctx, 0, true);
   }

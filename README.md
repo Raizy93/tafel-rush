@@ -66,10 +66,11 @@ De game schaalt zichzelf (letterbox) naar elk formaat. Leerlingen klikken één 
 | `U` | – | UITRUSTING openen (wapens, power-ups) |
 | `B` | – | PETBOEK openen (pets + kisten) |
 | `W` | – | andere wereld kiezen (Greenwood / Frostpeak / Stormrijk) |
-| `F` | – | volledig scherm aan/uit (ook de knop rechtsboven). In Chrome/Edge/Chromebook blijft Esc in volledig scherm gewoon pauze (Keyboard Lock); Esc **ingedrukt houden** = volledig scherm uit. Andere browsers sluiten volledig scherm met Esc, de run pauzeert dan mee. |
+| `F` | – | volledig scherm aan/uit (ook de knop rechtsboven). `Esc` heeft in de game **geen** functie: Esc sluit alleen het volledige scherm (zoals de browser altijd doet; tijdens een run pauzeert de game dan mee). Zo werkt het ook goed in een iframe. |
 | `H` | – | UITLEG openen (ook via "? UITLEG" op het startscherm en het ?-knopje in petboek, tafelkaart en uitrusting) |
 | `K` | – | TAFELKAART openen |
-| `Esc` / `P` | pauze (nogmaals `Esc` = stoppen) | – |
+| `P` | pauze / verder (pauzescherm heeft knoppen VERDER en STOPPEN) | – |
+| `T` | in de pauze: stoppen (naar de uitslag, alles blijft bewaard) | TERUG op elk scherm (ook altijd een klikbare knop **< TERUG**) |
 | `M` | geluid aan/uit | geluid aan/uit |
 
 Op touchscreens verschijnt automatisch een cijferbalk (1-9, 0, ⌫, OK) onderin beeld. Een onzichtbaar invoerveld vangt ook schermtoetsenborden op.
