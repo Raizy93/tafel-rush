@@ -179,8 +179,8 @@ export class TitleScene {
     const ar = this.accountRect;
     if (ar && x >= ar.x && y >= ar.y && x < ar.x + ar.w && y < ar.y + ar.h) { this.game.audio.play('select'); AccountPanel.open(this.game); return; }
     if (this.selector.onPointer(x, y)) return;
-    const mr = this.mapRect;
-    if (mr && x >= mr.x && y >= mr.y && x < mr.x + mr.w && y < mr.y + mr.h) { this.game.audio.play('select'); this.game.openWorldMap(); return; }
+    const wr = this.worldMapRect;
+    if (wr && x >= wr.x && y >= wr.y && x < wr.x + wr.w && y < wr.y + wr.h) { this.game.audio.play('select'); this.game.openWorldMap(); return; }
     const hr = this.helpRect;
     if (hr && x >= hr.x && y >= hr.y && x < hr.x + hr.w && y < hr.y + hr.h) { this.game.audio.play('select'); this.game.openHelp('spelen'); return; }
     const sr = this.soortRect;
@@ -351,7 +351,7 @@ export class TitleScene {
   drawWorldPicker(ctx, ui) {
     const g = this.game, w = Worlds.get(this.worldId), open = this.worldUnlocked;
     const pw = open ? 210 : 262, px = Math.round(W / 2 - pw / 2), py = 47;
-    const hp = this.hoverPoint, r = this.mapRect = { x: px, y: py - 1, w: pw, h: 17 };
+    const hp = this.hoverPoint, r = this.worldMapRect = { x: px, y: py - 1, w: pw, h: 17 };
     const hov = hp && hp.x >= r.x && hp.y >= r.y && hp.x < r.x + r.w && hp.y < r.y + r.h;
     ui.panel(ctx, px, py, pw, 15, hov ? 'btn_hover' : 'panel');
     ui.text(ctx, ui.key('KAART >', 'W'), px + pw - 6, py + 4, { align: 'right', color: hov ? '#ffc93c' : '#8ff2ff', outline: null, shadow: false });
