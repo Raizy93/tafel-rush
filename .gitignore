@@ -2,3 +2,6 @@ node_modules/
 .DS_Store
 Thumbs.db
 .claude/
+
+# lokaal testaccount (niet naar GitHub)
+supabase/test-account.local.txt

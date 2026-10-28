@@ -10,7 +10,7 @@ export const CONFIG = {
     url: 'https://bzhwhthkygrauttkqjiv.supabase.co',
     anonKey: 'sb_publishable_vysX1MprW6LhBxuqNBc2zA_8gU_GO2b',
     schema: 'tafelrush',
-    signupFunction: 'tafelrush-signup',
+    signupFunction: 'hyper-handler',          // Edge Function "tafelrush-signup" (in Supabase onder deze naam geplaatst)
     emailDomain: 'spelers.meesterdanny.com',   // vast nep-adres per gebruikersnaam; er wordt nooit gemaild
   },
 
