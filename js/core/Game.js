@@ -171,6 +171,9 @@ export class Game {
     return { x: x - 2, y: y - 2, w: 15, h: 15 };
   }
 
+  /** Korte melding onderin beeld (bijv. "INGELOGD!"). */
+  toast(text, color = '#7dff8a', seconds = 3) { this.toastMsg = { text, color, t: seconds }; }
+
   toggleAllSound() {
     const on = !(this.audio.sfxOn || this.audio.musicOn);
     this.audio.setSfx(on);
@@ -199,6 +202,12 @@ export class Game {
       const my = this.scene && this.scene.hud ? 48 : 24; // in de run onder de knoppenrij
       ctx.save(); ctx.globalAlpha = 0.85 * k; ctx.fillStyle = '#1a1324'; ctx.fillRect(CONFIG.width - mw - 10, my - 3, mw + 8, 13); ctx.restore();
       this.ui.text(ctx, msg, CONFIG.width - 6, my, { align: 'right', color: '#ffb0a0', alpha: k });
+    }
+    if (this.toastMsg && this.toastMsg.t > 0) {
+      const tm = this.toastMsg; tm.t -= dt;
+      const k = Math.min(1, tm.t * 2), mw = this.font.measure(tm.text), ty = CONFIG.height - 30;
+      ctx.save(); ctx.globalAlpha = 0.9 * k; ctx.fillStyle = '#1a1324'; ctx.fillRect(Math.round(CONFIG.width / 2 - mw / 2 - 6), ty - 4, mw + 12, 15); ctx.restore();
+      this.ui.text(ctx, tm.text, CONFIG.width / 2, ty, { align: 'center', color: tm.color, alpha: k });
     }
     if (this.debug) this.drawDebug(ctx);
     this.renderer.present();

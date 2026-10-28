@@ -8,6 +8,7 @@ import { AudioManager } from './audio/AudioManager.js';
 import { ProfileService } from './storage/ProfileService.js';
 import { createDefaultAdapter } from './storage/StorageAdapter.js';
 import { Analytics } from './systems/Analytics.js';
+import { AccountService } from './net/AccountService.js';
 
 const canvas = document.getElementById('game');
 
@@ -37,10 +38,12 @@ async function boot() {
   const audio = new AudioManager({ sfx: profile.settings.sfx, music: profile.settings.music });
   canvas.style.width = '';
   const game = new Game({ canvas, assets, profile, audio });
+  game.account = new AccountService(game);
   window.tafelRush = game; // handig voor debuggen in de console
   game.start();
   setupWebApp();
   Analytics.opened(game);
+  game.account.init(); // was je nog ingelogd? (alleen als accounts aan staan)
   // geopend via een voortgangs-QR/link? Dan meteen aanbieden (na bevestiging) en
   // de code uit de adresbalk halen, zodat hij niet blijft staan of opnieuw start.
   if (location.hash.startsWith('#voortgang=')) {

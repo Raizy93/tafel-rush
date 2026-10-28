@@ -82,6 +82,7 @@ export class Input {
       case 'w': case 'W': return { type: 'world' };
       case 'h': case 'H': return { type: 'help' };
       case 'v': case 'V': return { type: 'progress' };
+      case 'l': case 'L': return { type: 'account' };
       case 'f': case 'F': return { type: 'fullscreen' };
       default: return null;
     }

@@ -26,6 +26,9 @@ export function createDefaultProfile(now = Date.now()) {
       createdAt: now,
       updatedAt: now,
       revision: 0,             // telt op bij iedere save – handig voor sync/conflicten
+      accountId: null,         // ingelogd: id van het account (Supabase) waar dit profiel bij hoort
+      cloudRevision: 0,        // laatst bekende revision van de voortgang in het account
+      syncedHash: null,        // vingerafdruk van de inhoud bij de laatste sync (zie net/syncLogic.js)
     },
     // Totale oefenstatistieken
     stats: {

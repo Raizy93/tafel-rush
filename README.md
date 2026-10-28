@@ -196,6 +196,16 @@ Eén game voor alles: **op pc/laptop verandert er niets**, op een telefoon of ta
 De web-app is daar de basis van: met **Capacitor** wordt dezelfde game een echte iOS-app (WKWebView met de bestanden in de app, dus volledig offline), met de schermstand vast op dwars.
 Nodig: Apple Developer-account ($99/jaar), een Mac met Xcode (of een online bouwdienst zoals Codemagic), app-icoon 1024×1024 (`assets/app/icon-1024.png` staat klaar), screenshots, een privacyverklaring ("verzamelt geen gegevens") en bij voorkeur TestFlight om eerst met kinderen te testen. Voor de categorie "Kids": geen advertenties, geen tracking, geen externe links zonder ouderslot – daar voldoet Tafel Rush al aan. De opslag kan dan via een eigen `StorageAdapter` naar de opslag van de app.
 
+### Accounts (Supabase) – gebruikersnaam + wachtwoord
+Staan **uit** zolang `CONFIG.accounts.url` en `anonKey` (in `js/config.js`) leeg zijn; de game werkt dan zoals altijd, alleen lokaal.
+- **Database:** schema `tafelrush` in het bestaande Supabase-project, aangemaakt met `supabase/tafelrush_schema.sql` (tabellen players, saves, runs, pets, worlds; view personal_bests; functie save_progress; RLS: elke speler alleen zijn eigen rijen). Andere schema's worden niet aangeraakt.
+- **Account maken:** Edge Function `supabase/functions/tafelrush-signup` (maakt het account in Supabase Auth meteen actief met een nep-adres `<naam>@spelers.meesterdanny.com`; er wordt nooit gemaild). Zo hoeft "Confirm email" van het project niet uit. De service_role-sleutel staat alleen in die functie (automatisch bij Supabase), nooit in de game.
+- **In de game:** knop rechtsboven op het startscherm (toets **L**): INLOGGEN / ACCOUNT MAKEN (met "Gebruik niet je eigen naam!") / JOUW ACCOUNT (uitloggen). HTML-vensters over de game (`js/ui/AccountPanel.js`).
+- **Sync** (`js/net/AccountService.js`, regels in `js/net/syncLogic.js`, getest): de game speelt en bewaart lokaal; ingelogd gaat elke wijziging na 3 s ook naar het account (`save_progress` met revision-controle). Na inloggen: leeg apparaat → account ophalen; leeg account → dit apparaat uploaden; allebei voortgang → de speler kiest. Op een ander apparaat verder gespeeld → ook kiezen. Runs via een outbox (offline veilig), pets en werelden als losse rijen.
+- **Uitloggen** zet dit apparaat weer op een leeg profiel (gedeelde schoolapparaten). Lukt opslaan niet (geen internet), dan eerst een waarschuwing.
+- **Wachtwoord vergeten:** "vraag het aan je juf of meester" (herstellen via het Supabase-dashboard; er is geen e-mail).
+- Bibliotheek: `@supabase/supabase-js@2.117.3` via jsDelivr, pas geladen als accounts aan staan.
+
 ### Bezoekers en gebruik tellen (GoatCounter)
 Dashboard: **meesterdanny.goatcounter.com** (alleen de eigenaar kan inloggen). Geen cookies, geen persoonsgegevens, geen voortgang; dus geen cookiebanner nodig.
 - Paginabezoeken: het telscript in `index.html` telt met de domeinnaam ervoor (`tafelrush.meesterdanny.com/`), zodat meerdere games in één account uit elkaar te houden zijn.

@@ -3,6 +3,17 @@
 // balans en didactiek aangepast kunnen worden zonder door de code te zoeken.
 // ---------------------------------------------------------------------------
 export const CONFIG = {
+  // --- Accounts (Supabase) ----------------------------------------------------
+  // Leeg = accounts staan UIT: de game werkt dan zoals altijd (alleen lokaal).
+  // anonKey = de PUBLIEKE sleutel (anon / publishable). NOOIT de service_role-sleutel!
+  accounts: {
+    url: '',
+    anonKey: '',
+    schema: 'tafelrush',
+    signupFunction: 'tafelrush-signup',
+    emailDomain: 'spelers.meesterdanny.com',   // vast nep-adres per gebruikersnaam; er wordt nooit gemaild
+  },
+
   // Logische resolutie (pixel-art canvas). Wordt geschaald naar het scherm.
   width: 480,
   height: 270,

@@ -463,6 +463,7 @@ export class RunScene {
     }
     const sum = this.stats.summary();
     const newRecords = g.profile.recordRun(sum, { mode: this.opts.mode, tables: this.opts.tables, completed, world: this.worldDef.id });
+    if (g.account) g.account.recordRun(sum, { mode: this.opts.mode, tables: this.opts.tables, completed, world: this.worldDef.id });
     // kisten voor tafelkaart-stapjes, nieuw goud en de verslagen boss
     const loot = Chests.awardForRun(g.profile, sum, { completed, world: this.worldDef.id });
     // nieuwe wereld vrijgespeeld? (Frostpeak na de Woudwachter)

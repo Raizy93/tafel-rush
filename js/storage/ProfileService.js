@@ -67,7 +67,16 @@ export class ProfileService {
 
   /** Volledige export (voor toekomstige sync of handmatige back-up). */
   exportData() { return JSON.parse(JSON.stringify(this.profile)); }
-  async importData(obj) { this.profile = migrateProfile(obj); await this.flush(); }
+  /** Voortgang vervangen (code/QR of account). De koppeling met een account blijft staan. */
+  async importData(obj) {
+    const old = this.profile.meta || {};
+    this.profile = migrateProfile(obj);
+    const m = this.profile.meta;
+    m.accountId = old.accountId || null;
+    m.cloudRevision = old.cloudRevision || 0;
+    m.syncedHash = old.syncedHash || null;
+    await this.flush();
+  }
   async reset() { this.profile = createDefaultProfile(); await this.flush(); }
 
   // --- mastery-store (gebruikt door AdaptiveTrainer) -------------------------------

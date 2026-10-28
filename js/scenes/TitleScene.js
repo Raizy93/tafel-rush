@@ -12,6 +12,7 @@ import { ALL_TABLES, POWER_TABLES, factsForTable, factsForTables } from '../trai
 import { fmtInt, fmtSec } from '../core/util.js';
 import { Chests } from '../systems/Chests.js';
 import { Worlds } from '../systems/Worlds.js';
+import { AccountPanel } from '../ui/AccountPanel.js';
 
 const W = CONFIG.width;
 const MODES = [
@@ -142,7 +143,9 @@ export class TitleScene {
 
   onKey(a) {
     const g = this.game;
+    if (g.account && g.account.panelOpen) return;
     if (a.type === 'mute') { g.toggleAllSound(); return; }
+    if (a.type === 'account') { if (this.accountRect) { g.audio.play('select'); AccountPanel.open(g); } return; }
     if (a.type === 'enter') { this.start(); return; }
     if (a.type === 'shop') { g.audio.play('select'); g.openEquipment(); return; }
     if (a.type === 'map') { g.audio.play('select'); g.openMap(); return; }
@@ -167,6 +170,9 @@ export class TitleScene {
   onPointer(kind, x, y) {
     if (kind === 'move') { this.hover = this.buttons.find(b => b.visible && b.contains(x, y)) || null; this.hoverPoint = { x, y }; return; }
     if (kind !== 'down') return;
+    if (this.game.account && this.game.account.panelOpen) return;
+    const ar = this.accountRect;
+    if (ar && x >= ar.x && y >= ar.y && x < ar.x + ar.w && y < ar.y + ar.h) { this.game.audio.play('select'); AccountPanel.open(this.game); return; }
     if (this.selector.onPointer(x, y)) return;
     for (const [r, d] of this.worldArrows || []) if (x >= r.x && y >= r.y && x < r.x + r.w && y < r.y + r.h) { this.cycleWorld(d); return; }
     const hr = this.helpRect;
@@ -198,6 +204,9 @@ export class TitleScene {
       b.selected = this.mode === 'training' ? b.id === this.table : this.mix.has(b.id);
     }
     this.startButton.enabled = this.canStart();
+    // moet de speler kiezen welke voortgang hij houdt? (na inloggen of een conflict)
+    const acc = this.game.account;
+    if (acc && acc.pendingChoice && !acc.panelOpen && this.time > 0.3) AccountPanel.open(this.game);
   }
 
   draw(ctx) {
@@ -294,6 +303,28 @@ export class TitleScene {
     ui.icon(ctx, 'music', W - 36, 6, a.musicOn ? 1 : 0.35);
     this.soundRects = [{ x: W - 54, y: 4, w: 15, h: 15, kind: 'sfx' }, { x: W - 38, y: 4, w: 15, h: 15, kind: 'music' }];
     this.fsRect = g.drawFullscreenButton(ctx, W - 18, 6);
+    this.drawAccountButton(ctx, ui);
+  }
+
+  /** Rechtsboven: INLOGGEN, of je gebruikersnaam met een bolletje (groen = opgeslagen). */
+  drawAccountButton(ctx, ui) {
+    const acc = this.game.account;
+    this.accountRect = null;
+    if (!acc || !acc.enabled) return;
+    const r = this.accountRect = { x: W - 96, y: 25, w: 90, h: 17 };
+    const hp = this.hoverPoint, hov = hp && hp.x >= r.x && hp.y >= r.y && hp.x < r.x + r.w && hp.y < r.y + r.h;
+    ui.panel(ctx, r.x, r.y, r.w, r.h, hov ? 'btn_hover' : 'btn');
+    if (acc.loggedIn) {
+      const dot = { ok: '#5fd65a', saving: '#ffc93c', offline: '#ff6a5a', conflict: '#ff6a5a' }[acc.sync] || '#a8a0c8';
+      ctx.fillStyle = '#1a1324'; ctx.fillRect(r.x + 5, r.y + 5, 7, 7);
+      ctx.fillStyle = dot; ctx.fillRect(r.x + 6, r.y + 6, 5, 5);
+      // naam inkorten tot hij in de knop past
+      let name = (acc.username || '').toUpperCase();
+      if (this.game.font.measure(name) > 72) { while (name.length > 1 && this.game.font.measure(name + '..') > 72) name = name.slice(0, -1); name += '..'; }
+      ui.text(ctx, name, r.x + 52, r.y + 5, { align: 'center', color: '#8ff2ff', outline: null, shadow: false });
+    } else {
+      ui.text(ctx, ui.key('INLOGGEN', 'L'), r.x + r.w / 2, r.y + 5, { align: 'center', color: '#7dff8a', outline: null, shadow: false });
+    }
   }
 
   /** Wereldkeuze onder het logo: ◄ NAAM ► (vergrendeld: slotje + voorwaarde). */

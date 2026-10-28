@@ -27,6 +27,27 @@ const STYLE = `
   color: #fff; background: #44307a; box-shadow: inset 0 -4px 0 rgba(0,0,0,0.35); touch-action: manipulation; }
 .cbp button.go { background: #3a9a44; }
 .cbp-msg { min-height: 18px; margin: 0 0 6px; font-size: 13px; color: #ffb0a0; }
+.cbp-label { display: block; margin: 0 0 3px; font-size: 12px; color: #a8a0c8; }
+.cbp input { display: block; width: 100%; box-sizing: border-box; margin: 0 0 8px; padding: 8px; background: #0e0a1a; color: #fff8ec;
+  border: 2px solid #5a4a9a; font: 16px/1.2 monospace; border-radius: 0; user-select: text; -webkit-user-select: text; }
+.cbp input:focus, .cbp button:focus-visible { outline: 2px solid #ffc93c; outline-offset: 1px; }
+.cbp-small { font-size: 12px !important; margin: 8px 0 0 !important; }
+.cbp-warn { color: #ffc93c !important; }
+.cbp-name { color: #8ff2ff; }
+.cbp button.cbp-link { flex: none; min-height: 0; padding: 0; background: none; box-shadow: none; color: #8ff2ff; text-decoration: underline; font: bold 12px monospace; letter-spacing: 0; }
+.cbp button:disabled { opacity: 0.5; cursor: default; }
+.acp { overflow-y: auto; }
+@media (max-height: 460px) {
+  .cbp { padding-top: max(6px, env(safe-area-inset-top)); }
+  .cbp-box { padding: 8px 12px; }
+  .cbp h2 { font-size: 16px; margin-bottom: 3px; }
+  .cbp p { margin-bottom: 4px; }
+  .cbp-label { margin-bottom: 1px; }
+  .cbp input { padding: 5px 8px; margin-bottom: 5px; }
+  .cbp button { min-height: 34px; }
+  .cbp-msg { min-height: 15px; margin-bottom: 4px; }
+  .cbp-small { margin-top: 5px !important; }
+}
 `;
 
 function ensureStyle() {

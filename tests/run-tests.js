@@ -852,5 +852,53 @@ await atest('voortgangscode: onzin of een kapotte code geeft een nette fout', as
   }
 });
 
+console.log('\nAccounts (gebruikersnaam + sync-regels)');
+const SL = await import('../js/net/syncLogic.js');
+const { createDefaultProfile } = await import('../js/storage/profileSchema.js');
+test('gebruikersnaam: kleine letters, cijfers en _, 3-20 tekens', () => {
+  assert(SL.checkUsername('snelle_vos12') === null, 'goede naam');
+  assert(SL.checkUsername('  Snelle_Vos ') === null && SL.normalizeUsername('  Snelle_Vos ') === 'snelle_vos', 'hoofdletters/spaties worden netjes gemaakt');
+  for (const bad of ['ab', 'a'.repeat(21), 'met spatie', 'émile', 'naam!', '']) assert(SL.checkUsername(bad), 'zou fout moeten zijn: ' + bad);
+  assert(SL.checkPassword('12345') && SL.checkPassword('123456') === null, 'wachtwoord min. 6');
+  assert(SL.usernameToEmail('Vos_1', 'spelers.meesterdanny.com') === 'vos_1@spelers.meesterdanny.com', 'nep-adres');
+});
+test('vingerafdruk verandert bij nieuwe voortgang, niet bij alleen meta', () => {
+  const p = createDefaultProfile(1), h = SL.contentHash(p);
+  p.meta.revision = 99; p.meta.cloudRevision = 5;
+  assert(SL.contentHash(p) === h, 'meta telt niet mee');
+  p.stats.totalAnswered = 1;
+  assert(SL.contentHash(p) !== h, 'inhoud telt wel mee');
+});
+test('na inloggen: juiste keuze tussen account en dit apparaat', () => {
+  const U = 'user-a';
+  const empty = () => createDefaultProfile(1);
+  const played = () => { const p = createDefaultProfile(1); p.stats.totalAnswered = 50; return p; };
+  const synced = (p, rev) => { p.meta.accountId = U; p.meta.cloudRevision = rev; p.meta.syncedHash = SL.contentHash(p); return p; };
+  assert(SL.decideOnLogin(played(), null, U) === 'upload', 'nieuw account + voortgang hier → uploaden');
+  assert(SL.decideOnLogin(empty(), { data: played(), revision: 3 }, U) === 'download', 'leeg apparaat → account ophalen');
+  assert(SL.decideOnLogin(played(), { data: empty(), revision: 1 }, U) === 'upload', 'leeg account → dit apparaat uploaden');
+  assert(SL.decideOnLogin(played(), { data: played(), revision: 2 }, U) === 'choose', 'allebei voortgang → kiezen');
+  assert(SL.decideOnLogin(synced(played(), 2), { data: played(), revision: 2 }, U) === 'same', 'al gelijk');
+  assert(SL.decideOnLogin(synced(played(), 2), { data: played(), revision: 4 }, U) === 'download', 'ander apparaat verder → ophalen');
+  const dirty = synced(played(), 2); dirty.stats.totalAnswered++;
+  assert(SL.decideOnLogin(dirty, { data: played(), revision: 2 }, U) === 'upload', 'hier verder gespeeld → uploaden');
+  assert(SL.decideOnLogin(dirty, { data: played(), revision: 4 }, U) === 'choose', 'allebei verder → kiezen');
+  const other = synced(played(), 2); other.meta.accountId = 'user-b';
+  assert(SL.decideOnLogin(other, { data: played(), revision: 1 }, U) === 'download', 'voortgang van een ander account wordt nooit gemengd');
+  assert(SL.decideOnLogin(other, null, U) === 'fresh', 'ander account + leeg account → leeg beginnen');
+});
+await atest('code/QR importeren laat de koppeling met het account staan', async () => {
+  const ps = new ProfileService(new MemoryAdapter()); await ps.load();
+  ps.profile.meta.accountId = 'user-a'; ps.profile.meta.cloudRevision = 7;
+  const other = createDefaultProfile(1); other.stats.totalAnswered = 3;
+  await ps.importData(other);
+  assert(ps.profile.meta.accountId === 'user-a' && ps.profile.meta.cloudRevision === 7 && ps.stats.totalAnswered === 3, 'koppeling behouden');
+});
+await atest('accounts staan uit zolang er geen Supabase-gegevens zijn ingevuld', async () => {
+  const { CONFIG } = await import('../js/config.js');
+  assert(CONFIG.accounts && 'url' in CONFIG.accounts && 'anonKey' in CONFIG.accounts, 'instellingen bestaan');
+  assert(!/service_role/i.test(fs.readFileSync(new URL('../js/config.js', import.meta.url), 'utf8').replace(/NOOIT de service_role-sleutel/, '')), 'geen service_role-sleutel in de game');
+});
+
 console.log(`\n${passed} geslaagd, ${failed} mislukt\n`);
 process.exit(failed ? 1 : 0);
