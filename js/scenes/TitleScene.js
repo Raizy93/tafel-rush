@@ -54,7 +54,7 @@ export class TitleScene {
   queueTips() {
     const g = this.game, P = g.profile;
     // app op het beginscherm (iPhone/iPad) met nog lege voortgang: uitleggen hoe je hem ophaalt
-    if (g.isStandalone && g.isIOS && P.stats.totalAnswered === 0) { g.tips.queue('appImport'); return; }
+    if (g.isStandalone && g.isIOS && P.stats.totalAnswered === 0 && this.showProgressButton) { g.tips.queue('appImport'); return; }
     if (P.stats.runs < 1) return;
     // belangrijkste eerst: er verschijnt hooguit één tip per bezoek
     const fresh = Worlds.all().some(w => w.id !== 'greenwood' && Worlds.isUnlocked(P, w.id) && !P.profile.history.some(h => h.world === w.id));
@@ -64,6 +64,9 @@ export class TitleScene {
     g.tips.queue('help');
   }
   tipsAllowed() { return this.time > 0.6; }
+
+  /** VOORTGANG (QR/code) alleen tonen als je niet bent ingelogd. */
+  get showProgressButton() { const a = this.game.account; return !(a && a.loggedIn); }
 
   buildButtons() {
     const px = 176, pw = 296;
@@ -156,7 +159,7 @@ export class TitleScene {
     if (a.type === 'world') { g.audio.play('select'); g.openWorldMap(); return; }
     if (a.type === 'help') { g.audio.play('select'); g.openHelp('spelen'); return; }
     if (a.type === 'soort') { g.audio.play('select'); g.openSoort(); return; }
-    if (a.type === 'progress') { g.audio.play('select'); g.openProgress(); return; }
+    if (a.type === 'progress') { if (this.showProgressButton) { g.audio.play('select'); g.openProgress(); } return; }
     if (a.type === 'book') { g.audio.play('select'); g.openBook(Chests.total(g.profile) > 0 ? 'chests' : 'book'); return; }
     if (a.type === 'up' || a.type === 'down') { this.selector.cycle(a.type === 'up' ? -1 : 1); return; }
     if (a.type === 'left' || a.type === 'right') {
@@ -239,16 +242,20 @@ export class TitleScene {
     const hp0 = this.hoverPoint, hh = hp0 && hp0.x >= 6 && hp0.y >= 6 && hp0.x < 82 && hp0.y < 23;
     ui.panel(ctx, 6, 6, 76, 17, hh ? 'btn_hover' : 'btn');
     ui.text(ctx, ui.key('? UITLEG', 'H'), 44, 11, { align: 'center', color: '#ffc93c', outline: null, shadow: false });
-    // knop VOORTGANG (meenemen naar een ander apparaat)
-    this.progressRect = { x: 6, y: 25, w: 76, h: 17 };
-    const hp1 = this.hoverPoint, ph = hp1 && hp1.x >= 6 && hp1.y >= 25 && hp1.x < 82 && hp1.y < 42;
-    ui.panel(ctx, 6, 25, 76, 17, ph ? 'btn_hover' : 'btn');
-    ui.text(ctx, ui.key('VOORTGANG', 'V'), 44, 30, { align: 'center', color: '#8ff2ff', outline: null, shadow: false });
-    // knop SOORT: tafels of deeltafels (opent het keuzescherm)
-    this.soortRect = { x: 6, y: 44, w: 76, h: 17 };
-    const hp2 = this.hoverPoint, sh = hp2 && hp2.x >= 6 && hp2.y >= 44 && hp2.x < 82 && hp2.y < 61;
-    ui.panel(ctx, 6, 44, 76, 17, sh ? 'btn_hover' : 'btn_go');
-    ui.text(ctx, getOperation(this.op).symbol + ' ' + getOperation(this.op).label, 44, 49, { align: 'center', color: '#fff8ec', outline: null, shadow: false });
+    // knop VOORTGANG (meenemen met QR/code) – alleen zonder account; ingelogd staat alles al in je account
+    const showProgress = this.showProgressButton;
+    this.progressRect = showProgress ? { x: 6, y: 25, w: 76, h: 17 } : null;
+    if (showProgress) {
+      const hp1 = this.hoverPoint, ph = hp1 && hp1.x >= 6 && hp1.y >= 25 && hp1.x < 82 && hp1.y < 42;
+      ui.panel(ctx, 6, 25, 76, 17, ph ? 'btn_hover' : 'btn');
+      ui.text(ctx, ui.key('VOORTGANG', 'V'), 44, 30, { align: 'center', color: '#8ff2ff', outline: null, shadow: false });
+    }
+    // knop SOORT: tafels of deeltafels (opent het keuzescherm); schuift omhoog als VOORTGANG er niet is
+    const sy0 = showProgress ? 44 : 25;
+    this.soortRect = { x: 6, y: sy0, w: 76, h: 17 };
+    const hp2 = this.hoverPoint, sh = hp2 && hp2.x >= 6 && hp2.y >= sy0 && hp2.x < 82 && hp2.y < sy0 + 17;
+    ui.panel(ctx, 6, sy0, 76, 17, sh ? 'btn_hover' : 'btn_go');
+    ui.text(ctx, getOperation(this.op).symbol + ' ' + getOperation(this.op).label, 44, sy0 + 5, { align: 'center', color: '#fff8ec', outline: null, shadow: false });
 
     // paneel
     const p = this.panelRect;

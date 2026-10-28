@@ -228,7 +228,7 @@ Dashboard: **meesterdanny.goatcounter.com** (alleen de eigenaar kan inloggen). G
 - De voortgangscode zit achter `#` en gaat nooit mee met een telling.
 
 ### Voortgang meenemen (QR-code / code) – zonder account of database
-Knop **VOORTGANG** (toets V) op het startscherm.
+Knop **VOORTGANG** (toets V) op het startscherm — alleen zichtbaar als je **niet** bent ingelogd (met een account staat alles al in je account, en een oude code zou die voortgang anders vervangen).
 - **Meenemen**: een QR-code om te scannen met de camera van het andere apparaat (opent de game en biedt de voortgang aan), of **CODE KOPIEREN** (de link; zelf bewaren of versturen).
 - **Ophalen**: de QR-link openen, of **CODE PLAKKEN**. Altijd eerst een overzicht (in de code ↔ op dit apparaat) en een bevestiging; ophalen **vervangt** de voortgang op dat apparaat.
 - **Geen server, geen database**: de code ís de voortgang (compact ingepakt en gecomprimeerd, `js/storage/ProgressCode.js`). In de link staat hij achter `#`, dat deel stuurt een browser nooit naar een server. Er zitten geen persoonsgegevens in (geen naam/e-mail): sommen, scores, coins, pets, werelden en een willekeurig profielnummer. De run-geschiedenis gaat niet mee.
