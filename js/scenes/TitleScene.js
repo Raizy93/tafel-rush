@@ -199,6 +199,9 @@ export class TitleScene {
   update(dt) {
     this.time += dt;
     const g0 = this.game;
+    // eerst: wie speelt er? (alleen als accounts aan staan en je niet bent ingelogd)
+    if (g0.account && g0.account.needsWelcome && !this.toWelkom) { this.toWelkom = true; g0.openWelkom(); return; }
+    // dan: wat ga je oefenen? (alleen de eerste keer)
     if (!g0.profile.settings.opChosen && !this.toSoort && !(g0.account && g0.account.panelOpen)) { this.toSoort = true; g0.openSoort(); return; }
     this.camX += 34 * dt;
     this.world.update(dt, this.camX, 1);

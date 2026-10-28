@@ -28,6 +28,7 @@ import { PetboekScene } from '../scenes/PetboekScene.js';
 import { UitlegScene } from '../scenes/UitlegScene.js';
 import { VoortgangScene } from '../scenes/VoortgangScene.js';
 import { SoortScene } from '../scenes/SoortScene.js';
+import { WelkomScene } from '../scenes/WelkomScene.js';
 import { Tips } from '../systems/Tips.js';
 
 export class Game {
@@ -101,6 +102,8 @@ export class Game {
   /** Voortgang meenemen (QR/code). importText = code/link die al klaarligt. */
   /** Kiezen: TAFELS of DEELTAFELS. */
   openSoort() { this.setScene(new SoortScene(this)); }
+  /** "WIE SPEELT ER?": inloggen, account maken of zonder account spelen. */
+  openWelkom() { this.setScene(new WelkomScene(this)); }
   openProgress(importText = null) { this.setScene(new VoortgangScene(this, importText)); }
   /** Mag de huidige scene nu een tip tonen? */
   get tipsAllowed() { return !!(this.scene && this.scene.tipsAllowed && this.scene.tipsAllowed()); }

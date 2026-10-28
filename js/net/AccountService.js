@@ -18,6 +18,7 @@ import { normalizeUsername, checkUsername, checkPassword, usernameToEmail, decid
 const LIB_URL = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/+esm';
 const OUTBOX_KEY = 'tafelrush:outbox';
 const PUSH_DELAY = 3000;
+const GUEST_KEY = 'tafelrush:guest';   // "zonder account spelen" gekozen (tot de browser/app sluit)
 
 function readOutbox() { try { return JSON.parse(localStorage.getItem(OUTBOX_KEY) || '[]'); } catch (e) { return []; } }
 function writeOutbox(list) { try { localStorage.setItem(OUTBOX_KEY, JSON.stringify(list.slice(-200))); } catch (e) { /* niet erg */ } }
@@ -34,6 +35,7 @@ export class AccountService {
     this.sync = 'idle';                                // idle | saving | ok | offline | conflict
     this.pendingChoice = null;                         // { cloud } als de speler moet kiezen
     this.panelOpen = false;
+    this.ready = !this.enabled;                        // weten we al of je ingelogd bent?
     this.pushTimer = null;
     this.pushing = false;
     this.again = false;
@@ -43,6 +45,12 @@ export class AccountService {
 
   get enabled() { return !!(this.cfg.url && this.cfg.anonKey); }
   get loggedIn() { return this.state === 'loggedIn'; }
+
+  /** Koos de speler in deze sessie "ZONDER ACCOUNT SPELEN"? */
+  get guest() { try { return sessionStorage.getItem(GUEST_KEY) === '1'; } catch (e) { return false; } }
+  set guest(on) { try { if (on) sessionStorage.setItem(GUEST_KEY, '1'); else sessionStorage.removeItem(GUEST_KEY); } catch (e) { /* niet erg */ } }
+  /** Welkomstscherm "WIE SPEELT ER?" nodig? (accounts aan, niet ingelogd, niet als gast gekozen) */
+  get needsWelcome() { return this.enabled && this.ready && !this.loggedIn && !this.guest && !this.panelOpen; }
 
   async getClient() {
     if (this.client) return this.client;
@@ -66,6 +74,8 @@ export class AccountService {
       if (data && data.session) await this.afterLogin(data.session.user);
     } catch (e) {
       this.sync = 'offline';
+    } finally {
+      this.ready = true;
     }
   }
 
@@ -111,6 +121,7 @@ export class AccountService {
     try { await this.client.auth.signOut(); } catch (e) { /* lokaal uitloggen lukt altijd */ }
     writeOutbox(readOutbox().filter(r => r.user_id !== this.user.id));
     this.user = null; this.username = null; this.state = 'loggedOut'; this.sync = 'idle'; this.pendingChoice = null;
+    this.guest = false;   // volgende speler: weer "WIE SPEELT ER?"
     await this.game.profile.reset();
     this.game.goToTitle();
     return true;

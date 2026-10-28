@@ -40,10 +40,13 @@ async function boot() {
   const game = new Game({ canvas, assets, profile, audio });
   game.account = new AccountService(game);
   window.tafelRush = game; // handig voor debuggen in de console
+  // was je nog ingelogd? Even wachten (max. 2,5 s) zodat meteen het juiste scherm verschijnt
+  // (welkom of startscherm); duurt het langer, dan gaat het op de achtergrond verder.
+  if (game.account.enabled) drawLoading(1, 'BIJNA KLAAR');
+  await Promise.race([game.account.init(), new Promise(r => setTimeout(r, 2500))]);
   game.start();
   setupWebApp();
   Analytics.opened(game);
-  game.account.init(); // was je nog ingelogd? (alleen als accounts aan staan)
   // geopend via een voortgangs-QR/link? Dan meteen aanbieden (na bevestiging) en
   // de code uit de adresbalk halen, zodat hij niet blijft staan of opnieuw start.
   if (location.hash.startsWith('#voortgang=')) {
