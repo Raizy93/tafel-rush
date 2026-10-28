@@ -7,8 +7,8 @@ export const CONFIG = {
   // Leeg = accounts staan UIT: de game werkt dan zoals altijd (alleen lokaal).
   // anonKey = de PUBLIEKE sleutel (anon / publishable). NOOIT de service_role-sleutel!
   accounts: {
-    url: '',
-    anonKey: '',
+    url: 'https://bzhwhthkygrauttkqjiv.supabase.co',
+    anonKey: 'sb_publishable_vysX1MprW6LhBxuqNBc2zA_8gU_GO2b',
     schema: 'tafelrush',
     signupFunction: 'tafelrush-signup',
     emailDomain: 'spelers.meesterdanny.com',   // vast nep-adres per gebruikersnaam; er wordt nooit gemaild
