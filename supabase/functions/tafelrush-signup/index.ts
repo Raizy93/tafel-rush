@@ -66,15 +66,17 @@ Deno.serve(async (req) => {
     const taken = error && (error.status === 422 || /already|exists|registered/i.test(error.message));
     if (taken) return reply(409, { error: 'Deze gebruikersnaam is al bezet. Kies een andere.' });
     if (error && /password/i.test(error.message)) return reply(400, { error: 'Dit wachtwoord is te makkelijk. Kies een ander.' });
-    return reply(500, { error: 'Account maken lukte niet. Probeer het later nog eens.' });
+    console.error('createUser mislukt:', error && error.status, error && (error.code || ''), error && error.message);
+    return reply(500, { error: 'Account maken lukte niet. Probeer het later nog eens.', detail: 'A' + ((error && error.status) || '') + ' ' + ((error && (error.code || error.message)) || '') });
   }
 
   // 2. spelerrij in Tafel Rush (lukt dat niet, dan het account weer opruimen)
   const { error: playerError } = await admin.schema('tafelrush').from('players')
     .insert({ user_id: data.user.id, username, display_name: username });
   if (playerError) {
+    console.error('players-insert mislukt:', playerError.code, playerError.message);
     await admin.auth.admin.deleteUser(data.user.id);
-    return reply(500, { error: 'Account maken lukte niet. Probeer het later nog eens.' });
+    return reply(500, { error: 'Account maken lukte niet. Probeer het later nog eens.', detail: 'P ' + (playerError.code || playerError.message) });
   }
 
   return reply(200, { ok: true, username });

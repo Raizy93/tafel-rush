@@ -77,9 +77,15 @@ export class AccountService {
     const c = await this.getClient().catch(() => { throw new Error('Geen verbinding. Is er internet?'); });
     const { error } = await c.functions.invoke(this.cfg.signupFunction || 'tafelrush-signup', { body: { username, password } });
     if (error) {
-      let msg = 'Account maken lukte niet. Probeer het later nog eens.';
-      try { const body = await error.context.json(); if (body && body.error) msg = body.error; } catch (e) { /* standaardmelding */ }
-      throw new Error(msg);
+      // korte foutcode erachter, zodat de juf/meester kan zien wát er misging
+      let msg = 'Account maken lukte niet. Probeer het later nog eens.', code = 'N';   // N = server niet bereikt
+      const res = error.context;
+      if (res && typeof res.json === 'function') {
+        code = 'S' + (res.status || '');
+        try { const body = await res.json(); if (body && body.error) msg = body.error; if (body && body.detail) code += ' ' + body.detail; } catch (e) { /* standaardmelding */ }
+      } else if (error.name) code += ' ' + error.name;
+      console.warn('Account maken mislukt:', code, error);
+      throw new Error(/bezet|wachtwoord|tekens/i.test(msg) ? msg : `${msg} (fout: ${code})`);
     }
     return this.signIn(username, password);
   }
