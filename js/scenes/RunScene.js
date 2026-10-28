@@ -45,6 +45,7 @@ export class RunScene {
   constructor(game, opts) {
     this.game = game;
     this.opts = opts;
+    this.op = opts.op || 'mul';   // soort sommen: 'mul' (tafels) of 'div' (deeltafels)
     this.worldDef = WORLDS[opts.world] || WORLDS.greenwood;
   }
 
@@ -94,7 +95,8 @@ export class RunScene {
     this.hud.banner('GO!', { colors: ['#d0ffd8', '#5fd65a'], dur: 0.8 });
     this.nextQuestion();
     this.runStart = performance.now();
-    Analytics.event('run-gestart/' + this.opts.mode, 'Run gestart (' + this.opts.mode + ')');
+    const tag = this.op === 'mul' ? this.opts.mode : 'deel-' + this.opts.mode;
+    Analytics.event('run-gestart/' + tag, 'Run gestart (' + tag + ')');
   }
 
   nextQuestion() {
@@ -186,7 +188,7 @@ export class RunScene {
     const given = parseInt(this.panel.input, 10);
     const res = this.engine.submit(given, rt);
     this.stats.add(res);
-    g.profile.noteAnswer(res.correct, res.tier);
+    g.profile.noteAnswer(res.correct, res.tier, this.op);
     this.enterAt = now;
     if (res.correct) {
       this.onCorrect(res);
@@ -462,10 +464,10 @@ export class RunScene {
       this.stats.coins += this.stats.coinBonus;
     }
     const sum = this.stats.summary();
-    const newRecords = g.profile.recordRun(sum, { mode: this.opts.mode, tables: this.opts.tables, completed, world: this.worldDef.id });
-    if (g.account) g.account.recordRun(sum, { mode: this.opts.mode, tables: this.opts.tables, completed, world: this.worldDef.id });
+    const newRecords = g.profile.recordRun(sum, { mode: this.opts.mode, tables: this.opts.tables, completed, world: this.worldDef.id, op: this.op });
+    if (g.account) g.account.recordRun(sum, { mode: this.opts.mode, tables: this.opts.tables, completed, world: this.worldDef.id, op: this.op });
     // kisten voor tafelkaart-stapjes, nieuw goud en de verslagen boss
-    const loot = Chests.awardForRun(g.profile, sum, { completed, world: this.worldDef.id });
+    const loot = Chests.awardForRun(g.profile, sum, { completed, world: this.worldDef.id, op: this.op });
     // nieuwe wereld vrijgespeeld? (Frostpeak na de Woudwachter)
     const newWorlds = Worlds.checkUnlocks(g.profile);
     if (completed) Analytics.event('boss-verslagen/' + this.worldDef.id, 'Boss verslagen (' + this.worldDef.id + ')');

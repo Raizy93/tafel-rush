@@ -39,6 +39,8 @@ export function createDefaultProfile(now = Date.now()) {
       totalPerfect: 0,
       totalPlayMs: 0,
       bossesDefeated: 0,
+      // per soort som (keertafels tellen = totaal min de andere soorten)
+      byOp: { div: { answered: 0, correct: 0 } },
     },
     // Persoonlijke records
     records: {
@@ -46,6 +48,10 @@ export function createDefaultProfile(now = Date.now()) {
       bestCombo: 0,
       fastestAvgRt: 0,     // ms, 0 = nog geen
       bestAccuracy: 0,     // 0..1 (alleen runs met ≥ 20 antwoorden)
+    },
+    // Records van de andere soorten sommen (records hierboven = keertafels)
+    opRecords: {
+      div: { mostCorrect: 0, bestCombo: 0, fastestAvgRt: 0, bestAccuracy: 0 },
     },
     // Mastery per tafelsom: { "6x7": {seen, correct, wrong, avgRt, …} }
     mastery: {},
@@ -87,6 +93,8 @@ export function createDefaultProfile(now = Date.now()) {
       lastTable: 7,
       lastMixTables: [6, 7, 8],
       lastWorld: 'greenwood',
+      operation: 'mul',      // gekozen soort sommen: 'mul' (tafels) of 'div' (deeltafels)
+      opChosen: false,       // al eens gekozen? (anders eerst het keuzescherm)
       tipsSeen: [],          // ids van tips die al getoond zijn (data/help.js → TIPS)
     },
     // Korte geschiedenis van runs (voor toekomstige grafieken/dashboard)

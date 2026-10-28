@@ -238,7 +238,7 @@ export class AccountService {
 
   // --- runs ---------------------------------------------------------------------------
   /** Aan het eind van een run (alleen ingelogd). Eerst in de outbox, dan versturen. */
-  recordRun(sum, { mode, tables, completed, world }) {
+  recordRun(sum, { mode, tables, completed, world, op = 'mul' }) {
     if (!this.loggedIn) return;
     const clamp = n => Math.max(0, Math.round(n || 0));
     const answered = clamp(sum.answered), correct = Math.min(answered, clamp(sum.correct));
@@ -247,6 +247,7 @@ export class AccountService {
       client_run_id: newId(),
       played_at: new Date().toISOString(),
       mode, world,
+      operation: op,
       tables: (tables || []).filter(t => t >= 1 && t <= 10),
       completed: !!completed,
       answered, correct,

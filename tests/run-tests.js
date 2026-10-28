@@ -911,8 +911,17 @@ console.log('\nSoorten sommen (ombouw mag de keertafels NIET veranderen)');
     }
     return `${path}: was ${JSON.stringify(a)?.slice(0, 80)}, nu ${JSON.stringify(b)?.slice(0, 80)}`;
   };
+  // het profiel uit een voortgangscode mag NIEUWE velden krijgen (bijv. deeltafel-records),
+  // maar alles wat er al in zat moet precies hetzelfde blijven
+  const subset = (a, b) => {
+    if (a && typeof a === 'object' && !Array.isArray(a) && b && typeof b === 'object') {
+      const o = {}; for (const k of Object.keys(a)) o[k] = subset(a[k], b[k]); return o;
+    }
+    return b;
+  };
   for (const part of Object.keys(golden)) {
-    test(`keertafels exact gelijk aan de referentie: ${part}`, () => { const d = firstDiff(golden[part], now[part]); assert(!d, d); });
+    const cur = part === 'progressCodeProfile' ? subset(golden[part], now[part]) : now[part];
+    test(`keertafels exact gelijk aan de referentie: ${part}`, () => { const d = firstDiff(golden[part], cur); assert(!d, d); });
   }
 }
 {
@@ -936,6 +945,77 @@ console.log('\nSoorten sommen (ombouw mag de keertafels NIET veranderen)');
     p.mastery['42:6'] = { seen: 2, correct: 1, wrong: 1, mastery: 0.4, avgRt: 3000, lastSeen: Date.now(), streak: 0 };
     const back = await ProgressCode.read(await ProgressCode.make(p));
     assert(back.mastery['42:6'] && back.mastery['42:6'].seen === 2 && back.mastery['6x7'].seen === 3, JSON.stringify(Object.keys(back.mastery)));
+  });
+}
+
+console.log('\nDeeltafels');
+{
+  const F = await import('../js/training/facts.js');
+  const { buildMasteryMap } = await import('../js/training/MasteryMap.js');
+  const { Chests } = await import('../js/systems/Chests.js');
+  test('deeltafel van 8 = 8:8 … 80:8, antwoord 1 t/m 10, teken :', () => {
+    const t8 = F.factsForTable(8, 'div');
+    assert(t8.length === 10 && t8[0] === '8:8' && t8[9] === '80:8', t8.join(' '));
+    t8.forEach((k, i) => { const p = F.parseKey(k); assert(p.answer === i + 1 && F.opIdOf(k) === 'div' && F.symbolOf(k) === ':', k); });
+    assert(F.formatFact('56:8') === '56 : 8', F.formatFact('56:8'));
+  });
+  test('deelsom hoort bij de keersom (56:8 ↔ 56:7, en 7×8)', () => {
+    assert(F.reverseKey('56:8') === '56:7' && F.reverseKey('49:7') === '49:7', 'omkering');
+    assert(F.relatedKey('56:8') === '7x8' && F.relatedKey('7x8') === null, 'gekoppelde keersom');
+    for (const k of F.factsForTables([2, 3, 4, 5, 6, 7, 8, 9, 10], 'div')) { const p = F.priorMastery(k); assert(p >= 0.15 && p < 0.62, k + ' ' + p); }
+  });
+  test('wie 7×8 kent, begint met 56:8 iets hoger', () => {
+    const st = memStore(), tr = new AdaptiveTrainer(st);
+    const before = tr.mastery('56:8');
+    st.set('7x8', { seen: 10, correct: 10, wrong: 0, mastery: 0.95, avgRt: 1500, recent: '1111111111', lastSeen: 1 });
+    assert(tr.mastery('56:8') > before, before + ' → ' + tr.mastery('56:8'));
+  });
+  test('deeltafels: geen directe herhaling en alleen deelsommen (1000 vragen, mix)', () => {
+    const tr = new AdaptiveTrainer(memStore());
+    const qe = new QuestionEngine({ trainer: tr, pool: F.factsForTables([3, 6, 8], 'div'), mode: 'mix', tables: [3, 6, 8], rng: seeded(21) });
+    let prev = null;
+    for (let i = 0; i < 1000; i++) {
+      const q = qe.next();
+      assert(q.key !== prev && q.op === 'div' && q.symbol === ':' && Number.isInteger(q.answer) && q.answer >= 1 && q.answer <= 10, 'vraag ' + i + ' ' + q.key);
+      prev = q.key;
+      qe.submit(q.answer, 1800);
+    }
+  });
+  test('moeilijke sommen per soort: deelsommen niet in het keermenu', () => {
+    const st = memStore(), tr = new AdaptiveTrainer(st), bad = { seen: 6, correct: 1, wrong: 5, mastery: 0.1, avgRt: 7000, recent: '000000' };
+    st.set('7x8', { ...bad }); st.set('56:8', { ...bad }); st.set('63:9', { ...bad });
+    assert(tr.hardestFacts(15, 2, 'mul').join() === '7x8', tr.hardestFacts(15, 2, 'mul').join());
+    assert(tr.hardestFacts(15, 2, 'div').sort().join() === '56:8,63:9', tr.hardestFacts(15, 2, 'div').join());
+  });
+  test('tafelkaart deeltafels: rij = deeltafel, kolom = antwoord, 100 vakjes', () => {
+    const m = buildMasteryMap(memStore(), Date.now(), 'div');
+    const c = m.cells[(8 - 1) * 10 + (7 - 1)];
+    assert(m.cells.length === 100 && c.key === '56:8' && c.answer === 7 && m.tables[8].total === 10, JSON.stringify(c));
+  });
+  await atest('records en tellingen per soort; keertafels-records blijven apart', async () => {
+    const ps = new ProfileService(new MemoryAdapter()); await ps.load();
+    ps.noteAnswer(true, 'fast', 'mul'); ps.noteAnswer(true, 'fast', 'div'); ps.noteAnswer(false, 'slow', 'div');
+    assert(ps.answeredFor('mul') === 1 && ps.answeredFor('div') === 2 && ps.stats.totalAnswered === 3, 'tellingen');
+    const sum = { answered: 20, correct: 18, bestCombo: 12, avgRt: 2000, accuracy: 0.9, coins: 10, durationMs: 1000 };
+    ps.recordRun(sum, { mode: 'mix', tables: [3], completed: false, op: 'div' });
+    assert(ps.recordsFor('div').mostCorrect === 18 && ps.recordsFor('mul').mostCorrect === 0 && ps.records.mostCorrect === 0, 'records per soort');
+  });
+  await atest('oud profiel (van vóór de deeltafels) krijgt veilige standaardwaarden', async () => {
+    const old = createDefaultProfile(1); delete old.opRecords; delete old.settings.operation; delete old.settings.opChosen; delete old.stats.byOp;
+    old.records.mostCorrect = 33; old.stats.totalAnswered = 500;
+    const ps = new ProfileService(new MemoryAdapter({ profile: JSON.stringify(old) })); await ps.load();
+    assert(ps.settings.operation === 'mul' && ps.settings.opChosen === false && ps.records.mostCorrect === 33, 'standaard tafels, records behouden');
+    assert(ps.answeredFor('mul') === 500 && ps.answeredFor('div') === 0, 'oude sommen tellen als tafels');
+  });
+  await atest('hele deeltafel goud geeft een gouden kist (los van de keertafel)', async () => {
+    const ps = new ProfileService(new MemoryAdapter()); await ps.load();
+    const gold = { seen: 9, correct: 9, wrong: 0, mastery: 0.95, avgRt: 1200, recent: '111111111', lastSeen: Date.now(), map: { level: 4, upDay: null, downDay: null, wrongDay: null, goldDay: Math.floor(Date.now() / 864e5) } };
+    for (const k of F.factsForTable(4, 'div')) ps.profile.mastery[k] = { ...gold, map: { ...gold.map } };
+    const before = Chests.count(ps, 'gold');
+    const res = Chests.awardForRun(ps, { mapUps: 0, newGolds: 0 }, { completed: false });
+    const viaTable = res.chests.filter(c => c.reason === 'table');
+    assert(viaTable.length === 1 && viaTable[0].op === 'div' && ps.collection.masterTables.includes('d4') && !ps.collection.masterTables.includes(4), JSON.stringify(res.chests) + ' ' + JSON.stringify(ps.collection.masterTables));
+    assert(Chests.count(ps, 'gold') > before, 'kist erbij');
   });
 }
 

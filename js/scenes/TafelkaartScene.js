@@ -7,12 +7,16 @@
 //
 //   pijltjes / muis   som bekijken
 //   Enter / knop      direct de tafel van die rij trainen
-//   Esc / K           terug
+//   T / K             terug · S / knop  wisselen tussen tafels en deeltafels
+// Deeltafels: rij = de deeltafel (deler), kolom = het antwoord, in het vakje
+// het getal dat je deelt (rij 8, kolom 7 = 56 : 8).
 // ---------------------------------------------------------------------------
 import { CONFIG } from '../config.js';
 import { COLORS } from '../ui/UI.js';
 import { buildMasteryMap, LEVELS, LEVEL_BY_ID, stepsToGold } from '../training/MasteryMap.js';
 import { fmtInt, fmtSec, clamp } from '../core/util.js';
+import { getOperation } from '../training/operations.js';
+import { formatFact } from '../training/facts.js';
 
 const W = CONFIG.width, H = CONFIG.height;
 const CELL = 19, GX = 30, GY = 44;          // raster
@@ -23,7 +27,8 @@ export class TafelkaartScene {
 
   enter() {
     const g = this.game;
-    this.map = buildMasteryMap(g.profile.masteryStore);
+    this.op = g.profile.settings.operation === 'div' ? 'div' : 'mul';
+    this.map = buildMasteryMap(g.profile.masteryStore, Date.now(), this.op);
     this.time = 0;
     // start op de eerste "lastige" som, anders 7×8
     const hard = this.map.cells.find(c => c.level === 'hard');
@@ -34,11 +39,19 @@ export class TafelkaartScene {
 
   cell(a, b) { return this.map.cells[(a - 1) * 10 + (b - 1)]; }
 
+  /** Andere kaart tonen (tafels ↔ deeltafels). */
+  toggleOp() {
+    this.op = this.op === 'mul' ? 'div' : 'mul';
+    this.map = buildMasteryMap(this.game.profile.masteryStore, Date.now(), this.op);
+    this.time = 0.2;
+    this.game.audio.play('select');
+  }
+
   train() {
     const g = this.game, t = this.cur.a;
     g.audio.play('confirm');
-    g.profile.updateSettings({ lastMode: 'training', lastTable: t });
-    g.startRun(g.runOptions('training', [t]));
+    g.profile.updateSettings({ lastMode: 'training', lastTable: t, operation: this.op });
+    g.startRun(g.runOptions('training', [t], undefined, this.op));
   }
 
   onKey(a) {
@@ -46,6 +59,7 @@ export class TafelkaartScene {
     const g = this.game;
     if (a.type === 'mute') { g.toggleAllSound(); return; }
     if (a.type === 'back' || a.type === 'map') { g.audio.play('select'); g.goToTitle(); return; }
+    if (a.type === 'soort') { this.toggleOp(); return; }
     const mv = { left: [0, -1], right: [0, 1], up: [-1, 0], down: [1, 0] }[a.type];
     if (mv) {
       this.cur = { a: clamp(this.cur.a + mv[0], 1, 10), b: clamp(this.cur.b + mv[1], 1, 10) };
@@ -62,6 +76,7 @@ export class TafelkaartScene {
     if (kind === 'move') { if (onGrid) this.cur = { a, b }; return; }
     if (kind !== 'down') return;
     if (inside(this.backRect)) { this.game.goToTitle(); return; }
+    if (inside(this.opRect)) { this.toggleOp(); return; }
     if (inside(this.helpRect)) { this.game.audio.play('select'); this.game.openHelp('kaart', () => this.game.openMap()); return; }
     if (inside(this.trainRect)) { this.train(); return; }
     if (onGrid) { this.cur = { a, b }; this.game.audio.play('select'); }
@@ -89,11 +104,15 @@ export class TafelkaartScene {
     ctx.fillStyle = 'rgba(12,8,24,0.72)';
     ctx.fillRect(0, 0, W, H);
 
-    ui.text(ctx, 'TAFELKAART', 12, 8, { font: 'big', color: COLORS.gold });
+    ui.text(ctx, this.op === 'div' ? 'DEELTAFELS' : 'TAFELKAART', 12, 8, { font: 'big', color: COLORS.gold });
     this.backRect = { x: 150, y: 6, w: 84, h: 18 };
     ui.panel(ctx, this.backRect.x, this.backRect.y, this.backRect.w, this.backRect.h, 'btn');
     ui.text(ctx, ui.key('< TERUG', 'T'), this.backRect.x + this.backRect.w / 2, this.backRect.y + 5, { align: 'center', outline: null, shadow: false });
     this.helpRect = ui.helpButton(ctx, 238, 6);
+    // wisselen naar de andere kaart
+    const r = this.opRect = { x: 258, y: 6, w: 108, h: 18 }, other = getOperation(this.op === 'mul' ? 'div' : 'mul');
+    ui.panel(ctx, r.x, r.y, r.w, r.h, 'btn');
+    ui.text(ctx, ui.key(other.symbol + ' ' + other.label, 'S'), r.x + r.w / 2, r.y + 5, { align: 'center', color: '#8ff2ff', outline: null, shadow: false });
 
     this.drawGrid(ctx, ui);
     this.drawPanel(ctx, ui);
@@ -102,7 +121,7 @@ export class TafelkaartScene {
 
   drawGrid(ctx, ui) {
     // koppen
-    ui.text(ctx, '×', GX - 10, GY - 11, { color: COLORS.goldFlat });
+    ui.text(ctx, getOperation(this.op).symbol, GX - 10, GY - 11, { color: COLORS.goldFlat });
     for (let i = 1; i <= 10; i++) {
       const hiC = i === this.cur.b, hiR = i === this.cur.a;
       ui.text(ctx, String(i), GX + (i - 1) * CELL + CELL / 2, GY - 10, { align: 'center', color: hiC ? COLORS.goldFlat : '#c8c0e8', outline: null, shadow: false });
@@ -122,7 +141,7 @@ export class TafelkaartScene {
       if (appear < 1) continue;
       ctx.fillStyle = lv.light;
       ctx.fillRect(x, y, CELL - 1, 1); ctx.fillRect(x, y, 1, CELL - 1);
-      ui.text(ctx, String(c.answer), x + CELL / 2, y + 6, { align: 'center', color: lv.text, outline: null, shadow: false });
+      ui.text(ctx, String(getOperation(this.op).cellText(c.key)), x + CELL / 2, y + 6, { align: 'center', color: lv.text, outline: null, shadow: false });
       if (c.upToday) { // vandaag een stapje hoger: klein wit hoekje
         ctx.fillStyle = '#ffffff';
         ctx.fillRect(x + CELL - 4, y + 1, 2, 2);
@@ -162,7 +181,7 @@ export class TafelkaartScene {
     const c = this.cell(this.cur.a, this.cur.b), lv = LEVEL_BY_ID[c.level];
     const dy = PY + 32;
     ui.panel(ctx, x - 4, dy, PW - 12, 64, 'panel_light');
-    ui.text(ctx, `${c.a} × ${c.b} = ${c.answer}`, x + 4, dy + 5, { font: 'big', color: '#fff8ec' });
+    ui.text(ctx, `${formatFact(c.key)} = ${c.answer}`, x + 4, dy + 5, { font: 'big', color: '#fff8ec' });
     // niveau-blokje + label
     ctx.fillStyle = '#1a1324'; ctx.fillRect(x + 4, dy + 23, 9, 9);
     ctx.fillStyle = lv.color; ctx.fillRect(x + 5, dy + 24, 7, 7);
@@ -179,7 +198,7 @@ export class TafelkaartScene {
     // knop: deze tafel trainen
     this.trainRect = { x: x + 2, y: dy + 46, w: PW - 24, h: 14 };
     ui.panel(ctx, this.trainRect.x, this.trainRect.y, this.trainRect.w, this.trainRect.h, 'btn_go');
-    ui.text(ctx, `TRAIN DE TAFEL VAN ${c.a}  (ENTER)`, this.trainRect.x + this.trainRect.w / 2, this.trainRect.y + 4, { align: 'center', outline: null, shadow: false });
+    ui.text(ctx, `TRAIN DE ${this.op === 'div' ? 'DEELTAFEL' : 'TAFEL'} VAN ${c.a}${ui.touch ? '' : '  (ENTER)'}`, this.trainRect.x + this.trainRect.w / 2, this.trainRect.y + 4, { align: 'center', outline: null, shadow: false });
 
     // legenda
     const ly = dy + 72;
@@ -194,12 +213,13 @@ export class TafelkaartScene {
 
     // voortgang per tafel
     const ty = ly + 40;
-    ui.text(ctx, 'TAFELS (GOUD VAN 19)', x, ty, { color: COLORS.dim, outline: null, shadow: false });
+    const O = getOperation(this.op);
+    ui.text(ctx, `${O.label} (GOUD VAN ${O.perTable})`, x, ty, { color: COLORS.dim, outline: null, shadow: false });
     for (let t = 1; t <= 10; t++) {
       const col = t <= 5 ? 0 : 1, row = (t - 1) % 5;
       const tx = x + col * 112, yy = ty + 11 + row * 11;
       const info = m.tables[t];
-      ui.text(ctx, '×' + t, tx, yy, { color: t === this.cur.a ? COLORS.goldFlat : '#e8e4ff', outline: null, shadow: false });
+      ui.text(ctx, O.symbol + t, tx, yy, { color: t === this.cur.a ? COLORS.goldFlat : '#e8e4ff', outline: null, shadow: false });
       const bx = tx + 20, bwid = 56;
       ctx.fillStyle = '#0e0b1a'; ctx.fillRect(bx, yy + 1, bwid, 5);
       ctx.fillStyle = LEVEL_BY_ID.good.color; ctx.fillRect(bx, yy + 1, Math.round((info.practiced / info.total) * bwid), 5);

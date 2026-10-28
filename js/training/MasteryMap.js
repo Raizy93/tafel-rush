@@ -19,7 +19,8 @@
 //   • dof goud + traag antwoord → terug naar groen; dof goud + snel goed → weer goud
 // Puur JS (geen DOM) → testbaar in Node.
 // ---------------------------------------------------------------------------
-import { factKey, factsForTable, MIN_FACTOR, MAX_FACTOR } from './facts.js';
+import { factsForTable, MIN_FACTOR, MAX_FACTOR } from './facts.js';
+import { getOperation } from './operations.js';
 
 export const MAP_RULES = {
   goldLevel: 4,          // = minimaal 4 verschillende dagen
@@ -93,26 +94,28 @@ export function stepsToGold(rec, R = MAP_RULES) {
 
 /**
  * Bouw de kaart. store = { get(key) } (bijv. profile.masteryStore).
+ * op = soort som ('mul' = keertafels, 'div' = deeltafels). Vakje: a = rij, b = kolom.
  * @returns {{ cells, counts, tables }}
  */
-export function buildMasteryMap(store, now = Date.now()) {
+export function buildMasteryMap(store, now = Date.now(), op = 'mul') {
+  const O = getOperation(op);
   const today = dayKey(now);
   const cells = [];
   const counts = { new: 0, hard: 0, almost: 0, good: 0, gold: 0, faded: 0 };
   for (let a = MIN_FACTOR; a <= MAX_FACTOR; a++) {
     for (let b = MIN_FACTOR; b <= MAX_FACTOR; b++) {
-      const key = factKey(a, b);
+      const { key, answer } = O.grid(a, b);
       const rec = store.get(key);
       const level = levelFor(rec, now);
       counts[level]++;
       const upToday = !!(rec && rec.map && rec.map.upDay === today && rec.map.level >= 2);
-      cells.push({ a, b, key, answer: a * b, level, rec, upToday });
+      cells.push({ a, b, key, answer, level, rec, upToday });
     }
   }
   // per tafel: hoeveel van de 19 sommen (k×T en T×k) zijn goud / geoefend
   const tables = {};
   for (let t = MIN_FACTOR; t <= MAX_FACTOR; t++) {
-    const keys = factsForTable(t);
+    const keys = factsForTable(t, op);
     const lv = keys.map(k => levelFor(store.get(k), now));
     tables[t] = {
       total: keys.length,

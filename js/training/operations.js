@@ -16,6 +16,11 @@
 //   reverse(key)          gekoppelde som (7x8 ↔ 8x7) of null
 //   prior(key)            startinschatting 0..1 voor een nog nooit geoefende som
 //   table(t)              alle sommen van "tafel t" voor dit soort
+//   pattern(key)          { x, y, result } voor de reeks-/herhalingsregels
+//   related(key)          som van een ánder soort die "hetzelfde feit" is (of null)
+//   grid(row, col)        vakje op de tafelkaart → { key, answer }
+//   cellText(key)         getal in het vakje op de tafelkaart
+//   perTable              aantal sommen per tafel (voor "GOUD VAN …")
 // ---------------------------------------------------------------------------
 
 export const MIN_FACTOR = 1;
@@ -59,10 +64,51 @@ const MUL = {
     }
     return [...out];
   },
+  pattern(key) { const { a, b } = MUL.parse(key); return { x: a, y: b, result: a * b }; },
+  related: () => null,
+  grid: (row, col) => ({ key: MUL.key(row, col), answer: row * col }),
+  cellText: key => MUL.parse(key).answer,
+  perTable: 19,
 };
 
-export const OPERATIONS = { mul: MUL };
-export const OPERATION_ORDER = ['mul'];
+// DEELTAFELS: "56:8" = 56 gedeeld door 8. De deeltafel van t = t, 2t … 10t gedeeld
+// door t; het antwoord is altijd 1 t/m 10. Op de tafelkaart: rij = deler (de tafel),
+// kolom = het antwoord, in het vakje het getal dat je deelt.
+const DIV = {
+  id: 'div',
+  sep: ':',
+  symbol: ':',
+  label: 'DEELTAFELS',
+  key: (a, b) => `${a}:${b}`,
+  parse(key) {
+    const i = key.indexOf(':');
+    const a = +key.slice(0, i), b = +key.slice(i + 1);
+    return { a, b, answer: a / b };
+  },
+  /** 56:8 ↔ 56:7 (allebei uit 7 × 8). */
+  reverse(key) {
+    const { a, answer } = DIV.parse(key);
+    return DIV.key(a, answer);
+  },
+  /** Iets lastiger dan de bijbehorende keersom. */
+  prior(key) {
+    return Math.max(0.15, MUL.prior(DIV.related(key)) - 0.06);
+  },
+  table(t) {
+    const out = [];
+    for (let k = MIN_FACTOR; k <= MAX_FACTOR; k++) out.push(DIV.key(t * k, t));
+    return out;
+  },
+  pattern(key) { const { b, answer } = DIV.parse(key); return { x: answer, y: b, result: answer }; },
+  /** 56:8 hoort bij 7 × 8. */
+  related(key) { const { b, answer } = DIV.parse(key); return MUL.key(answer, b); },
+  grid: (row, col) => ({ key: DIV.key(row * col, row), answer: col }),
+  cellText: key => DIV.parse(key).a,
+  perTable: 10,
+};
+
+export const OPERATIONS = { mul: MUL, div: DIV };
+export const OPERATION_ORDER = ['mul', 'div'];
 export const DEFAULT_OPERATION = 'mul';
 
 /** Bij welk soort hoort deze sleutel? (onbekend → keer, zoals altijd) */

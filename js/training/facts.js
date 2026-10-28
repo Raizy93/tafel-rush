@@ -31,6 +31,12 @@ export const symbolOf = key => opOfKey(key).symbol;
 /** Bij welk soort som hoort deze sleutel ('mul' …). */
 export const opIdOf = key => opOfKey(key).id;
 
+/** { x, y, result } voor de reeks-/herhalingsregels van de vraagkeuze. */
+export const patternOf = key => opOfKey(key).pattern(key);
+
+/** Som van een ander soort die hetzelfde feit is (56:8 → 7x8), of null. */
+export const relatedKey = key => opOfKey(key).related(key);
+
 /** Alle feiten van één tafel (beide volgordes, zonder dubbele kwadraten). */
 export function factsForTable(t, op = 'mul') {
   return getOperation(op).table(t);

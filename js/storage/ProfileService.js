@@ -168,12 +168,21 @@ export class ProfileService {
 
   get stats() { return this.profile.stats; }
   get records() { return this.profile.records; }
+  /** Records van één soort som ('mul' = keertafels, 'div' = deeltafels). */
+  recordsFor(op = 'mul') { return op === 'mul' ? this.profile.records : (this.profile.opRecords[op] || (this.profile.opRecords[op] = { mostCorrect: 0, bestCombo: 0, fastestAvgRt: 0, bestAccuracy: 0 })); }
+  /** Aantal gemaakte sommen van één soort. */
+  answeredFor(op = 'mul') {
+    const s = this.profile.stats, by = s.byOp || {};
+    if (op !== 'mul') return (by[op] && by[op].answered) || 0;
+    return s.totalAnswered - Object.values(by).reduce((n, o) => n + (o.answered || 0), 0);
+  }
 
   /** Tussentijds bijhouden tijdens een run (zodat data niet verloren gaat). */
-  noteAnswer(correct, tier) {
+  noteAnswer(correct, tier, op = 'mul') {
     const s = this.profile.stats;
     s.totalAnswered++;
     if (correct) s.totalCorrect++;
+    if (op !== 'mul') { const o = (s.byOp[op] ||= { answered: 0, correct: 0 }); o.answered++; if (correct) o.correct++; }
     if (tier === 'perfect') s.totalPerfect++;
     this.save(1500);
   }
@@ -187,8 +196,8 @@ export class ProfileService {
    * Run afgerond: records bijwerken, coins bijschrijven en geschiedenis aanvullen.
    * Retourneert een lijst met verbroken records (voor het resultaatscherm).
    */
-  recordRun(sum, { mode, tables, completed, world = 'greenwood' }) {
-    const p = this.profile, r = p.records, s = p.stats;
+  recordRun(sum, { mode, tables, completed, world = 'greenwood', op = 'mul' }) {
+    const p = this.profile, r = this.recordsFor(op), s = p.stats;
     const newRecords = [];
     s.totalPlayMs += sum.durationMs || 0;
     if (completed) { s.runsCompleted++; s.bossesDefeated++; p.worlds.bosses[world] = (p.worlds.bosses[world] || 0) + 1; }
@@ -198,7 +207,7 @@ export class ProfileService {
     if (sum.answered >= 20 && sum.accuracy > r.bestAccuracy) { r.bestAccuracy = sum.accuracy; newRecords.push('bestAccuracy'); }
     this.addCoins(sum.coins);
     p.history.push({
-      t: Date.now(), mode, tables, world, completed: !!completed,
+      t: Date.now(), mode, tables, world, op, completed: !!completed,
       answered: sum.answered, correct: sum.correct, avgRt: Math.round(sum.avgRt), bestCombo: sum.bestCombo,
       perfect: sum.perfect, coins: sum.coins, ms: Math.round(sum.durationMs || 0),
     });

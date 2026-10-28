@@ -12,7 +12,7 @@
 //
 // De engine is puur: geen DOM, geen opslag. Daardoor testbaar in Node.
 // ---------------------------------------------------------------------------
-import { parseKey, reverseKey, symbolOf, opIdOf } from './facts.js';
+import { parseKey, reverseKey, symbolOf, opIdOf, patternOf } from './facts.js';
 
 export class QuestionEngine {
   /**
@@ -100,8 +100,10 @@ export class QuestionEngine {
   patternFactor(key) {
     const h = this.history;
     if (!h.length) return 1;
-    const { a, b } = parseKey(key);
-    const prev = parseKey(h[h.length - 1]);
+    // x/y = de twee "factoren", result = het antwoord dat herhaling voelt
+    // (keer: 7×8 → 7, 8, 56 · deel: 56:8 → 7, 8, 7)
+    const { x: a, y: b, result } = patternOf(key);
+    const prev = patternOf(h[h.length - 1]);
     let f = 1;
 
     // omgekeerde som van de vorige vraag: liever niet direct erna
@@ -109,22 +111,22 @@ export class QuestionEngine {
     else if (h.length > 1 && reverseKey(key) === h[h.length - 2]) f *= 0.5;
 
     // opeenvolgende reeks: zelfde factor + andere factor ±1 (2×3 → 2×4)
-    const shared = sharedFactor([a, b], [prev.a, prev.b]);
+    const shared = sharedFactor([a, b], [prev.x, prev.y]);
     if (shared != null) {
       const other = a === shared ? b : a;
-      const prevOther = prev.a === shared ? prev.b : prev.a;
+      const prevOther = prev.x === shared ? prev.y : prev.x;
       if (Math.abs(other - prevOther) === 1) f *= 0.15;
       // in mix/power: niet steeds dezelfde tafel
       if (this.mode !== 'training' && shared !== 1 && shared !== 10) {
         f *= 0.55;
         if (h.length > 1) {
-          const pp = parseKey(h[h.length - 2]);
-          if (pp.a === shared || pp.b === shared) f *= 0.4;
+          const pp = patternOf(h[h.length - 2]);
+          if (pp.x === shared || pp.y === shared) f *= 0.4;
         }
       }
     }
     // zelfde antwoord als vorige vraag (bijv. 3×8 na 4×6) voelt als herhaling
-    if (a * b === prev.a * prev.b) f *= 0.35;
+    if (result === prev.result) f *= 0.35;
     return f;
   }
 

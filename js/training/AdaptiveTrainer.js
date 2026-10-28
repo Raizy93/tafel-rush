@@ -19,7 +19,7 @@
 // get(key)/set(key, rec)/entries() (zie ProfileService).
 // ---------------------------------------------------------------------------
 import { CONFIG } from '../config.js';
-import { priorMastery, reverseKey, opIdOf } from './facts.js';
+import { priorMastery, reverseKey, opIdOf, relatedKey } from './facts.js';
 import { applyMapAnswer } from './MasteryMap.js';
 
 export const TIERS = ['perfect', 'fast', 'good', 'slow'];
@@ -62,6 +62,9 @@ export class AdaptiveTrainer {
     const rev = this.store.get(reverseKey(key));
     const prior = priorMastery(key);
     if (rev && rev.mastery != null) return Math.max(prior, rev.mastery * 0.75);
+    // zelfde feit van een ander soort (56:8 ↔ 7×8): wie dat al kent, begint iets hoger
+    const rel = relatedKey(key), relRec = rel && this.store.get(rel);
+    if (relRec && relRec.mastery != null) return Math.max(prior, relRec.mastery * 0.7);
     return prior;
   }
 

@@ -123,12 +123,16 @@ export const Chests = {
     const fromGolds = Math.floor(p.golds / R.goldsPerGoldChest);
     p.golds -= fromGolds * R.goldsPerGoldChest;
     if (fromGolds) { got.gold += fromGolds; reasons.push({ kind: 'gold', n: fromGolds, reason: 'golds' }); }
-    const tables = buildMasteryMap(profile.masteryStore, now).tables;
-    for (const [t, info] of Object.entries(tables)) {
-      if (!info.master || col.masterTables.includes(+t)) continue;
-      col.masterTables.push(+t);
-      got.gold += R.goldChestPerMasterTable;
-      reasons.push({ kind: 'gold', n: R.goldChestPerMasterTable, reason: 'table', table: +t });
+    // hele tafel goud: keertafels als getal (7), deeltafels als 'd7' in masterTables
+    for (const op of ['mul', 'div']) {
+      const tables = buildMasteryMap(profile.masteryStore, now, op).tables;
+      for (const [t, info] of Object.entries(tables)) {
+        const id = op === 'mul' ? +t : 'd' + t;
+        if (!info.master || col.masterTables.includes(id)) continue;
+        col.masterTables.push(id);
+        got.gold += R.goldChestPerMasterTable;
+        reasons.push({ kind: 'gold', n: R.goldChestPerMasterTable, reason: 'table', table: +t, op });
+      }
     }
     for (const [kind, n] of Object.entries(got)) if (n) col.chests[kind] = (col.chests[kind] || 0) + n;
     profile.save();

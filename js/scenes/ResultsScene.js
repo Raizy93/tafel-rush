@@ -49,7 +49,7 @@ export class ResultsScene {
     const o = this.data.runOpts;
     this.game.audio.play('confirm');
     // pool opnieuw bepalen (moeilijke sommen kunnen veranderd zijn)
-    this.game.startRun(this.game.runOptions(o.mode, o.tables, o.world));
+    this.game.startRun(this.game.runOptions(o.mode, o.tables, o.world, o.op));
   }
   toMenu() {
     if (this.lockT > 0) return;

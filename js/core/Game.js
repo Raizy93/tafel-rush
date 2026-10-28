@@ -27,6 +27,7 @@ import { TafelkaartScene } from '../scenes/TafelkaartScene.js';
 import { PetboekScene } from '../scenes/PetboekScene.js';
 import { UitlegScene } from '../scenes/UitlegScene.js';
 import { VoortgangScene } from '../scenes/VoortgangScene.js';
+import { SoortScene } from '../scenes/SoortScene.js';
 import { Tips } from '../systems/Tips.js';
 
 export class Game {
@@ -98,10 +99,12 @@ export class Game {
   /** Uitleg openen bij een hoofdstuk; back = waar "terug" naartoe gaat. */
   openHelp(chapter, back) { this.setScene(new UitlegScene(this, chapter, back)); }
   /** Voortgang meenemen (QR/code). importText = code/link die al klaarligt. */
+  /** Kiezen: TAFELS of DEELTAFELS. */
+  openSoort() { this.setScene(new SoortScene(this)); }
   openProgress(importText = null) { this.setScene(new VoortgangScene(this, importText)); }
   /** Mag de huidige scene nu een tip tonen? */
   get tipsAllowed() { return !!(this.scene && this.scene.tipsAllowed && this.scene.tipsAllowed()); }
-  runOptions(mode, tables, world) { return TitleScene.runOptions(this, mode, tables, world); }
+  runOptions(mode, tables, world, op) { return TitleScene.runOptions(this, mode, tables, world, op); }
 
   // --- input-dispatch ------------------------------------------------------------------
   dispatchKey(action) {

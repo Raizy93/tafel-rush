@@ -196,6 +196,13 @@ Eén game voor alles: **op pc/laptop verandert er niets**, op een telefoon of ta
 De web-app is daar de basis van: met **Capacitor** wordt dezelfde game een echte iOS-app (WKWebView met de bestanden in de app, dus volledig offline), met de schermstand vast op dwars.
 Nodig: Apple Developer-account ($99/jaar), een Mac met Xcode (of een online bouwdienst zoals Codemagic), app-icoon 1024×1024 (`assets/app/icon-1024.png` staat klaar), screenshots, een privacyverklaring ("verzamelt geen gegevens") en bij voorkeur TestFlight om eerst met kinderen te testen. Voor de categorie "Kids": geen advertenties, geen tracking, geen externe links zonder ouderslot – daar voldoet Tafel Rush al aan. De opslag kan dan via een eigen `StorageAdapter` naar de opslag van de app.
 
+### Tafels en deeltafels (soorten sommen)
+- Bij het eerste openen: keuzescherm **WAT GA JE OEFENEN?** met TAFELS (7 × 8) en DEELTAFELS (56 : 8). De keuze wordt onthouden (`settings.operation`); wisselen met de groene knop linksboven op het startscherm of toets **S**.
+- Elk soort heeft zijn eigen menu: TRAINING, MIX, POWER en MOEILIJK pakken alleen sommen van dat soort. Eigen tafelkaart (wisselen met de knop rechtsboven of S) en eigen records; coins, pets, kisten en werelden zijn gedeeld.
+- Deeltafel van t = t : t … 10t : t (antwoord 1 t/m 10). Sleutel `"56:8"`; keersommen blijven `"7x8"`, dus alle bestaande voortgang blijft geldig. Wie 7 × 8 kent, begint met 56 : 8 iets hoger.
+- Alles wat per soort verschilt staat in `js/training/operations.js` (een nieuw soort = daar één blok erbij). `tests/fixtures/golden-mul.json` legt het gedrag van de keertafels vast; de tests garanderen dat dat niet verandert (`node tests/make-golden.js` alleen bij een bewuste wijziging).
+- Database: `supabase/tafelrush_v2_deeltafels.sql` (kolom `runs.operation` + view `personal_bests_by_operation`); werkt ook met oudere game-versies.
+
 ### Accounts (Supabase) – gebruikersnaam + wachtwoord
 Staan **uit** zolang `CONFIG.accounts.url` en `anonKey` (in `js/config.js`) leeg zijn; de game werkt dan zoals altijd, alleen lokaal.
 - **Database:** schema `tafelrush` in het bestaande Supabase-project, aangemaakt met `supabase/tafelrush_schema.sql` (tabellen players, saves, runs, pets, worlds; view personal_bests; functie save_progress; RLS: elke speler alleen zijn eigen rijen). Andere schema's worden niet aangeraakt.

@@ -83,6 +83,7 @@ export class Input {
       case 'h': case 'H': return { type: 'help' };
       case 'v': case 'V': return { type: 'progress' };
       case 'l': case 'L': return { type: 'account' };
+      case 's': case 'S': return { type: 'soort' };   // soort sommen kiezen (tafels / deeltafels)
       case 'f': case 'F': return { type: 'fullscreen' };
       default: return null;
     }

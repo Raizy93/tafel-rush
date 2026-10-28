@@ -13,6 +13,7 @@ import { fmtInt, fmtSec } from '../core/util.js';
 import { Chests } from '../systems/Chests.js';
 import { Worlds } from '../systems/Worlds.js';
 import { AccountPanel } from '../ui/AccountPanel.js';
+import { getOperation } from '../training/operations.js';
 
 const W = CONFIG.width;
 const MODES = [
@@ -31,7 +32,8 @@ export class TitleScene {
     this.mode = MODES.some(m => m.id === s.lastMode) ? s.lastMode : 'training';
     this.table = s.lastTable || 7;
     this.mix = new Set(s.lastMixTables && s.lastMixTables.length ? s.lastMixTables : [6, 7, 8]);
-    this.hard = g.trainer.hardModeStatus();
+    this.op = s.operation === 'div' ? 'div' : 'mul';   // gekozen soort sommen
+    this.hard = g.trainer.hardModeStatus(40, 4, this.op);
     if (this.mode === 'hard' && !this.hard.available) this.mode = 'training';
     this.world = g.world;
     this.worldId = Worlds.selected(g.profile).id;
@@ -118,27 +120,29 @@ export class TitleScene {
     g.audio.play('confirm');
     const tables = this.mode === 'training' ? [this.table] : this.mode === 'mix' ? [...this.mix].sort((a, b) => a - b) : this.mode === 'power' ? POWER_TABLES : [];
     g.profile.updateSettings({ lastMode: this.mode, lastTable: this.table, lastMixTables: [...this.mix], lastWorld: this.worldId });
-    g.startRun(TitleScene.runOptions(g, this.mode, tables, this.worldId));
+    g.startRun(TitleScene.runOptions(g, this.mode, tables, this.worldId, this.op));
   }
 
   /** Bouw de run-opties (pool) voor een modus. Ook gebruikt door "nog een run". */
-  static runOptions(g, mode, tables, world = Worlds.selected(g.profile).id) {
+  static runOptions(g, mode, tables, world = Worlds.selected(g.profile).id, op = g.profile.settings.operation || 'mul') {
+    if (op !== 'div') op = 'mul';
+    const deel = op === 'div';
     let pool, successPool = null, label;
-    if (mode === 'training') { pool = factsForTable(tables[0]); label = 'TAFEL VAN ' + tables[0]; }
-    else if (mode === 'mix') { pool = factsForTables(tables); label = 'MIX ' + tables.join(' '); }
-    else if (mode === 'power') { pool = factsForTables(POWER_TABLES); label = 'POWERTRAINING'; }
+    if (mode === 'training') { pool = factsForTable(tables[0], op); label = (deel ? 'DEELTAFEL VAN ' : 'TAFEL VAN ') + tables[0]; }
+    else if (mode === 'mix') { pool = factsForTables(tables, op); label = (deel ? 'DEEL-MIX ' : 'MIX ') + tables.join(' '); }
+    else if (mode === 'power') { pool = factsForTables(POWER_TABLES, op); label = deel ? 'DEEL-POWERTRAINING' : 'POWERTRAINING'; }
     else {
-      const all = factsForTables(POWER_TABLES);
-      pool = g.trainer.hardestFacts(15);
+      const all = factsForTables(POWER_TABLES, op);
+      pool = g.trainer.hardestFacts(15, 2, op);
       // aanvullen tot minstens 12 met de volgende-zwakste sommen (minder herhalend)
       if (pool.length < 12) {
         const rest = all.filter(k => !pool.includes(k)).sort((a, b) => g.trainer.mastery(a) - g.trainer.mastery(b));
         pool = [...pool, ...rest.slice(0, 12 - pool.length)];
       }
       successPool = all;
-      label = 'MIJN MOEILIJKE SOMMEN';
+      label = deel ? 'MIJN MOEILIJKE DEELSOMMEN' : 'MIJN MOEILIJKE SOMMEN';
     }
-    return { mode, tables, pool, successPool, label, world };
+    return { mode, tables, pool, successPool, label, world, op };
   }
 
   onKey(a) {
@@ -151,6 +155,7 @@ export class TitleScene {
     if (a.type === 'map') { g.audio.play('select'); g.openMap(); return; }
     if (a.type === 'world') { this.cycleWorld(1); return; }
     if (a.type === 'help') { g.audio.play('select'); g.openHelp('spelen'); return; }
+    if (a.type === 'soort') { g.audio.play('select'); g.openSoort(); return; }
     if (a.type === 'progress') { g.audio.play('select'); g.openProgress(); return; }
     if (a.type === 'book') { g.audio.play('select'); g.openBook(Chests.total(g.profile) > 0 ? 'chests' : 'book'); return; }
     if (a.type === 'up' || a.type === 'down') { this.selector.cycle(a.type === 'up' ? -1 : 1); return; }
@@ -177,6 +182,8 @@ export class TitleScene {
     for (const [r, d] of this.worldArrows || []) if (x >= r.x && y >= r.y && x < r.x + r.w && y < r.y + r.h) { this.cycleWorld(d); return; }
     const hr = this.helpRect;
     if (hr && x >= hr.x && y >= hr.y && x < hr.x + hr.w && y < hr.y + hr.h) { this.game.audio.play('select'); this.game.openHelp('spelen'); return; }
+    const sr = this.soortRect;
+    if (sr && x >= sr.x && y >= sr.y && x < sr.x + sr.w && y < sr.y + sr.h) { this.game.audio.play('select'); this.game.openSoort(); return; }
     const pr = this.progressRect;
     if (pr && x >= pr.x && y >= pr.y && x < pr.x + pr.w && y < pr.y + pr.h) { this.game.audio.play('select'); this.game.openProgress(); return; }
     const m = this.mapRect, bk = this.bookRect;
@@ -191,6 +198,8 @@ export class TitleScene {
 
   update(dt) {
     this.time += dt;
+    const g0 = this.game;
+    if (!g0.profile.settings.opChosen && !this.toSoort && !(g0.account && g0.account.panelOpen)) { this.toSoort = true; g0.openSoort(); return; }
     this.camX += 34 * dt;
     this.world.update(dt, this.camX, 1);
     this.selector.update(dt);
@@ -229,6 +238,11 @@ export class TitleScene {
     const hp1 = this.hoverPoint, ph = hp1 && hp1.x >= 6 && hp1.y >= 25 && hp1.x < 82 && hp1.y < 42;
     ui.panel(ctx, 6, 25, 76, 17, ph ? 'btn_hover' : 'btn');
     ui.text(ctx, ui.key('VOORTGANG', 'V'), 44, 30, { align: 'center', color: '#8ff2ff', outline: null, shadow: false });
+    // knop SOORT: tafels of deeltafels (opent het keuzescherm)
+    this.soortRect = { x: 6, y: 44, w: 76, h: 17 };
+    const hp2 = this.hoverPoint, sh = hp2 && hp2.x >= 6 && hp2.y >= 44 && hp2.x < 82 && hp2.y < 61;
+    ui.panel(ctx, 6, 44, 76, 17, sh ? 'btn_hover' : 'btn_go');
+    ui.text(ctx, getOperation(this.op).symbol + ' ' + getOperation(this.op).label, 44, 49, { align: 'center', color: '#fff8ec', outline: null, shadow: false });
 
     // paneel
     const p = this.panelRect;
@@ -238,11 +252,11 @@ export class TitleScene {
 
     const cx = p.x + p.w / 2;
     if (this.mode === 'training') {
-      ui.text(ctx, 'KIES EEN TAFEL:', cx, 98, { align: 'center', color: COLORS.dim });
+      ui.text(ctx, this.op === 'div' ? 'KIES EEN DEELTAFEL:' : 'KIES EEN TAFEL:', cx, 98, { align: 'center', color: COLORS.dim });
     } else if (this.mode === 'mix') {
-      ui.text(ctx, 'KIES MEERDERE TAFELS:', cx, 98, { align: 'center', color: COLORS.dim });
+      ui.text(ctx, this.op === 'div' ? 'KIES MEERDERE DEELTAFELS:' : 'KIES MEERDERE TAFELS:', cx, 98, { align: 'center', color: COLORS.dim });
     } else if (this.mode === 'power') {
-      ui.text(ctx, 'ALLE TAFELS VAN 2 T/M 10', cx, 102, { align: 'center', font: 'big', color: ['#e0ffff', '#4fd0ff'] });
+      ui.text(ctx, this.op === 'div' ? 'ALLE DEELTAFELS 2 T/M 10' : 'ALLE TAFELS VAN 2 T/M 10', cx, 102, { align: 'center', font: 'big', color: ['#e0ffff', '#4fd0ff'] });
       ui.text(ctx, 'DOOR ELKAAR. GA ERVOOR!', cx, 123, { align: 'center' });
     } else {
       if (this.hard.available) {
@@ -260,12 +274,12 @@ export class TitleScene {
     if (!ui.touch) ui.icon(ctx, 'enter', this.startButton.x + this.startButton.w + 6, this.startButton.y + 8);
 
     // statistieken
-    const P = g.profile, st = P.stats, rec = P.records;
+    const P = g.profile, rec = P.recordsFor(this.op);
     const items = [
       ['trophy', 'RECORD', fmtInt(rec.mostCorrect)],
       ['flame', 'COMBO', fmtInt(rec.bestCombo)],
       ['coin', 'COINS', fmtInt(P.coins)],
-      ['check', 'SOMMEN', fmtInt(st.totalAnswered)],
+      ['check', 'SOMMEN', fmtInt(P.answeredFor(this.op))],
     ];
     const sy = 186, sw = 70;
     const sx0 = cx - (items.length * sw) / 2;
