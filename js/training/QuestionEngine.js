@@ -12,7 +12,7 @@
 //
 // De engine is puur: geen DOM, geen opslag. Daardoor testbaar in Node.
 // ---------------------------------------------------------------------------
-import { parseKey, reverseKey } from './facts.js';
+import { parseKey, reverseKey, symbolOf, opIdOf } from './facts.js';
 
 export class QuestionEngine {
   /**
@@ -61,7 +61,7 @@ export class QuestionEngine {
     this.history.push(key);
     if (this.history.length > 20) this.history.shift();
     const { a, b, answer } = parseKey(key);
-    this.current = { key, a, b, answer, index: this.q };
+    this.current = { key, a, b, answer, op: opIdOf(key), symbol: symbolOf(key), index: this.q };
     return this.current;
   }
 

@@ -900,5 +900,44 @@ await atest('accounts staan uit zolang er geen Supabase-gegevens zijn ingevuld',
   assert(!/service_role/i.test(fs.readFileSync(new URL('../js/config.js', import.meta.url), 'utf8').replace(/NOOIT de service_role-sleutel/, '')), 'geen service_role-sleutel in de game');
 });
 
+console.log('\nSoorten sommen (ombouw mag de keertafels NIET veranderen)');
+{
+  const golden = JSON.parse(fs.readFileSync(new URL('./fixtures/golden-mul.json', import.meta.url), 'utf8'));
+  const now = await (await import('./make-golden.js')).snapshot();
+  const firstDiff = (a, b, path = '') => {
+    if (JSON.stringify(a) === JSON.stringify(b)) return null;
+    if (a && b && typeof a === 'object' && typeof b === 'object') {
+      for (const k of new Set([...Object.keys(a), ...Object.keys(b)])) { const d = firstDiff(a[k], b[k], path + '.' + k); if (d) return d; }
+    }
+    return `${path}: was ${JSON.stringify(a)?.slice(0, 80)}, nu ${JSON.stringify(b)?.slice(0, 80)}`;
+  };
+  for (const part of Object.keys(golden)) {
+    test(`keertafels exact gelijk aan de referentie: ${part}`, () => { const d = firstDiff(golden[part], now[part]); assert(!d, d); });
+  }
+}
+{
+  const F = await import('../js/training/facts.js');
+  const OPS = await import('../js/training/operations.js');
+  test('elke bestaande sleutel is een keersom met het ×-teken', () => {
+    for (let a = 1; a <= 10; a++) for (let b = 1; b <= 10; b++) {
+      const k = F.factKey(a, b);
+      assert(F.opIdOf(k) === 'mul' && F.symbolOf(k) === '×' && F.formatFact(k) === `${a} × ${b}`, k);
+    }
+    assert(OPS.DEFAULT_OPERATION === 'mul' && OPS.opOfKey('onzin').id === 'mul', 'onbekend = keer');
+  });
+  test('vraag tijdens het spelen weet zelf welk soort som en teken hij heeft', () => {
+    const qe = new QuestionEngine({ trainer: new AdaptiveTrainer(memStore()), pool: F.factsForTable(7), mode: 'training', tables: [7], rng: seeded(9) });
+    const q = qe.next();
+    assert(q.op === 'mul' && q.symbol === '×', JSON.stringify(q));
+  });
+  await atest('voortgangscode bewaart ook sommen van een ander soort (bijv. deelsommen later)', async () => {
+    const p = createDefaultProfile(1);
+    p.mastery['6x7'] = { seen: 3, correct: 3, wrong: 0, mastery: 0.7, avgRt: 2000, lastSeen: Date.now(), streak: 3, map: { level: 2, upDay: null, downDay: null, wrongDay: null } };
+    p.mastery['42:6'] = { seen: 2, correct: 1, wrong: 1, mastery: 0.4, avgRt: 3000, lastSeen: Date.now(), streak: 0 };
+    const back = await ProgressCode.read(await ProgressCode.make(p));
+    assert(back.mastery['42:6'] && back.mastery['42:6'].seen === 2 && back.mastery['6x7'].seen === 3, JSON.stringify(Object.keys(back.mastery)));
+  });
+}
+
 console.log(`\n${passed} geslaagd, ${failed} mislukt\n`);
 process.exit(failed ? 1 : 0);

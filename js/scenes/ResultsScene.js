@@ -8,7 +8,7 @@ import { CONFIG } from '../config.js';
 import { Button, COLORS } from '../ui/UI.js';
 import { drawFrame, Animator } from '../core/Sprite.js';
 import { fmtInt, fmtSec, clamp, easeOutCubic } from '../core/util.js';
-import { parseKey } from '../training/facts.js';
+import { parseKey, formatFact } from '../training/facts.js';
 import { Equipment } from '../systems/Equipment.js';
 import { CHESTS, ALL_CHEST_ORDER } from '../data/chests.js';
 import { WORLDS, BOSSES } from '../data/worlds.js';
@@ -145,9 +145,9 @@ export class ResultsScene {
       hard.forEach((h, i) => {
         const y = ry + 24 + i * 23;
         if (this.t < 0.5 + i * 0.12) return;
-        const { a, b, answer } = parseKey(h.key);
+        const { answer } = parseKey(h.key);
         ui.panel(ctx, rx + 10, y - 3, rw - 20, 21, 'panel_light');
-        ui.text(ctx, `${a} × ${b} = ${answer}`, rx + 18, y + 1, { font: 'big', color: '#fff8ec', scale: 1 });
+        ui.text(ctx, `${formatFact(h.key)} = ${answer}`, rx + 18, y + 1, { font: 'big', color: '#fff8ec', scale: 1 });
         ui.icon(ctx, h.wrong ? 'target' : 'clock', rx + rw - 64, y + 1);
         ui.text(ctx, h.wrong ? 'OEFENEN' : 'SNELLER', rx + rw - 50, y + 3, { color: h.wrong ? '#ffb0a0' : COLORS.cyan, outline: null, shadow: false });
       });

@@ -19,7 +19,7 @@
 // get(key)/set(key, rec)/entries() (zie ProfileService).
 // ---------------------------------------------------------------------------
 import { CONFIG } from '../config.js';
-import { priorMastery, reverseKey } from './facts.js';
+import { priorMastery, reverseKey, opIdOf } from './facts.js';
 import { applyMapAnswer } from './MasteryMap.js';
 
 export const TIERS = ['perfect', 'fast', 'good', 'slow'];
@@ -126,10 +126,11 @@ export class AdaptiveTrainer {
     return { tier, quality, mastery: rec.mastery, mapBefore: map.before, mapAfter: map.after };
   }
 
-  /** Sommen met de meeste oefenbehoefte op basis van echte data. */
-  hardestFacts(limit = 12, minSeen = 2) {
+  /** Sommen met de meeste oefenbehoefte op basis van echte data.
+   *  op = alleen dit soort som ('mul' …); null = alle soorten. */
+  hardestFacts(limit = 12, minSeen = 2, op = null) {
     return this.store.entries()
-      .filter(([, r]) => r.seen >= minSeen && r.mastery != null)
+      .filter(([k, r]) => r.seen >= minSeen && r.mastery != null && (!op || opIdOf(k) === op))
       .map(([k, r]) => ({ key: k, score: (1 - r.mastery) + (r.wrong / Math.max(1, r.seen)) * 0.5 + Math.min(0.4, (r.avgRt || 0) / 20000) }))
       .filter(x => x.score > 0.45)
       .sort((a, b) => b.score - a.score)
@@ -145,10 +146,10 @@ export class AdaptiveTrainer {
   }
 
   /** Is "Mijn moeilijke sommen" zinvol? (genoeg data + genoeg zwakke sommen) */
-  hardModeStatus(minAnswers = 40, minFacts = 4) {
+  hardModeStatus(minAnswers = 40, minFacts = 4, op = null) {
     let total = 0;
-    for (const [, r] of this.store.entries()) total += r.seen || 0;
-    const hard = this.hardestFacts(15);
+    for (const [k, r] of this.store.entries()) if (!op || opIdOf(k) === op) total += r.seen || 0;
+    const hard = this.hardestFacts(15, 2, op);
     return { available: total >= minAnswers && hard.length >= minFacts, totalAnswers: total, hardCount: hard.length, needAnswers: Math.max(0, minAnswers - total) };
   }
 }

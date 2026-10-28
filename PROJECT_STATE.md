@@ -1,6 +1,7 @@
 # PROJECT_STATE – Tafel Rush
 
 > Overdrachtsdocument voor een volgend (Claude-)contextvenster. Houd dit bij bij iedere wijziging.
+> (branch deeltafels-basis, 2026-10-28: "soort som" als begrip — js/training/operations.js (nu alleen mul), facts.js kijkt aan de sleutel welk soort; vraag heeft op/symbol; trainer.hardestFacts/hardModeStatus optioneel per soort. Gedrag keertafels gegarandeerd gelijk via tests/fixtures/golden-mul.json. Nog NIET op main.)
 > Laatste update: 2026-10-28 — v1.4.0: accounts (Supabase, gebruikersnaam + wachtwoord): schema tafelrush (supabase/tafelrush_schema.sql, door gebruiker uitgevoerd), Edge Function tafelrush-signup, AccountService + syncLogic + AccountPanel, knop INLOGGEN rechtsboven (L). Staat UIT tot CONFIG.accounts.url/anonKey zijn ingevuld.
 > (v1.3.0: anonieme teller GoatCounter (meesterdanny.goatcounter.com, geen cookies): paginabezoek + events tafelrush/geopend/{website|app|rechtstreeks}, run-gestart/{modus}, boss-verslagen/{wereld}, run-gestopt, wereld-vrijgespeeld/{id}, voortgang-opgehaald (`js/systems/Analytics.js`, niet op localhost).
 > (v1.2.0: Esc heeft geen game-functie meer (beter in iframe, geen krimpend scherm). P = pauze/verder, T = TERUG/stoppen (T was nog vrij); pauzescherm met knoppen VERDER/STOPPEN; elk scherm een klikbare < TERUG (T); knop PAUZE (P) rechtsboven onder de geluidsknoppen (alle apparaten); focus-pauze heeft dezelfde knoppen; Keyboard Lock verwijderd.

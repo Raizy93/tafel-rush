@@ -18,6 +18,7 @@ import { PixelFont } from '../ui/PixelFont.js';
 import { UI } from '../ui/UI.js';
 import { World } from '../world/World.js';
 import { AdaptiveTrainer } from '../training/AdaptiveTrainer.js';
+import { formatFact } from '../training/facts.js';
 import { TitleScene } from '../scenes/TitleScene.js';
 import { RunScene } from '../scenes/RunScene.js';
 import { ResultsScene } from '../scenes/ResultsScene.js';
@@ -247,7 +248,7 @@ export class Game {
     const lines = [`FPS ${this.fps}  WERK ${(this.workMs || 0).toFixed(1)} MS  Q ${this.quality}`, `PARTICLES ${this.particles.count}`, `ENTER-NIEUWE SOM ${avgLat} MS`];
     if (s && s.engine && s.engine.current) {
       const k = s.engine.current.key;
-      lines.push(`SOM ${k.replace('x', '×')}  M ${this.trainer.mastery(k).toFixed(2)}  NEED ${this.trainer.need(k).toFixed(2)}`);
+      lines.push(`SOM ${formatFact(k).replace(/ /g, '')}  M ${this.trainer.mastery(k).toFixed(2)}  NEED ${this.trainer.need(k).toFixed(2)}`);
     }
     // schermmaten (om problemen op telefoons te kunnen zien: open de game met ?debug)
     const vv = window.visualViewport, st = document.getElementById('stage'), sr = st ? st.getBoundingClientRect() : null, cr = this.canvas.getBoundingClientRect();

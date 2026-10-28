@@ -49,7 +49,7 @@ export class QuestionPanel {
     const q = this.question;
     if (!q) return;
     const f = ui.font;
-    const expr = `${q.a} × ${q.b} =`;
+    const expr = `${q.a} ${q.symbol || '×'} ${q.b} =`;
     const sc = 2;
     const exprW = f.measure(expr, { font: 'huge', scale: sc });
     const boxW = 84;
