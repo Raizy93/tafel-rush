@@ -196,6 +196,12 @@ Eén game voor alles: **op pc/laptop verandert er niets**, op een telefoon of ta
 De web-app is daar de basis van: met **Capacitor** wordt dezelfde game een echte iOS-app (WKWebView met de bestanden in de app, dus volledig offline), met de schermstand vast op dwars.
 Nodig: Apple Developer-account ($99/jaar), een Mac met Xcode (of een online bouwdienst zoals Codemagic), app-icoon 1024×1024 (`assets/app/icon-1024.png` staat klaar), screenshots, een privacyverklaring ("verzamelt geen gegevens") en bij voorkeur TestFlight om eerst met kinderen te testen. Voor de categorie "Kids": geen advertenties, geen tracking, geen externe links zonder ouderslot – daar voldoet Tafel Rush al aan. De opslag kan dan via een eigen `StorageAdapter` naar de opslag van de app.
 
+### Wereldkaart
+- Knop **WERELD: … KAART >** onder het logo (of toets **W**) opent de **WERELDKAART** (`js/scenes/WereldkaartScene.js`): een getekend eiland met Greenwood, Frostpeak en Stormrijk en een geheimzinnig eiland in de mist ("BINNENKORT"). Klik/pijltjes = wereld kiezen (je held loopt erheen), **SPEEL HIER** / Enter = kiezen en terug naar het startscherm, T = terug zonder te wisselen.
+- Vergrendeld: grijs met slotje, nevel over het gebied en de voorwaarde in het paneel. Boss verslagen: rood vlaggetje. Paneel: boss, aantal keer verslagen, wereld-pets x/5.
+- Net vrijgespeeld (`settings.mapSeen`): de kaart opent vanzelf, het pad tekent zich, het slot springt open en de held loopt erheen.
+- Tekening: `tools/art/worldmap.js` (480×270, wordt `assets/ui/worldmap.png`); posities van plekken en pad: `js/data/worldmap.js` (gedeeld door tekening en game). Voorbeeld: `node tools/preview/preview-worldmap.js uit.png`. Een nieuwe wereld = plek + pad erbij in `js/data/worldmap.js`.
+
 ### Tafels en deeltafels (soorten sommen)
 - Bij het eerste openen: keuzescherm **WAT GA JE OEFENEN?** met TAFELS (7 × 8) en DEELTAFELS (56 : 8). De keuze wordt onthouden (`settings.operation`); wisselen met de groene knop linksboven op het startscherm of toets **S**.
 - Elk soort heeft zijn eigen menu: TRAINING, MIX, POWER en MOEILIJK pakken alleen sommen van dat soort. Eigen tafelkaart (wisselen met de knop rechtsboven of S) en eigen records; coins, pets, kisten en werelden zijn gedeeld.

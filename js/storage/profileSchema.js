@@ -95,6 +95,7 @@ export function createDefaultProfile(now = Date.now()) {
       lastWorld: 'greenwood',
       operation: 'mul',      // gekozen soort sommen: 'mul' (tafels) of 'div' (deeltafels)
       opChosen: false,       // al eens gekozen? (anders eerst het keuzescherm)
+      mapSeen: ['greenwood'], // werelden die al op de wereldkaart onthuld zijn
       tipsSeen: [],          // ids van tips die al getoond zijn (data/help.js → TIPS)
     },
     // Korte geschiedenis van runs (voor toekomstige grafieken/dashboard)

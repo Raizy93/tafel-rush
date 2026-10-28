@@ -2279,6 +2279,23 @@
     108
    ]
   },
+  "worldmap": {
+   "src": "assets/ui/worldmap.png",
+   "fw": 480,
+   "fh": 270,
+   "anims": {
+    "idle": {
+     "row": 0,
+     "frames": 1,
+     "fps": 1,
+     "loop": true
+    }
+   },
+   "anchor": [
+    0,
+    0
+   ]
+  },
   "coin": {
    "src": "assets/effects/coin.png",
    "fw": 12,

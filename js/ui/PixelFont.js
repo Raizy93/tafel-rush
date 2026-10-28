@@ -38,6 +38,9 @@ export class PixelFont {
       this.fonts.small[ch] = g;
       this.fonts.big[ch] = scale2x(g);
     }
+    // D: linkerhoeken scherp houden, anders lijkt hij op een O ("WERELOKAART")
+    const D = this.fonts.big.D;
+    if (D) for (const [x, y] of [[0, 0], [0, D.h - 1]]) D.data[y * D.w + x] = 1;
     for (const [ch, rows] of Object.entries(HUGE)) this.fonts.huge[ch] = toGlyph(rows);
     this.meta = { small: { h: 7, gap: 1 }, big: { h: 14, gap: 2 }, huge: { h: 13, gap: 2 } };
     this.cache = new Map();

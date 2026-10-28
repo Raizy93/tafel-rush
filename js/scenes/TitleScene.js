@@ -153,7 +153,7 @@ export class TitleScene {
     if (a.type === 'enter') { this.start(); return; }
     if (a.type === 'shop') { g.audio.play('select'); g.openEquipment(); return; }
     if (a.type === 'map') { g.audio.play('select'); g.openMap(); return; }
-    if (a.type === 'world') { this.cycleWorld(1); return; }
+    if (a.type === 'world') { g.audio.play('select'); g.openWorldMap(); return; }
     if (a.type === 'help') { g.audio.play('select'); g.openHelp('spelen'); return; }
     if (a.type === 'soort') { g.audio.play('select'); g.openSoort(); return; }
     if (a.type === 'progress') { g.audio.play('select'); g.openProgress(); return; }
@@ -179,7 +179,8 @@ export class TitleScene {
     const ar = this.accountRect;
     if (ar && x >= ar.x && y >= ar.y && x < ar.x + ar.w && y < ar.y + ar.h) { this.game.audio.play('select'); AccountPanel.open(this.game); return; }
     if (this.selector.onPointer(x, y)) return;
-    for (const [r, d] of this.worldArrows || []) if (x >= r.x && y >= r.y && x < r.x + r.w && y < r.y + r.h) { this.cycleWorld(d); return; }
+    const mr = this.mapRect;
+    if (mr && x >= mr.x && y >= mr.y && x < mr.x + mr.w && y < mr.y + mr.h) { this.game.audio.play('select'); this.game.openWorldMap(); return; }
     const hr = this.helpRect;
     if (hr && x >= hr.x && y >= hr.y && x < hr.x + hr.w && y < hr.y + hr.h) { this.game.audio.play('select'); this.game.openHelp('spelen'); return; }
     const sr = this.soortRect;
@@ -203,6 +204,8 @@ export class TitleScene {
     if (g0.account && g0.account.needsWelcome && !this.toWelkom) { this.toWelkom = true; g0.openWelkom(); return; }
     // dan: wat ga je oefenen? (alleen de eerste keer)
     if (!g0.profile.settings.opChosen && !this.toSoort && !(g0.account && g0.account.panelOpen)) { this.toSoort = true; g0.openSoort(); return; }
+    // nieuwe wereld vrijgespeeld? dan op de wereldkaart laten zien
+    if (!this.toMap && !(g0.account && (g0.account.panelOpen || g0.account.pendingChoice)) && Worlds.unseen(g0.profile)) { this.toMap = true; g0.openWorldMap(); return; }
     this.camX += 34 * dt;
     this.world.update(dt, this.camX, 1);
     this.selector.update(dt);
@@ -344,24 +347,21 @@ export class TitleScene {
     }
   }
 
-  /** Wereldkeuze onder het logo: ◄ NAAM ► (vergrendeld: slotje + voorwaarde). */
+  /** Onder het logo: knop "WERELD: NAAM   KAART >" (opent de wereldkaart). */
   drawWorldPicker(ctx, ui) {
     const g = this.game, w = Worlds.get(this.worldId), open = this.worldUnlocked;
-    const pw = open ? 196 : 262, px = Math.round(W / 2 - pw / 2), py = 47;
-    ui.panel(ctx, px, py, pw, 15, 'panel');
-    this.worldArrows = [[{ x: px - 2, y: py - 2, w: 22, h: 19 }, -1], [{ x: px + pw - 20, y: py - 2, w: 22, h: 19 }, 1]];
-    const hp = this.hoverPoint;
-    for (const [r, d] of this.worldArrows) {
-      const hov = hp && hp.x >= r.x && hp.y >= r.y && hp.x < r.x + r.w && hp.y < r.y + r.h;
-      ui.text(ctx, d < 0 ? '←' : '→', r.x + 11, py + 4, { align: 'center', color: hov ? '#ffc93c' : '#e8e4ff' });
-    }
+    const pw = open ? 210 : 262, px = Math.round(W / 2 - pw / 2), py = 47;
+    const hp = this.hoverPoint, r = this.mapRect = { x: px, y: py - 1, w: pw, h: 17 };
+    const hov = hp && hp.x >= r.x && hp.y >= r.y && hp.x < r.x + r.w && hp.y < r.y + r.h;
+    ui.panel(ctx, px, py, pw, 15, hov ? 'btn_hover' : 'panel');
+    ui.text(ctx, ui.key('KAART >', 'W'), px + pw - 6, py + 4, { align: 'right', color: hov ? '#ffc93c' : '#8ff2ff', outline: null, shadow: false });
     if (open) {
-      ui.text(ctx, 'WERELD: ' + w.name, W / 2, py + 4, { align: 'center', color: w.color || '#c8f0c0' });
+      ui.text(ctx, 'WERELD: ' + w.name, px + 8, py + 4, { color: w.color || '#c8f0c0' });
       const fresh = w.id !== 'greenwood' && g.profile.worldBosses(w.id) === 0 && !g.profile.profile.history.some(h => h.world === w.id);
       if (fresh) ui.text(ctx, 'NIEUW!', px + pw + 4, py + 4, { color: Math.floor(this.time * 3) % 2 ? '#ffc93c' : '#ffffff' });
     } else {
-      ui.icon(ctx, 'lock', px + 24, py + 1);
-      ui.text(ctx, w.name + ': ' + Worlds.requirementLabel(w.id), W / 2 + 8, py + 4, { align: 'center', color: '#ffb0a0', outline: null, shadow: false });
+      ui.icon(ctx, 'lock', px + 6, py + 1);
+      ui.text(ctx, w.name + ': ' + Worlds.requirementLabel(w.id), px + 22, py + 4, { color: '#ffb0a0', outline: null, shadow: false });
     }
   }
 }

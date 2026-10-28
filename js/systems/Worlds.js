@@ -31,6 +31,13 @@ export const Worlds = {
     return this.isUnlocked(profile, id) ? WORLDS[id] : WORLDS[WORLD_ORDER[0]];
   },
 
+  /** Open wereld die nog niet op de wereldkaart onthuld is (of null). */
+  unseen(profile) {
+    const seen = profile.settings.mapSeen || ['greenwood'];
+    const w = this.all().find(w => this.isUnlocked(profile, w.id) && !seen.includes(w.id));
+    return w ? w.id : null;
+  },
+
   /** Na een run: speel werelden vrij waarvan de voorwaarde nu klopt. */
   checkUnlocks(profile) {
     const fresh = [];

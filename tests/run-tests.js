@@ -1019,5 +1019,27 @@ console.log('\nDeeltafels');
   });
 }
 
+console.log('\nWereldkaart');
+{
+  const M = await import('../js/data/worldmap.js');
+  const { WORLD_ORDER } = await import('../js/data/worlds.js');
+  const { Worlds } = await import('../js/systems/Worlds.js');
+  test('elke wereld heeft een plek op de kaart, in dezelfde volgorde; pad blijft binnen beeld', () => {
+    const ids = M.MAP_NODES.filter(n => !n.teaser).map(n => n.id);
+    assert(ids.join() === WORLD_ORDER.join(), ids.join() + ' ≠ ' + WORLD_ORDER.join());
+    for (const [[x0, y0], [x1, y1]] of M.allSegments()) for (const [x, y] of [[x0, y0], [x1, y1]]) assert(x >= 0 && y >= 0 && x < M.MAP_W && y < M.MAP_H, 'buiten beeld: ' + x + ',' + y);
+    const p = M.pointAlong(M.segmentPoints(1), 1);
+    assert(p.x === M.MAP_NODES[1].x && p.y === M.MAP_NODES[1].y, 'eind van het pad = de plek');
+  });
+  await atest('nieuwe wereld wordt één keer onthuld op de kaart', async () => {
+    const ps = new ProfileService(new MemoryAdapter()); await ps.load();
+    assert(Worlds.unseen(ps) === null, 'begin: niets nieuws');
+    ps.unlockWorld('frostpeak');
+    assert(Worlds.unseen(ps) === 'frostpeak', 'frostpeak nieuw');
+    ps.updateSettings({ mapSeen: [...ps.settings.mapSeen, 'frostpeak'] });
+    assert(Worlds.unseen(ps) === null, 'daarna niet meer');
+  });
+}
+
 console.log(`\n${passed} geslaagd, ${failed} mislukt\n`);
 process.exit(failed ? 1 : 0);

@@ -29,6 +29,7 @@ import { UitlegScene } from '../scenes/UitlegScene.js';
 import { VoortgangScene } from '../scenes/VoortgangScene.js';
 import { SoortScene } from '../scenes/SoortScene.js';
 import { WelkomScene } from '../scenes/WelkomScene.js';
+import { WereldkaartScene } from '../scenes/WereldkaartScene.js';
 import { Tips } from '../systems/Tips.js';
 
 export class Game {
@@ -104,6 +105,8 @@ export class Game {
   openSoort() { this.setScene(new SoortScene(this)); }
   /** "WIE SPEELT ER?": inloggen, account maken of zonder account spelen. */
   openWelkom() { this.setScene(new WelkomScene(this)); }
+  /** De WERELDKAART (werelden kiezen; onthult net vrijgespeelde werelden). */
+  openWorldMap() { this.setScene(new WereldkaartScene(this)); }
   openProgress(importText = null) { this.setScene(new VoortgangScene(this, importText)); }
   /** Mag de huidige scene nu een tip tonen? */
   get tipsAllowed() { return !!(this.scene && this.scene.tipsAllowed && this.scene.tipsAllowed()); }

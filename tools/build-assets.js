@@ -28,6 +28,7 @@ import * as SE from './art/storm_enemies.js';
 import { buildDragon, DRAGON_FW, DRAGON_FH } from './art/dragon.js';
 import { buildPanels, buildIcons } from './art/ui.js';
 import { buildAppIcon } from './art/appicon.js';
+import { buildWorldMap } from './art/worldmap.js';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const A = path.join(ROOT, 'assets');
@@ -149,6 +150,8 @@ for (const [id, style, file] of [['boss_guardian', 'guardian', 'boss_guardian'],
 }
 
 // --- effecten ---------------------------------------------------------------------
+// wereldkaart: één beeld van 480x270 (pad, plekken en held tekent de game zelf)
+addSheet('worldmap', 'ui/worldmap.png', { idle: { frames: [buildWorldMap()], fps: 1 } }, 480, 270, { anchor: [0, 0] });
 addSheet('coin', 'effects/coin.png', { spin: { frames: FX.buildCoin(), fps: 12 } }, 12, 12, { anchor: [6, 6] });
 addSheet('slash', 'effects/slash.png', {
   normal: { frames: FX.buildSlash(P.energy), fps: 24, loop: false },
